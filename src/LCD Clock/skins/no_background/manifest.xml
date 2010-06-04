@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="No Background" id=".lcdclock-widget.NoBackgroundSkin" version="1.0" type=".Skin">
+        <license title="zlib License" />
+        <description lang="en" content="No Background theme for the LCD-Clock widget." />
+        <author name="Lukas Martini" type="developer" mail="lukas.martini@junge-piraten.de" />
+    </component>
+</manifest>

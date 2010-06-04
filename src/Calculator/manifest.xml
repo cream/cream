@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="Calculator" id=".CalculatorWidget" version="1.0" type=".Widget">
+        <license title="zlib License" />
+        <description lang="en" content="A small and simple calculator that only handles some basic calculating operations." />
+        <icon path="calculator.png" />
+        <author name="Lukas Martini" type="developer" mail="lukas.martini@junge-piraten.de" />
+    </component>
+</manifest>

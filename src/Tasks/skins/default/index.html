@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Tasks Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js" />
+        <script type="text/javascript" src="/common/core/mootools-more.js" />
+
+        <script type="text/javascript" src="/common/ui/scroll/mooscroll/mooscroll.js" />
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
+        <script type="text/javascript" src="/common/core/cream.js" />
+        <script type="text/javascript" src="/common/core/events.js" />
+        <style type="text/css">
+            #add {
+                float: right;
+                margin-top: -25px;
+            }
+
+            .scroll {
+                margin-bottom: 30px;
+            }
+            #title {
+                margin-left: 10px;
+                font-weight:bold;
+                font-size: 13px;
+            }
+            #priority {
+                margin-right: -5px;
+            }
+            #tags {
+                margin-left: 20px;
+                font-size: .7em;
+                color: #595858;
+            }
+            #box {
+                margin-top: -10px;
+            }
+            img[src='icons/edit.png'] {
+                margin-left: 2px;
+                margin-top: -8px;
+                float: right;
+            }
+            img[src='icons/delete.png'] {
+                margin-left: 2px;
+                margin-top: -8px;
+                float: right;
+            }
+            hr {
+                margin-top: -15px;
+                margin-bottom: 10px;
+                border: 0;
+                height: 1px;
+            }
+        </style>
+        <script type="text/javascript">
+            function add_task(task) {
+                taskelement = document.createElement('div');
+                taskelement.setAttribute('id', 'task');
+
+                priority = document.createElement('img');
+                priority.setAttribute('id', 'priority');
+                switch(task['priority']) {
+                    case 0:
+                        priority.setAttribute('src', 'icons/low.png');
+                        break
+                    case 1:
+                        priority.setAttribute('src', 'icons/medium.png');
+                        break;
+                    case 2:
+                        priority.setAttribute('src', 'icons/high.png');
+    
+                }
+                taskelement.appendChild(priority);
+
+                title = document.createElement('span');
+                title.setAttribute('id', 'title');
+                title.innerHTML = task['title'];
+                taskelement.appendChild(title);
+
+                tags = document.createElement('div');
+                tags.setAttribute('id', 'tags');
+                tags.innerHTML = task['category'];
+                taskelement.appendChild(tags);
+
+                edit = document.createElement('img');
+                edit.setAttribute('id', task['id'].toString());
+                edit.setAttribute('src', 'icons/edit.png');
+                edit.onclick = function() {
+                    widget.api.tasks.edit_task(this.id, function(ret) {
+                        show_tasks();
+                    });
+                }
+
+                remove = document.createElement('img');
+                remove.setAttribute('id', task['id'].toString());
+                remove.setAttribute('src', 'icons/delete.png');
+                remove.onclick = function() {
+                    widget.api.tasks.set_task_status(this.id, 2, function(ret) {
+                        show_tasks();
+                    });
+                }
+                
+                taskelement.appendChild(edit);
+                taskelement.appendChild(remove);
+
+                taskelement.appendChild(document.createElement('br'));
+                taskelement.appendChild(document.createElement('br'));
+                $('tasks').appendChild(taskelement);
+
+            }
+
+            function show_tasks() { 
+                widget.api.tasks.list_tasks(function(tasks) {
+                    $('tasks').innerHTML = '';
+                    for (i=0;i<tasks.length;i++) {
+                        add_task(tasks[i]);
+
+                        if (i+1 != tasks.length) { //no separation for last entry
+                            sep = document.createElement('hr');
+                            sep.setAttribute('noshade');
+                            $('tasks').appendChild(sep);
+                        }
+
+                    }
+                });
+            }
+
+            function main() {
+                $('add').onclick = function() {
+                    widget.api.tasks.add_task(function(ret) {
+                        show_tasks();
+                    });
+                    
+                }
+                show_tasks();
+            }
+        </script>
+
+    </head>
+
+    <body>
+        <div class="widget" style="width: 220px;">
+            <div class="background">
+                <div class="scroll" style="height: 250px;">
+                    <div id="tasks"></div>
+                </div>
+                    <img id="add" src="icons/add.png"/ ></div><br />
+            </div>
+        </div>
+    </body>
+</html>

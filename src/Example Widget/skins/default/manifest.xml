@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="0.1">
+    <component name="Default" id=".example-widget.DefaultSkin" version="0.1" type=".Skin">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="A default theme for the Example Widget." />
+        <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
+    </component>
+</manifest>

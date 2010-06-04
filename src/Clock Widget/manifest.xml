@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<manifest namespace="org.cream.melange" version="0.0.5">
+    <component name="Analog Clock" id=".ClockWidget" version="0.1" type=".Widget">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Displaying time? Yeah, dude." />
+        <icon path="analog_clock.svg" />
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" type="developer" />
+        <author name="Immanuel Peratoner" type="designer" />
+    </component>
+</manifest>

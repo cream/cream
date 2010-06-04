@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="0.4">
+    <component name="Tab Example" id=".TabExampleWidget" version="0.1" type=".Widget">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Showing an example of how to use the tab-element." />
+        <author name="Immanuel Peratoner" type="developer" mail="immanuel.peratoner@gmail.com" />
+    </component>
+</manifest>

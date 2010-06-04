@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="Eightball" id=".EightballWidget" version="1.0" type=".Widget">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Helping you to make decisions." />
+        <icon path="eightball.png" />
+        <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
+    </component>
+</manifest>

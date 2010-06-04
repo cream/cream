@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Identica Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js" />
+        <script type="text/javascript" src="/common/core/mootools-more.js" />
+
+        <script type="text/javascript" src="/common/ui/scroll/mooscroll/mooscroll.js" />
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
+        <script type="text/javascript" src="/common/core/cream.js" />
+        <style type="text/css">
+
+        #text {
+            font-size: .9em;
+
+        }
+        #author {
+            font-size: .7em;
+            color: #585858;
+        }
+        #time {
+            font-size: .7em;
+            color: #585858;
+        }
+        </style>
+
+        <script type="text/javascript">
+            function main() {
+
+                function update() {
+                    $('identica').innerHTML = ''
+                    widget.api.identica.get_data(widget.config.get('type'), widget.config.get('name'), function(data) {
+                        for(i=0; i<widget.config.get('number'); i++) {
+                            box = document.createElement('div');
+    
+                            span = document.createElement('span');
+                            span.id = 'text'
+                            span.innerHTML = data[i]['text'] + '<br/ >';
+                            box.appendChild(span);
+
+                            span = document.createElement('span');
+                            span.id = 'author';
+                            span.innerHTML = data[i]['author'] + ' at ';
+                            box.appendChild(span);
+
+                            span = document.createElement('span');
+                            span.id = 'time';
+                            span.innerHTML = data[i]['time'];
+                            box.appendChild(span);
+
+
+                            if (i != 0) {
+                                box.style.paddingTop = "10px";
+                            }
+    
+                            $('identica').appendChild(box);
+                        }   
+
+                    });
+
+
+
+                }
+
+                var configuration_update_timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                    $clear(configuration_update_timeout_id);
+                    configuration_update_timeout_id = update.delay(3000);
+                });
+
+                update.delay(1000);
+                update.periodical(600000);
+            };          
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 180px;">
+            <div class="background">
+                <div class="scroll" style="height: 220px;">
+                    <div id="identica">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

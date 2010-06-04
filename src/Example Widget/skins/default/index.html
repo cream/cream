@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Calculator widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <!-- Melange's style definitions. -->
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+        <!-- The JavaScript framework we are using. -->
+        <script type="text/javascript" src="/common/core/mootools.js" />
+        <script type="text/javascript" src="/common/core/mootools-more.js" />
+        <!-- Two JavaScript libraries for using the chooser- and scrolled-objects. -->
+        <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
+        <script type="text/javascript" src="/common/ui/scroll/mooscroll/mooscroll.js" />
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
+        <script type="text/javascript" src="/common/core/events.js" />
+        <script type="text/javascript" src="/common/core/cream.js" />
+        <script type="text/javascript">
+            function main() {
+                
+                var foo = 'foo';
+                // This event is being emitted, when the option of
+                // the specific chooser-object has been changed.
+                $('mode').addEvent('value_changed', function(option) {
+                    foo = option.id;
+                });
+
+                // Connect to the `onclick` signal of a button.
+                $('doit').onclick = function() {
+                    // Write the return value of your API function `doit` to the widget.
+                    widget.api.example.doit(foo, function(ret) {
+                        $('response').innerHTML = ret;
+
+                    });
+                };
+
+            };
+
+        </script>
+    </head>
+
+    <body>
+        <!-- Create your widget object. You have to specify a width for the widget! -->
+        <div class="widget" style="width: 180px;">
+            <!-- The background object displays the background. Believe it or not...
+            (You can leave it out, if you want to.) -->
+            <div class="background">
+                <!-- The chooser-object should be used for presenting options to the user. -->
+                <div class="chooser" id="mode">
+                    <!-- You need one option-object for every option. Yeah. One more thing to remember.
+                    You should specify an ID in order to make them identificable! -->
+                    <div class="option" id="foo">
+                        foo
+                    </div>
+                    <div class="option" id="bar">
+                        bar
+                    </div>
+                    <div class="option" id="blubb">
+                        blubb
+                    </div>
+                </div>
+                <!-- The section-object kinda separates content from his environment. -->
+                <div class="section">
+                    Response:<br />
+                    <span id="response" style="font-size: .9em;"></span>
+                </div>
+                <div style="clear: both;"></div>
+                <!-- Button objects are pretty self-explanatory. -->
+                <div class="button" id="doit" style="float: right;">
+                    Do It!
+                </div>
+                <!-- Don't forget to reset your float-environment! -->
+                <div style="clear: both;"></div><br />
+                <!-- Last but not least the scolled-object. -->
+                <div class="scroll" style="height: 120px;">
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

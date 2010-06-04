@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="0.1">
+    <component name="Stop Watch" id=".StopWatchWidget" version="0.1" type=".Widget">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="A stop watch for melange." />
+        <icon path="stop_watch.svg" />
+        <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
+    </component>
+</manifest>

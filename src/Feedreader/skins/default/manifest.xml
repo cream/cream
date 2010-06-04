@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="0.1">
+    <component name="Default" id=".feedreader-widget.DefaultSkin" version="0.1" type=".Skin">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="A default theme for the Feedreader widget." />
+        <author name="Kristoffer Kleine" type="developer" />
+    </component>
+</manifest>

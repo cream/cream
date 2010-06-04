@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Calculator widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+        <script type="text/javascript" src="/common/core/mootools.js" />
+        <script type="text/javascript" src="/common/core/events.js" />
+        <script type="text/javascript" src="/common/core/cream.js" />
+        <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
+        <script type="text/javascript" src="/common/ui/scrolled/scrolled.js" />
+        <script type="text/javascript" src="/common/ui/dialog/dialog.js" />
+        <script type="text/javascript">
+            function main() {
+      
+            var languages = {'apache': 'Apache Config (.htaccess)',
+                             'bash': 'Bash',
+                             'bat': 'Batch (.bat)',
+                             'boo': 'Boo',
+                             'c': 'C',
+                             'clojure': 'Clojure',
+                             'control': 'Debian control-files',
+                             'cpp': 'C++',
+                             'creole': 'Creole Wiki',
+                             'csharp': 'C#',
+                             'css': 'CSS',
+                             'csv': 'CSV',
+                             'd': 'D',
+                             'diff': 'Unified Diff',
+                             'dylan': 'Dylan',
+                             'erlang': 'Erlang',
+                             'gas': 'GAS',
+                             'gcc-messages': 'GCC Messages',
+                             'gettext': 'Gettext catalogs',
+                             'glsl': 'GL Shader language',
+                             'go': 'Go',
+                             'haskell': 'Haskell',
+                             'html': 'HTML',
+                             'html+django': 'Django / Jinja Templates',
+                             'html+genshi': 'Genshi Templates',
+                             'html+mako': 'Mako Templates',
+                             'html+myghty': 'Myghty Templates',
+                             'html+php': 'PHP',
+                             'ini': 'INI File',
+                             'io': 'IO',
+                             'irb': 'Interactive Ruby',
+                             'irc': 'IRC Logs',
+                             'java': 'Java',
+                             'javac-messages': 'javac Messages',
+                             'js': 'JavaScript',
+                             'jsp': 'JSP',
+                             'lighttpd': 'Lighttpd',
+                             'literate-haskell': 'Literate Haskell',
+                             'llvm': 'LLVM',
+                             'lua': 'Lua',
+                             'matlab': 'Matlab',
+                             'matlabsession': 'Matlab Session',
+                             'minid': 'MiniD',
+                             'multi': 'Multi-File',
+                             'mysql': 'MySQL',
+                             'nasm': 'Nasm',
+                             'nginx': 'Nginx',
+                             'objectpascal': 'Object-Pascal',
+                             'ocaml': 'OCaml',
+                             'perl': 'Perl',
+                             'php': 'PHP (inline)',
+                             'povray': 'Povray',
+                             'pycon': 'Python Console Sessions',
+                             'pytb': 'Python Tracebacks',
+                             'python': 'Python',
+                             'rhtml': 'eRuby / rhtml',
+                             'rst': 'reStructuredText',
+                             'ruby': 'Ruby',
+                             'scala': 'Scala',
+                             'scheme': 'Scheme',
+                             'smalltalk': 'Smalltalk',
+                             'smarty': 'Smarty',
+                             'sourceslist': 'sources.list',
+                             'sql': 'SQL',
+                             'squidconf': 'SquidConf',
+                             'tex': 'TeX / LaTeX',
+                             'text': 'Text',
+                             'vim': 'Vim',
+                             'xml': 'XML',
+                             'xslt': 'XSLT',
+                             'yaml': 'YAML'}
+
+                var dialog = $('languageselect');
+                var url_field = $('url_field');
+                var overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                overlay.fade('hide');
+                dialog.parentNode.insertBefore(overlay, dialog);
+                dialog.parentNode.removeChild(dialog);
+                overlay.appendChild(dialog);
+                close_button = document.createElement('img');
+                close_button.src = '/common/ui/images/close.png';
+                close_button.style.float = 'right';
+                close_button.style.marginTop = '5px';
+                close_button.style.marginBottom = '-3px';
+                dialog.appendChild(close_button);
+                dialog.style.display = 'block';
+                overlay.style.display = 'block';
+
+                for(i in languages) {
+                    e = document.createElement('div');
+                    e.id = i;
+                    e.name = languages[i];
+                    e.innerHTML = languages[i];
+                    e.style.cursor = 'pointer';
+                    e.onclick = function() {
+                        widget.api.paste.set_language(this.id);
+                        $('other').innerHTML = "Other (" + this.name + ")";
+                        overlay.fade(0);
+                    }
+                    $('language_list').appendChild(e);
+                }
+
+                $('language').addEvent('value_changed', function(option) {
+                    widget.api.paste.set_language(option.id);
+                    if(option.id == 'other') {
+                        overlay.fade(1);
+                    }
+                });
+                close_button.onclick = function() {
+                    overlay.fade(0);
+                }
+
+                $('paste_file').onclick = function() {
+                    widget.api.paste.paste_file(function(data) {
+                        url_field.href = data;
+                        url_field.innerHTML = data;
+                    });
+                }
+
+                $('paste_clipboard').onclick = function() {
+                    widget.api.paste.paste_clipboard(function(data) {
+                        url_field.href = data;
+                        url_field.innerHTML = data;
+                    });
+                }
+
+            };
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" id="widget" style="width: 220px;">
+            <div class="background" id="background">
+                <div class="dialog" id="languageselect">
+                    <div class="scrolled" style="height: 120px;">
+                        <div id="language_list"></div>
+                    </div>
+                </div>
+                <div id="language" class="chooser" style="font-size: .8em;">
+                    <div class="option" id="text">
+                        Text
+                    </div>
+                    <div class="option" id="python">
+                        Python
+                    </div>
+                    <div class="option" id="bash">
+                        Bash
+                    </div>
+                    <div class="option" id="other">
+                        Other
+                    </div>
+                </div><br />
+                <div style="float: left; width: 50%; text-align: center; font-size: .8em;">
+                    <img src="file.png" id="paste_file" onmousedown="return false;" /><br />
+                    Paste File
+                </div>
+                <div style="float: right; width: 50%; text-align: center; font-size: .8em;">
+                    <img src="clipboard.png" id="paste_clipboard" onmousedown="return false;" /><br />
+                    Paste Clipboard
+                </div>
+                <div style="clear: both;"></div><br />
+                <div class="section">
+                    Last paste:<br />
+                    <a id="url_field" style="-webkit-user-select: text; font-family: monospace; font-size: .7em;" href="">empty</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
