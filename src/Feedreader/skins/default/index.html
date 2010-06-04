@@ -47,12 +47,7 @@
                         
                             box.appendChild(span);
                             box.appendChild(url);
-                          
-                            if (i != 9) {
-                                hr = document.createElement('hr');
-                                hr.setAttribute('noshade');
-                                box.appendChild(hr);
-                            }
+
                             
                             if (i != 0) {
                                 box.style.paddingTop = "10px";
@@ -66,6 +61,12 @@
 
 
                 }
+                var configuration_update_timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                    $clear(configuration_update_timeout_id);
+                    configuration_update_timeout_id = update.delay(3000);
+                });
+
                 update.delay(1000);
                 update.periodical(600000);
             };          
