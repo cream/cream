@@ -5,6 +5,8 @@
         <description lang="en" content="Control your tasks." />
         <dependency required="true" type=".Module" id=".PIM" />
         <author name="Kristoffer Kleine" type="developer" />
-        <author name="Sebastian Billaudelle" type="designer" mail="stein@cream-project.org" />
+        <author name="Immanuel Peratoner" type="developer" />
+        <author name="Sebastian Billaudelle" type="designer" mail="iperatoner@cream-project.org" />
+        <author name="Immanuel Peratoner" type="designer" mail="stein@cream-project.org" />
     </component>
 </manifest>

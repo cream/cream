@@ -1,2 +1,3 @@
 configuration/
 *.pyc
+*.py~

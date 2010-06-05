@@ -37,6 +37,8 @@ class Tasks(api.API):
         self.priority.add_attribute(cell,'text',0)
 
         self.calendar = builder.get_object('calendar')
+        self.calendar.connect('day-selected-double-click', self.btn_cb, 1)
+        
         self.calendar_win = builder.get_object('calendar_win')
         self.calendar_win.connect('delete_event', lambda w,e: self.calendar_win.hide())
         btn = builder.get_object('calendar_btn')
@@ -60,6 +62,7 @@ class Tasks(api.API):
             if response == 1:
                 data = self.get_data()
                 self.dialog.hide()
+                print data['deadline']
                 return self.task_manager.add_task(data['title'], 
                     data['description'], data['tags'], data['priority'], 
                     data['deadline'])
