@@ -46,3 +46,6 @@
 [submodule "tools"]
 	path = tools
 	url = git://github.com/cream/tools
+[submodule "src/modules/notifications-manager"]
+	path = src/modules/notifications-manager
+	url = git://github.com/cream/notifications-manager.git
