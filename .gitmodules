@@ -1,0 +1,48 @@
+[submodule "src/libs/cream"]
+	path = src/libs/cream
+	url = git://github.com/cream/libs.git
+[submodule "src/libs/appindicators-contrib"]
+	path = src/libs/appindicators-contrib
+	url = git://github.com/cream/appindicators-contrib.git
+[submodule "src/libs/melange-contrib"]
+	path = src/libs/melange-contrib
+	url = git://github.com/cream/melange-contrib.git
+[submodule "src/libs/notifications-contrib"]
+	path = src/libs/notifications-contrib
+	url = git://github.com/cream/notifications-contrib.git
+[submodule "src/libs/gpyconf"]
+	path = src/libs/gpyconf
+	url = git://github.com/jonashaag/gpyconf.git
+[submodule "src/libs/xmlserialize"]
+	path = src/libs/xmlserialize
+	url = git://github.com/jonashaag/xmlserialize.py.git
+[submodule "src/modules/melange"]
+	path = src/modules/melange
+	url = git://github.com/cream/melange.git
+[submodule "src/modules/mediaservice"]
+	path = src/modules/mediaservice
+	url = git://github.com/cream/mediaservice.git
+[submodule "src/modules/appindicators-watcher"]
+	path = src/modules/appindicators-watcher
+	url = git://github.com/cream/appindicators-watcher.git
+[submodule "src/modules/hotkey-manager"]
+	path = src/modules/hotkey-manager
+	url = git://github.com/cream/hotkey-manager.git
+[submodule "src/modules/pim-service"]
+	path = src/modules/pim-service
+	url = git://github.com/cream/pim-service.git
+[submodule "src/modules/session"]
+	path = src/modules/session
+	url = git://github.com/cream/session.git
+[submodule "src/modules/console"]
+	path = src/modules/console
+	url = git://github.com/cream/console.git
+[submodule "src/modules/youtube-player"]
+	path = src/modules/youtube-player
+	url = git://github.com/cream/youtube-player.git
+[submodule "data/melange-widgets"]
+	path = data/melange-widgets
+	url = git://github.com/cream/melange-widgets.git
+[submodule "tools"]
+	path = tools
+	url = git://github.com/cream/tools
