@@ -45,7 +45,9 @@
                                 ctx.lineTo(x, y);
                                 ctx.stroke();
                             } else if (tool == 'eraser') {
-                                ctx.clearRect(x, y, 10, 10);
+                                ctx.fillStyle = 'white';
+                                ctx.rect(x, y, 10, 10);
+                                ctx.fill();
                             }                             
                         }
                     };
@@ -59,8 +61,8 @@
                 };
 
                 function event_handler(event) {
-                    x = event.layerX - 10; 
-                    y = event.layerY - 10;
+                    x = event.layerX - 15; 
+                    y = event.layerY - 15;
 
                     paint(event.type, x, y);
                 };
