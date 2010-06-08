@@ -49,3 +49,6 @@
 [submodule "src/modules/notifications-manager"]
 	path = src/modules/notifications-manager
 	url = git://github.com/cream/notifications-manager.git
+[submodule "src/modules/notifications-service"]
+	path = src/modules/notifications-service
+	url = git://github.com/cream/notifications-service.git
