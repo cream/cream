@@ -79,20 +79,42 @@
                 margin-top: 10px;
                 margin-left: 10px;
             }
+            
+            select#tool {
+                font-size: 7pt;
+            }
+            
+            #tool {
+                position: relative;
+                top: -25px;
+                left: -15px;
+                float: right;
+            }
+            
+            #save {
+                position: relative;
+                top: -30px;
+                left: 7px;
+                float: left;
+                
+                font-size: 7pt;
+                padding: 4px;
+            }
         </style>
 
     </head>
     
     <body>
-        <div class="widget" style="width: 316px; height: 293px;">
-            <div style="width: 306px; height: 283px; background-image: url(paper.png);">
+        <div class="widget" style="width: 316px; height: 288px;">
+            <div style="width: 306px; height: 283px; background: url(paper.png);">
                 <canvas id="canvas" width="280" height="260"></canvas>
+                <select id="tool">
+                    <option value="pencil">Pencil</option>
+                    <option value="eraser">Eraser</option>
+                </select>
+                <div class="button" id="save">Save</div>
+                <div style="clear: both;"></div>
             </div>
-            <select id="tool">
-                <option value="pencil">Pencil</option>
-                <option value="eraser">Eraser</option>
-            </select>
-            <div class="button" id="save">Save</div>
         </div>
     </body>
 </html>
