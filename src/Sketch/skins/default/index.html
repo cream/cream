@@ -12,6 +12,8 @@
         <script type="text/javascript" src="/common/core/cream.js" />
 
         <script language="javascript">
+            var tool = 'pencil';
+            
             function main() {
                 canvas = document.getElementById('canvas')
                 ctx = canvas.getContext('2d');
@@ -20,6 +22,30 @@
                     widget.api.sketch.save_image(canvas.toDataURL());
                 });
 
+                $('pencil-tool').addEvent('click', function() {
+                    tool = 'pencil';
+                });
+
+                $('eraser-tool').addEvent('click', function() {
+                    tool = 'eraser';
+                });
+                
+                $('color-black').addEvent('click', function() {
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                });
+                
+                $('color-red').addEvent('click', function() {
+                    ctx.strokeStyle = 'rgb(255,0,0)';
+                });
+                
+                $('color-green').addEvent('click', function() {
+                    ctx.strokeStyle = 'rgb(0,255,0)';
+                });
+                
+                $('color-blue').addEvent('click', function() {
+                    ctx.strokeStyle = 'rgb(0,0,255)';
+                });
+                
 
                 function paint(type, x, y) {
                     switch (type) {
@@ -40,7 +66,6 @@
                     };
                     function mousemove(x, y) {
                         if (this.active) {
-                            tool = $('tool').value;
                             if (tool == 'pencil') {
                                 ctx.lineTo(x, y);
                                 ctx.stroke();
@@ -82,26 +107,72 @@
                 margin-left: 10px;
             }
             
-            select#tool {
+            #sketch-tools, #colors {
                 font-size: 7pt;
-            }
-            
-            #tool {
                 position: relative;
                 top: -25px;
                 left: -15px;
                 float: right;
+                
+                margin-left: 10px;
+            }
+            
+            #sketch-tools img {
+                opacity: .7;
+                cursor: pointer;
+                margin-right: 3px;
+            }
+            
+                #sketch-tools img:hover {
+                    opacity: 1;
+                }
+            
+            #colors div {
+                float: right;
+                
+                margin-right: 5px;
+                margin-top: 2px;
+                
+                border-radius: 10px;
+                
+                width: 15px;
+                height: 15px;
+                
+                cursor: pointer;
+            }
+            
+            #color-red {
+                background: #ff0000;
+            }
+            
+            #color-green {
+                background: #00ff00;
+            }
+            
+            #color-blue {
+                background: #0000ff;
+            }
+            
+            #color-black {
+                background: #000000;
             }
             
             #save {
                 position: relative;
-                top: -30px;
+                top: -25px;
                 left: 7px;
                 float: left;
                 
                 font-size: 7pt;
                 padding: 4px;
+                
+                opacity: .7;
+                cursor: pointer;
             }
+            
+                #save:hover {
+                    opacity: 1;
+                }
         </style>
 
     </head>
@@ -110,11 +181,17 @@
         <div class="widget" style="width: 316px; height: 288px;">
             <div style="width: 306px; height: 283px; background: url(paper.png);">
                 <canvas id="canvas" width="280" height="260"></canvas>
-                <select id="tool">
-                    <option value="pencil">Pencil</option>
-                    <option value="eraser">Eraser</option>
-                </select>
-                <div class="button" id="save">Save</div>
+                <img src="save.png" id="save" />
+                <div id="sketch-tools">
+                    <img src="eraser.png" id="eraser-tool" />
+                    <img src="pencil.jpg" id="pencil-tool">
+                </div>
+                <div id="colors">
+                    <div id="color-blue"></div>
+                    <div id="color-green"></div>
+                    <div id="color-red"></div>
+                    <div id="color-black"></div>
+                </div>
                 <div style="clear: both;"></div>
             </div>
         </div>
