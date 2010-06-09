@@ -10,18 +10,21 @@ all:
 bjoern:
 	git clone git://github.com/jonashaag/bjoern.git
 	cd bjoern/ && make get-http-parser
-	ln -s $(pwd)/bjoern/src/bjoern.py $(SITE_PACKAGES)
-	ln -s $(pwd)/bjoern/_bjoern.so $(SITE_PACKAGES)
+	echo $(SITE_PACKAGES)
+	# setup.py here.
 
 update-bjoern: bjoern
 	cd bjoern/ && git pull && make get-http-parser
 	cd bjoern/ && make
 
-setup:
+setup1:
 	virtualenv $(VIRTUALENV)
+	git submodule update --init
+
+setup2:
 	easy_install ooxcb
 	make bjoern
-	git submodule update --init
+	make develop
 
 update:
 	git pull
