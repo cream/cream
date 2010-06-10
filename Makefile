@@ -1,3 +1,4 @@
+PWD=$(shell pwd)
 VIRTUALENV=dev
 SITE_PACKAGES=$(shell python -c "import distutils.sysconfig; print distutils.sysconfig.get_python_lib()")
 
@@ -16,6 +17,7 @@ update-bjoern: bjoern
 setup1:
 	virtualenv $(VIRTUALENV)
 	git submodule update --init
+	ln -s $(PWD)/data/widgets $(PWD)/modules/melange/widgets
 
 setup2:
 	easy_install ooxcb
