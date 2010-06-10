@@ -17,11 +17,11 @@
                 border-radius: 40px !important;
             }
         
-            #window-list {
+            #taskbar {
                 
             }
             
-            .window-list-application {
+            .taskbar-application {
                 float: left;
                 
                 padding: 7px;
@@ -33,7 +33,7 @@
                 border-radius: 20px;
             }
             
-            .window-list-application:hover {
+            .taskbar-application:hover {
                 border: 1px solid rgba(255, 255, 255, .4);
                 
                 padding: 6px;
@@ -45,7 +45,7 @@
                 cursor: pointer;
             }
             
-            .window-list-application:active {
+            .taskbar-application:active {
                 border: 1px solid rgba(255, 255, 255, .4);
                 
                 padding: 6px;
@@ -91,7 +91,7 @@
                 number_of_items++;
                 
                 item = new Element('div', {
-                    'class': 'opened-application window-list-application',
+                    'class': 'opened-application taskbar-application',
                     'id': number_of_item
                 })
                 
@@ -104,16 +104,16 @@
                 });
                 
                 item.grab(img);
-                $('window-list').grab(item);
+                $('taskbar').grab(item);
             }
             
             function minimize_item(item_id) {
-                $(item_id).set('class', 'minimized-application window-list-application');
+                $(item_id).set('class', 'minimized-application taskbar-application');
                 // PYTHON API CALLBACK HERE
             }
             
             function maximize_item(item_id) {
-                $(item_id).set('class', 'opened-application window-list-application');
+                $(item_id).set('class', 'opened-application taskbar-application');
                 // PYTHON API CALLBACK HERE
             }
         
@@ -133,17 +133,17 @@
     <body>
         <div class="widget" style="width: 300px;">
             <div class="background">
-                <div id="window-list">
+                <div id="taskbar">
                 
-                    <div class="opened-application window-list-application">
+                    <div class="opened-application taskbar-application">
                         <img src="app.png" />
                     </div>
                     
-                    <div class="minimized-application window-list-application">
+                    <div class="minimized-application taskbar-application">
                         <img src="app.png" />
                     </div>
                     
-                    <!--<div class="closed-application window-list-application">
+                    <!--<div class="closed-application taskbar-application">
                         <img src="app.png" />
                     </div>-->
                     
