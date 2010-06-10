@@ -32,7 +32,7 @@ _setup2:
 
 update:
 	git pull
-	git submodule update
+	git submodule update --init
 
 develop:
 	rm -rf $(SITE_PACKAGES)/cream
