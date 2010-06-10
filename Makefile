@@ -23,7 +23,8 @@ update-bjoern: bjoern
 setup:
 	virtualenv $(VIRTUALENV)
 	git submodule update --init
-	ln -s $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/widgets
+	rm -f $(PWD)/src/modules/melange/widgets
+	ln -T -s $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/widgets
 	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make _setup2"
 
 _setup2:
