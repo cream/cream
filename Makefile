@@ -4,7 +4,8 @@ SITE_PACKAGES=$(shell python -c "import distutils.sysconfig; print distutils.sys
 
 all:
 	@echo "Please choose:"
-	@echo "make setup - initialize virtualenv, download bjoern."
+	@echo "make setup1 - initialize virtualenv and modules"
+	@echo "make setup2 - initialize modules, call this after \`. ./dev/bin/activate\`)"
 	@echo "make update - update git submodules"
 	@echo "make develop - build a development environment (do \`. ./dev/bin/activate\` first)"
 
@@ -17,7 +18,7 @@ update-bjoern: bjoern
 setup1:
 	virtualenv $(VIRTUALENV)
 	git submodule update --init
-	ln -s $(PWD)/data/widgets $(PWD)/src/modules/melange/widgets
+	ln -s $(PWD)/data/melange-widgets $(PWD)/src/modules/melange/widgets
 
 setup2:
 	easy_install ooxcb
