@@ -9,13 +9,10 @@ all:
 
 bjoern:
 	git clone git://github.com/jonashaag/bjoern.git
-	cd bjoern/ && make get-http-parser
 	echo $(SITE_PACKAGES)
-	# setup.py here.
 
 update-bjoern: bjoern
-	cd bjoern/ && git pull && make get-http-parser
-	cd bjoern/ && make
+	cd bjoern/ && git pull && python setup.py install
 
 setup1:
 	virtualenv $(VIRTUALENV)
