@@ -17,7 +17,7 @@ update-bjoern: bjoern
 setup1:
 	virtualenv $(VIRTUALENV)
 	git submodule update --init
-	ln -s $(PWD)/data/widgets $(PWD)/modules/melange/widgets
+	ln -s $(PWD)/data/widgets $(PWD)/src/modules/melange/widgets
 
 setup2:
 	easy_install ooxcb
