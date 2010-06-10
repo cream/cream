@@ -58,3 +58,6 @@
 [submodule "src/libs/udisks-contrib"]
 	path = src/libs/udisks-contrib
 	url = git://github.com/cream/udisks-contrib
+[submodule "src/modules/volume-manager"]
+	path = src/modules/volume-manager
+	url = git://github.com/cream/volume-manager
