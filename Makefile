@@ -8,6 +8,10 @@ all:
 	@echo "make update - pull and update git submodules"
 	@echo "make develop - (re)build a development environment (do \`. ./dev/bin/activate\` first)"
 
+pyjavascriptcore:
+	bzr clone lp:pyjavascriptcore
+	cd pyjavascriptcore && python setup.py install
+
 bjoern:
 	git clone git://github.com/jonashaag/bjoern.git
 
@@ -22,6 +26,7 @@ setup:
 
 _setup2:
 	easy_install ooxcb
+	make pyjavascriptcore
 	make bjoern update-bjoern
 	make develop
 
