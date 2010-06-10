@@ -12,14 +12,13 @@ Installation
 
 git clone git://github.com/cream/cream.git
 cd cream/
-make setup1
+make setup
 source ./dev/bin/activate
-make setup2
 
 Usage
 ~~~~~
 
-Before you can use cream, make sure to activate the virtualenv:
+Before you can use cream, always make sure to activate the virtualenv:
 
 source ./dev/bin/activate
 
