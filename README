@@ -12,9 +12,9 @@ Installation
 
 git clone git://github.com/cream/cream.git
 cd cream/
-make setup
+make setup1
 source ./dev/bin/activate
-make develop
+make setup2
 
 Usage
 ~~~~~
