@@ -10,7 +10,9 @@ all:
 
 pyjavascriptcore:
 	bzr clone lp:pyjavascriptcore
-	cd pyjavascriptcore && python setup.py install
+
+update-pyjavascriptcore: pyjavascriptcore
+	cd pyjavascriptcore && bzr pull && python setup.py install
 
 bjoern:
 	git clone git://github.com/jonashaag/bjoern.git
@@ -26,7 +28,7 @@ setup:
 
 _setup2:
 	easy_install ooxcb
-	make pyjavascriptcore
+	make pyjavascriptcore update-pyjavascriptcore
 	make bjoern update-bjoern
 	make develop
 
