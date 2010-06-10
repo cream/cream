@@ -55,3 +55,6 @@
 [submodule "src/libs/desktopentries-contrib"]
 	path = src/libs/desktopentries-contrib
 	url = git://github.com/cream/desktopentries-contrib.git
+[submodule "src/libs/udisks-contrib"]
+	path = src/libs/udisks-contrib
+	url = git://github.com/cream/udisks-contrib
