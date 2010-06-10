@@ -9,7 +9,6 @@ all:
 
 bjoern:
 	git clone git://github.com/jonashaag/bjoern.git
-	echo $(SITE_PACKAGES)
 
 update-bjoern: bjoern
 	cd bjoern/ && git pull && python setup.py install
@@ -20,7 +19,7 @@ setup1:
 
 setup2:
 	easy_install ooxcb
-	make bjoern
+	make bjoern update-bjoern
 	make develop
 
 update:
