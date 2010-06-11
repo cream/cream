@@ -18,7 +18,7 @@
             }
         
             #taskbar {
-                
+                height: 32px !important;
             }
             
             .taskbar-application {
@@ -83,41 +83,53 @@
         <script language="javascript">
             number_of_items = 0;
         
-            function add_item() {
-                alert(arguments);
-                
-                // or get the id from the python method
-                // that calls this function
-                number_of_items++;
-                
-                item = new Element('div', {
-                    'class': 'opened-application taskbar-application',
-                    'id': number_of_item
+            function add_win(win) {
+                var item = new Element('div', {
+                    'id': win['xid'].toString()
                 })
-                
+
+                widget.api.taskbar.get_state(win['xid'], function(state) {
+                    if(state) {
+                        item.set('class', 'opened-application taskbar-application');
+                    } else {
+                        item.set('class', 'closed-application taskbar-application');
+                    }
+                })
+
                 img = new Element('img', {
-                    'src': /* ICON_PATH_HERE */
+                    'src': 'data:image/png;base64,' + win['icon']
                 });
                 
                 item.addEvent('click', function() {
-                    minimize_item(this.id);
+                    toggle_win(this.id);
                 });
-                
+
                 item.grab(img);
                 $('taskbar').grab(item);
+
+                current_width = $('taskbar').getStyle('width');
+                current_width = current_width.toInt();
+                new_width = current_width + 32 + 'px';
+                $('taskbar').setStyle('width', new_width);
             }
             
-            function minimize_item(item_id) {
-                $(item_id).set('class', 'minimized-application taskbar-application');
-                // PYTHON API CALLBACK HERE
+            function toggle_win(xid) {
+                widget.api.taskbar.toggle(xid.toInt(), function(state) {
+                    if(state) {
+                        $(xid).set('class', 'opened-application taskbar-application');
+                    } else {
+                        $(xid).set('class', 'closed-application taskbar-application');
+                    }
+                })
             }
-            
-            function maximize_item(item_id) {
-                $(item_id).set('class', 'opened-application taskbar-application');
-                // PYTHON API CALLBACK HERE
+
+            function remove_win(win) {
+                $(win['xid'].toString()).dispose();
             }
         
             function main() {
+                widget.api.addEvent('window-added', add_win);
+                widget.api.addEvent('window-removed', remove_win);
                 // the python api should better call the function `add_item`
                 // for each new opened window
                 
@@ -125,30 +137,19 @@
                 // if a window is minimized by its window button
                 // if its minimized by clicking on the window list icon
                 // javascript should call a registered python method
-                widget.api.windowlist.get_opened_windows(/* CALLBACK FUNC HERE */);
+                widget.api.taskbar.get_all_windows(function(wins) {
+                    for(c=0; c<wins.length; c++) {
+                        widget.api.taskbar.manage_data(wins[c]);
+                    }
+                });
             }
         </script>
     </head>
  
     <body>
-        <div class="widget" style="width: 300px;">
+        <div class="widget" style="width: 500px;">
             <div class="background">
                 <div id="taskbar">
-                
-                    <div class="opened-application taskbar-application">
-                        <img src="app.png" />
-                    </div>
-                    
-                    <div class="minimized-application taskbar-application">
-                        <img src="app.png" />
-                    </div>
-                    
-                    <!--<div class="closed-application taskbar-application">
-                        <img src="app.png" />
-                    </div>-->
-                    
-                    <div style="clear: left;"></div>
-                    
                 </div>
             </div>
         </div>
