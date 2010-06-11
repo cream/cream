@@ -113,7 +113,7 @@ class Taskbar(api.API):
     def unmanage(self, window):
         print '-- Unmanaging: %r, windows: %r' % (window, self.windows)
         self.windows.remove(window)
-        self.emit('window-removed', self.to_js(window))
+        self.emit('window-removed', self.to_js(window, add_state=False)) # would result in a BadWindow if state was added.
 
     def get_icon(self, window):
         icon = window.get_property('_NET_WM_ICON', 'CARDINAL').reply()
@@ -127,11 +127,11 @@ class Taskbar(api.API):
             return base64
         return ''
 
-    def to_js(self, window, add_icon=False):
+    def to_js(self, window, add_icon=False, add_state=True):
         return {
             'icon': self.get_icon(window) if add_icon else None,
             'xid': window.xid,
-            'state': self.get_state(window),
+            'state': self.get_state(window) if add_state else None,
         }
 
     def ooxcb_callback(self, source, cb_condition):
