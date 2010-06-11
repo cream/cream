@@ -87,6 +87,9 @@ class Taskbar(api.API):
         state = window.get_property('_NET_WM_STATE', 'ATOM').reply().value
         if self.conn.atoms['_NET_WM_STATE_SKIP_TASKBAR'].get_internal() in state:
             return False
+        type = window.get_property('_NET_WM_WINDOW_TYPE', 'ATOM').reply().value
+        if self.conn.atoms['_NET_WM_WINDOW_TYPE_DOCK'].get_internal() in type:
+            return False
         return True
 
     def collect_windows(self):
