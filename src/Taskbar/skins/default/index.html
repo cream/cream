@@ -32,6 +32,10 @@
                 
                 border-radius: 20px;
             }
+
+            .window-title {
+                float: right;
+            }
             
             .taskbar-application:hover {
                 border: 1px solid rgba(255, 255, 255, .4);
@@ -102,7 +106,13 @@
                     toggle_win(this.id);
                 });
 
+                title = new Element('div', {
+                    'class': 'window-title',
+                    'text': win['title']
+                });
+
                 item.grab(img);
+                item.grab(title);
                 $('taskbar').grab(item);
 
                 current_width = $('taskbar').getStyle('width');

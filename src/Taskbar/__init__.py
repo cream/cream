@@ -20,6 +20,7 @@ from cream.util.pywmctrl import Screen
 from cream.contrib.melange import api
 
 MIN_DIM = 16
+MAX_TITLE_LEN = 10
 
 class IconError(Exception):
     pass
@@ -135,7 +136,14 @@ class Taskbar(api.API):
             'icon': self.get_icon(window) if add_icon else None,
             'xid': window.xid,
             'state': self.get_state(window) if add_state else None,
+            'title': self.get_short_title(window) if add_state else None,
         }
+
+    def get_short_title(self, window):
+        title = window.ewmh_get_window_name()
+        if len(title) > MAX_TITLE_LEN:
+            title = title[:MAX_TITLE_LEN - 3] + '...'
+        return title
 
     def ooxcb_callback(self, source, cb_condition):
         while self.conn.alive:
