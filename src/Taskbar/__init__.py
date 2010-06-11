@@ -4,22 +4,27 @@
 import os
 import gtk
 import gobject
+from threading import Lock
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
 
 import ooxcb
-import ooxcb.contrib.ewmh
+import ooxcb.contrib.ewmh, ooxcb.contrib.icccm
 from ooxcb.protocol import xproto
 ooxcb.contrib.ewmh.mixin()
+ooxcb.contrib.icccm.mixin()
 
+from cream.util.pywmctrl import Screen
 from cream.contrib.melange import api
 
 MIN_DIM = 16
 
 class IconError(Exception):
     pass
+
+xproto.Window.__hash__ = lambda self: hash(self.xid)
 
 def convert_icon(data, desired_size=None):
     length = len(data)
@@ -48,6 +53,7 @@ class Taskbar(api.API):
         self.conn = ooxcb.connect()
         self.screen = self.conn.setup.roots[self.conn.pref_screen]
         self.root = self.screen.root
+        self.pywmctrl = Screen(self.conn, self.root)
         self._setup_mainloop()
 
         with self.conn.bunch():
@@ -59,22 +65,21 @@ class Taskbar(api.API):
         self.windows = []
 
     def on_property_notify(self, evt):
-        if evt.atom == self.conn.atoms['_NET_CLIENT_LIST']:
-            # new client!
-            new_windows = set(self.collect_windows()) - set(self.windows)
-            print 'New windows: %r' % new_windows
-            for window in filter(self.should_manage_window, new_windows):
-                print 'should call self.manage(%r)' % window
-                self.manage(window)
+        if (evt.atom == self.conn.atoms['_NET_CLIENT_LIST'] and evt.state == xproto.Property.NewValue):
+            clients = set(self.collect_windows())
+            current = set(self.windows)
+            new_windows = clients - current
+            removed_windows = current - clients
+            for window in new_windows:
+                if self.should_manage_window(window):
+                    self.manage(window)
+            for window in removed_windows:
+                self.unmanage(window)
 
     def should_manage_window(self, window):
         state = window.get_property('_NET_WM_STATE', 'ATOM').reply().value
-        print 'Should manage %r %r?' % (window, window.ewmh_get_window_name())
-        if (self.conn.atoms['_NET_WM_STATE_SKIP_TASKBAR'].get_internal() in state
-            or self.conn.atoms['_NET_WM_STATE_HIDDEN'].get_internal() in state):
-            print 'Skip Taskbar / Hidden'
+        if self.conn.atoms['_NET_WM_STATE_SKIP_TASKBAR'].get_internal() in state:
             return False
-        print 'YES'
         return True
 
     def collect_windows(self):
@@ -89,15 +94,18 @@ class Taskbar(api.API):
         self.manage(window)
 
     def manage(self, window):
-        #self.emit('item-added', 'yo')
-        print '--- managing %r %r' % (window, window.ewmh_get_window_name())
+        print '-- Managing: %r, windows: %r' % (window, self.windows)
         self.windows.append(window)
-        self.emit('window-added', self.to_js(window))
+        self.emit('window-added', self.to_js(window, True))
+
+    def unmanage(self, window):
+        print '-- Unmanaging: %r, windows: %r' % (window, self.windows)
+        self.windows.remove(window)
+        self.emit('window-removed', self.to_js(window))
 
     def get_icon(self, window):
         icon = window.get_property('_NET_WM_ICON', 'CARDINAL').reply()
         if icon.exists:
-            print 'has icon.'
             pb = convert_icon(icon.value, 16)
             data = StringIO()
             def _callback(buf):
@@ -107,9 +115,9 @@ class Taskbar(api.API):
             return base64
         return ''
 
-    def to_js(self, window):
+    def to_js(self, window, add_icon=False):
         return {
-            'icon': self.get_icon(window),
+            'icon': self.get_icon(window) if add_icon else None,
             'xid': window.xid
         }
 
@@ -137,3 +145,24 @@ class Taskbar(api.API):
     def get_all_windows(self):
         return map(self.to_js, self.collect_windows())
 
+    @api.expose
+    def toggle(self, xid):
+        window = self.conn.get_from_cache_fallback(xid, xproto.Window)
+        state = window.icccm_get_wm_state()
+        if state.state == xproto.WMState.Iconic:
+            window.map()
+            self.conn.flush()
+            return True
+        else:
+            self.pywmctrl._send_clientmessage(
+                window,
+                'WM_CHANGE_STATE',
+                32,
+                [xproto.WMState.Iconic])
+            return False
+
+    @api.expose
+    def get_state(self, xid):
+        window = self.conn.get_from_cache_fallback(xid, xproto.Window)
+        state = window.icccm_get_wm_state()
+        return state.state == xproto.WMState.Normal
