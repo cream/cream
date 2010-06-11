@@ -88,13 +88,11 @@
                     'id': win['xid'].toString()
                 })
 
-                widget.api.taskbar.get_state(win['xid'], function(state) {
-                    if(state) {
-                        item.set('class', 'opened-application taskbar-application');
-                    } else {
-                        item.set('class', 'closed-application taskbar-application');
-                    }
-                })
+                if(win['state']) {
+                    item.set('class', 'opened-application taskbar-application');
+                } else {
+                    item.set('class', 'minimized-application taskbar-application');
+                }
 
                 img = new Element('img', {
                     'src': 'data:image/png;base64,' + win['icon']
@@ -114,13 +112,15 @@
             }
             
             function toggle_win(xid) {
-                widget.api.taskbar.toggle(xid.toInt(), function(state) {
-                    if(state) {
-                        $(xid).set('class', 'opened-application taskbar-application');
-                    } else {
-                        $(xid).set('class', 'closed-application taskbar-application');
-                    }
-                })
+                widget.api.taskbar.toggle(xid.toInt())
+            }
+
+            function change_win_state(win) {
+                if(win['state']) {
+                    $(win['xid'].toString()).set('class', 'opened-application taskbar-application');
+                } else {
+                    $(win['xid'].toString()).set('class', 'minimized-application taskbar-application');
+                }
             }
 
             function remove_win(win) {
@@ -130,6 +130,7 @@
             function main() {
                 widget.api.addEvent('window-added', add_win);
                 widget.api.addEvent('window-removed', remove_win);
+                widget.api.addEvent('window-state-changed', change_win_state);
                 // the python api should better call the function `add_item`
                 // for each new opened window
                 

@@ -64,6 +64,13 @@ class Taskbar(api.API):
 
         self.windows = []
 
+    def on_client_property_notify(self, evt):
+        print 'Client Property Notify %r' % evt
+        if evt.window in self.windows:
+            # A real client!
+            if evt.atom == self.conn.atoms['WM_STATE']:
+                self.change_state(evt.window)
+
     def on_property_notify(self, evt):
         if (evt.atom == self.conn.atoms['_NET_CLIENT_LIST'] and evt.state == xproto.Property.NewValue):
             clients = set(self.collect_windows())
@@ -96,6 +103,11 @@ class Taskbar(api.API):
     def manage(self, window):
         print '-- Managing: %r, windows: %r' % (window, self.windows)
         self.windows.append(window)
+        with self.conn.bunch():
+            window.change_attributes(event_mask=xproto.EventMask.PropertyChange)
+            window.push_handlers(
+                on_property_notify=self.on_client_property_notify
+            )
         self.emit('window-added', self.to_js(window, True))
 
     def unmanage(self, window):
@@ -118,7 +130,8 @@ class Taskbar(api.API):
     def to_js(self, window, add_icon=False):
         return {
             'icon': self.get_icon(window) if add_icon else None,
-            'xid': window.xid
+            'xid': window.xid,
+            'state': self.get_state(window),
         }
 
     def ooxcb_callback(self, source, cb_condition):
@@ -148,21 +161,26 @@ class Taskbar(api.API):
     @api.expose
     def toggle(self, xid):
         window = self.conn.get_from_cache_fallback(xid, xproto.Window)
+        self.toggle_in_main_thread(window)
+
+    @api.in_main_thread
+    def toggle_in_main_thread(self, window):
         state = window.icccm_get_wm_state()
         if state.state == xproto.WMState.Iconic:
             window.map()
             self.conn.flush()
-            return True
+            result = True
         else:
             self.pywmctrl._send_clientmessage(
                 window,
                 'WM_CHANGE_STATE',
                 32,
                 [xproto.WMState.Iconic])
-            return False
+            result = False
 
-    @api.expose
-    def get_state(self, xid):
-        window = self.conn.get_from_cache_fallback(xid, xproto.Window)
+    def change_state(self, window):
+        self.emit('window-state-changed', self.to_js(window))
+
+    def get_state(self, window):
         state = window.icccm_get_wm_state()
-        return state.state == xproto.WMState.Normal
+        return (state is not None and state.state == xproto.WMState.Normal)
