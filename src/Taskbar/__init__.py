@@ -159,8 +159,14 @@ class Taskbar(api.API):
 
     @api.in_main_thread
     def get_icon(self, window):
-        if isinstance(window, int):
-            window = self.conn.get_from_cache_fallback(window, xproto.Window)
+        window = self.conn.get_from_cache_fallback(window, xproto.Window)
+        return self._get_icon_in_main_thread(window)
+
+    @api.in_main_thread
+    def _get_icon_in_main_thread(self, window):
+        return self._get_icon(window)
+
+    def _get_icon(self, window):
         icon = window.get_property('_NET_WM_ICON', 'CARDINAL').reply()
         if icon.exists:
             pb = convert_icon(icon.value, self.icon_size)
@@ -174,7 +180,7 @@ class Taskbar(api.API):
         return ''
 
     def to_js(self, window, add_icon=False, add_state=True):
-        icon = self.get_icon(window) if add_icon else None
+        icon = self._get_icon(window) if add_icon else None
         return {
             'icon': icon,
             'xid': window.xid,
