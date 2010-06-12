@@ -3,8 +3,8 @@
     <component name="Taskbar" id=".Taskbar" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
         <description lang="en" content="Widget to run applications and list opened windows." />
-
-        <author name="Immanuel Peratoner" mail="iperatoner@cream-project.org" type="developer" />
+        
+	<author name="Immanuel Peratoner" mail="iperatoner@cream-project.org" type="developer" />
         <author name="Immanuel Peratoner" type="designer" mail="iperatoner@cream-project.org" />
         <author name="Friedrich Weber" mail="fred@reichbier.de" type="developer" />
     </component>

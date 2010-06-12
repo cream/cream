@@ -16,10 +16,12 @@ from ooxcb.protocol import xproto
 ooxcb.contrib.ewmh.mixin()
 ooxcb.contrib.icccm.mixin()
 
+from cream.util import cached_property
 from cream.util.pywmctrl import Screen
 from cream.contrib.melange import api
 
 MIN_DIM = 16
+DEFAULT_SIZE = 32
 MAX_TITLE_LEN = 16
 
 class IconError(Exception):
@@ -42,24 +44,39 @@ IGNORE_WINDOW_TYPES = [
     'DND',
 ]
 
-def convert_icon(data, desired_size=None):
+def convert_icon(data, desired_size=DEFAULT_SIZE):
     length = len(data)
     if length < (MIN_DIM * MIN_DIM + 2):
         raise IconError('Icon too small: Expected %d, got %d' % (MIN_DIM * MIN_DIM + 2, length))
-    width = data[0]
-    height = data[1]
-    # TODO: check size
-    rgba_data = ''
-    for argb in data[2:]:
-        rgba = ((argb << 8) & 0xffffff00) | (argb >> 24)
-        rgba_data += chr(rgba >> 24)
-        rgba_data += chr((rgba >> 16) & 0xff)
-        rgba_data += chr((rgba >> 8) & 0xff)
-        rgba_data += chr(rgba & 0xff)
-    pb = gtk.gdk.pixbuf_new_from_data(rgba_data, gtk.gdk.COLORSPACE_RGB, True, 8, width, height, width * 4)
-    if (desired_size is not None and (width != desired_size or height != desired_size)):
-        pb = pb.scale_simple(desired_size, desired_size, gtk.gdk.INTERP_HYPER)
-    return pb
+    sizes = {}
+    start = 0
+    while start < length:
+        width = data[start]
+        height = data[start + 1]
+        if width != height:
+            start += 2 + width * height
+            continue
+        rgba_data = ''
+        for argb in data[start + 2:start + 2 + width*height]:
+            rgba = ((argb << 8) & 0xffffff00) | (argb >> 24)
+            rgba_data += chr(rgba >> 24)
+            rgba_data += chr((rgba >> 16) & 0xff)
+            rgba_data += chr((rgba >> 8) & 0xff)
+            rgba_data += chr(rgba & 0xff)
+        start += 2 + width * height
+        sizes[width] = gtk.gdk.pixbuf_new_from_data(rgba_data, gtk.gdk.COLORSPACE_RGB, True, 8, width, height, width * 4)
+    use_pb = None
+    biggest = None
+    for size, pb in sizes.iteritems():
+        if (biggest is None or biggest.get_width() < pb.get_width()):
+            biggest = pb
+        if size >= desired_size:
+            use_pb = pb
+    if not sizes:
+        return None
+    if (use_pb is None or use_pb.get_width() != desired_size):
+        use_pb = biggest.scale_simple(desired_size, desired_size, gtk.gdk.INTERP_HYPER)
+    return use_pb
 
 @api.register('taskbar')
 class Taskbar(api.API):
@@ -84,7 +101,6 @@ class Taskbar(api.API):
         self.windows = []
 
     def on_client_property_notify(self, evt):
-        print 'Client Property Notify %r' % evt
         if evt.window in self.windows:
             # A real client!
             if evt.atom == self.conn.atoms['WM_STATE']:
@@ -137,24 +153,31 @@ class Taskbar(api.API):
         self.windows.remove(window)
         self.emit('window-removed', self.to_js(window, add_state=False)) # would result in a BadWindow if state was added.
 
+    @cached_property
+    def icon_size(self):
+        return self._js_ctx.widget.config.get('icon_size', DEFAULT_SIZE)
+
     def get_icon(self, window):
         icon = window.get_property('_NET_WM_ICON', 'CARDINAL').reply()
         if icon.exists:
-            pb = convert_icon(icon.value, 16)
-            data = StringIO()
-            def _callback(buf):
-                data.write(buf)
-            pb.save_to_callback(_callback, 'png')
-            base64 = data.getvalue().encode('base64')
-            return base64
+            pb = convert_icon(icon.value, self.icon_size)
+            if pb is not None:
+                data = StringIO()
+                def _callback(buf):
+                    data.write(buf)
+                pb.save_to_callback(_callback, 'png')
+                base64 = data.getvalue().encode('base64')
+                return base64
         return ''
 
     def to_js(self, window, add_icon=False, add_state=True):
+        icon = self.get_icon(window) if add_icon else None
         return {
-            'icon': self.get_icon(window) if add_icon else None,
+            'icon': icon,
             'xid': window.xid,
             'state': self.get_state(window) if add_state else None,
             'title': self.get_short_title(window) if add_state else None,
+            'size': self.icon_size,
         }
 
     def get_short_title(self, window):
