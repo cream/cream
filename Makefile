@@ -9,7 +9,7 @@ all:
 	@echo "make develop - (re)build a development environment (do \`. ./dev/bin/activate\` first)"
 
 pyjavascriptcore:
-	bzr clone lp:pyjavascriptcore
+	bzr clone lp:~fredreichbier/+junk/pyjavascriptcore
 
 update-pyjavascriptcore: pyjavascriptcore
 	cd pyjavascriptcore && bzr pull && python setup.py install
