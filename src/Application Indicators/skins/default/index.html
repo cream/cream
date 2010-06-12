@@ -35,7 +35,7 @@
             $('item-container').appendChild(i);
 
             icon = document.createElement('img');
-            icon.src = item['icon'];
+            icon.src = 'data:image/png;base64,' + item['icon'];
             i.appendChild(icon)
 
             i.set('morph', {duration: 500, transition: 'bounce:out'});
@@ -57,7 +57,7 @@
         function change_item(item) {
             $(item['id']).innerHTML = '';
             icon = document.createElement('img');
-            icon.src = item['icon'];
+            icon.src = 'data:image/png;base64,' + item['icon'];
             $(item['id']).appendChild(icon)
             }
 

@@ -3,7 +3,12 @@
 
 import os
 import shutil
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
 
+import gtk
 import gobject
 
 from cream.contrib.melange import api
@@ -20,8 +25,6 @@ class AppIndicators(api.API):
 
     def __init__(self):
         api.API.__init__(self)
-        self.local_icons_path = self.get_tmp()
-        self.remote_icons_path = '/widget/tmp/'
 
         # Intialize the DBus stuff here...
         self.host = StatusNotifierHost()
@@ -31,10 +34,13 @@ class AppIndicators(api.API):
         self.add_initially()
 
     def store_icon(self, item, filename):
-        basename = os.path.basename(filename)
-        local_path = os.path.join(self.local_icons_path, basename)
-        shutil.copyfile(filename, local_path)
-        return '/'.join((self.remote_icons_path, basename))
+        pb = gtk.gdk.pixbuf_new_from_file(filename)
+        data = StringIO()
+        def _callback(buf):
+            data.write(buf)
+        pb.save_to_callback(_callback, 'png')
+        base64 = data.getvalue().encode('base64')
+        return base64
 
     def store_current_icon(self, item):
         return self.store_icon(item, item.get_current_icon_filename())
