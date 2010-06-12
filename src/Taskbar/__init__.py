@@ -157,7 +157,10 @@ class Taskbar(api.API):
     def icon_size(self):
         return self._js_ctx.widget.config.get('icon_size', DEFAULT_SIZE)
 
+    @api.expose
     def get_icon(self, window):
+        if isinstance(window, int):
+            window = self.conn.get_from_cache_fallback(window, xproto.Window)
         icon = window.get_property('_NET_WM_ICON', 'CARDINAL').reply()
         if icon.exists:
             pb = convert_icon(icon.value, self.icon_size)
