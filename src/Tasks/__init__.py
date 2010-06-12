@@ -4,10 +4,9 @@
 from cream.contrib.melange import api
 import cream.ipc
 
+import os.path
 import gtk
 import time
-
-#TODO: toolstips which displays whole task including description
 
 @api.register('tasks')
 class Tasks(api.API):
@@ -18,7 +17,8 @@ class Tasks(api.API):
         self.task_manager = cream.ipc.get_object('org.cream.PIM', 
                                     '/org/cream/pim/Tasks')
         builder = gtk.Builder()
-        builder.add_from_file('add-dialog.glade')
+        builder.add_from_file(os.path.join(self.context.working_directory, 
+                                                'add-dialog.glade'))
 
         self.dialog = builder.get_object('dialog')
         self.title = builder.get_object('title')
