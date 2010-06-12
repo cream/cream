@@ -10,4 +10,5 @@
         </item>
     </display_mode>
     <width label="Width" type="integer" min="1" max="10000">500</width>
+    <icon_size label="Icon size" type="integer" min="1" max="256">22</icon_size>
 </configuration>

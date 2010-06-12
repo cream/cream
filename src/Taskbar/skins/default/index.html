@@ -13,11 +13,17 @@
 
         <style type="text/css">
         
+            body {
+                #background: #ff0000;
+                overflow: hidden;
+            }
+        
             .background {
                 padding: 4px !important;
-                border-radius: 11px !important;
+                border-radius: 9px !important;
                 
                 #background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .42)), to(rgba(255,255,255,.25))) !important;
+                overflow: hidden;
             }
         
             #taskbar {
@@ -28,35 +34,41 @@
                 float: left;
                 cursor: pointer;
                 text-align: center;
+                margin-right: 3px;
             }
 
                 .taskbar-app-inner {
-                    padding: 9px;
-                    padding-top: 8px;
-                    padding-bottom: 8px;
+                    padding: 7px;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
                     
                     margin-right: 0px;
                     margin-bottom: 0px;
                     
-                    border-radius: 20px;
+                    border-radius: 7px;
                     position: relative;
                 }
                 
             .opened-app {
                 background: rgba(255, 255, 255, .25);
+                -webkit-box-shadow: 
+                    0px 0px 3px rgba(0, 0, 0, .05),
+                    inset 0px 1px 0px rgba(255, 255, 255, .65),
+                    inset 0px -1px 0px rgba(0, 0, 0, .15);
             }
                 
             .minimized-app {
             }
             
             .state-indicator {
-                width: 5px;
+                width: 2px;
                 height: 1px;
-                background: rgba(255, 255, 255, .87);
-                -webkit-box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 1);
+                background: rgba(255, 255, 255, .9);
+                -webkit-box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 1);
                 margin: auto;
                 position: relative;
                 bottom: -4px;
+                z-index: 1000;
             }
             
             .window-title {
@@ -69,6 +81,11 @@
             
             img {
                 border: none;
+            }
+            
+            div.empty-img {
+                width: 16px;
+                height: 18px;
             }
             
         </style>
@@ -103,7 +120,7 @@
                     });
                 }
                 else {
-                    img = new Element('div');
+                    img = new Element('div', {'class': 'empty-img'});
                 }
                 
                 
@@ -115,7 +132,7 @@
                 
                 item_wrapper.addEvent('mouseover', function() {
                     id = this.id.replace('-wrapper', '');
-                    $(id).morph({'opacity': 1.0, 'bottom': '2px'});
+                    $(id).morph({'opacity': 1.0, 'bottom': '1px'});
                 });
                 
                 item_wrapper.addEvent('mouseout', function() {
@@ -124,15 +141,21 @@
                 });
                 
                 item.grab(img);
-                
+            
+                title = new Element('div', {
+                    'class': 'window-title',
+                    'text': win['title']
+                });
+                   
+                // check wether to show the title or not 
                 if (widget.config.get('display_mode') == 'icon-and-title') {
-                    title = new Element('div', {
-                        'class': 'window-title',
-                        'text': win['title']
-                    });
-                    
-                    item.grab(title);
+                    title.setStyle('display', 'block');
                 }
+                else {
+                    title.setStyle('display', 'none');
+                }
+                
+                item.grab(title);
 
                 item_wrapper.grab(item);
                 item_wrapper.grab(state_indicator);
@@ -182,15 +205,14 @@
                     }
                 });
                 
-                
                 widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
                     if (field == 'display_mode') {
-                        clear();
-                        widget.api.taskbar.get_all_windows(function(wins) {
-                            for(c=0; c<wins.length; c++) {
-                                widget.api.taskbar.manage_data(wins[c]);
-                            }
-                        });
+                        if (new_value == 'icon-and-title') {
+                            $$('.window-title').setStyle('display', 'block');
+                        }
+                        else if (new_value == 'icon-only'){
+                            $$('.window-title').setStyle('display', 'none');
+                        }
                     }
                     else {
                         $$('.widget').morph({'width': new_value + 'px'});
