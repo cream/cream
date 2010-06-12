@@ -27,6 +27,21 @@ class IconError(Exception):
 
 xproto.Window.__hash__ = lambda self: hash(self.xid)
 
+IGNORE_WINDOW_TYPES = [
+    'DESKTOP',
+    'DOCK',
+    'TOOLBAR',
+    'MENU',
+    'SPLASH',
+    'UTILITY',
+    'DROPDOWN_MENU',
+    'POPUP_MENU',
+    'TOOLTIP',
+    'NOTIFICATION',
+    'COMBO',
+    'DND',
+]
+
 def convert_icon(data, desired_size=None):
     length = len(data)
     if length < (MIN_DIM * MIN_DIM + 2):
@@ -55,6 +70,9 @@ class Taskbar(api.API):
         self.screen = self.conn.setup.roots[self.conn.pref_screen]
         self.root = self.screen.root
         self.pywmctrl = Screen(self.conn, self.root)
+        self.ignore_window_types = map(
+                lambda name: self.conn.atoms['_NET_WM_WINDOW_TYPE_%s' % name].get_internal(),
+                IGNORE_WINDOW_TYPES)
         self._setup_mainloop()
 
         with self.conn.bunch():
@@ -89,7 +107,7 @@ class Taskbar(api.API):
         if self.conn.atoms['_NET_WM_STATE_SKIP_TASKBAR'].get_internal() in state:
             return False
         type = window.get_property('_NET_WM_WINDOW_TYPE', 'ATOM').reply().value
-        if self.conn.atoms['_NET_WM_WINDOW_TYPE_DOCK'].get_internal() in type:
+        if any(t for t in type if t in self.ignore_window_types):
             return False
         return True
 
