@@ -157,7 +157,7 @@ class Taskbar(api.API):
     def icon_size(self):
         return self._js_ctx.widget.config.get('icon_size', DEFAULT_SIZE)
 
-    @api.in_main_thread
+    @api.expose
     def get_icon(self, window):
         window = self.conn.get_from_cache_fallback(window, xproto.Window)
         return self._get_icon_in_main_thread(window)
