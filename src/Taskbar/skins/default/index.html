@@ -124,7 +124,7 @@
                         'class': 'empty-img'
                     });
                 }
-                
+                img.xid = win['xid'];
                 
                 // WRAPPER EVENTS
                 
@@ -220,6 +220,13 @@
                         $$('.widget').morph({'width': new_value + 'px'});
                     }
                     else if (field == 'icon_size') {
+                        $$('.task-img').each(function(el){
+                            el.set(
+                                'src', 
+                                'data:image/png;base64,' + widget.api.taskbar.get_icon(el.xid)
+                            );
+                            alert(el.xid + ': ' + widget.api.taskbar.get_icon(el.xid));
+                        });
                         $$('.task-img').morph({'width': new_value + 'px'});
                         $$('.empty-img').morph({'width': new_value + 'px', 'height': new_value + 'px'});
                     }

@@ -159,7 +159,7 @@ class Taskbar(api.API):
 
     @api.expose
     def get_icon(self, window):
-        window = self.conn.get_from_cache_fallback(window, xproto.Window)
+        window = self.conn.get_from_cache_fallback(int(window), xproto.Window)
         return self._get_icon_in_main_thread(window)
 
     @api.in_main_thread
