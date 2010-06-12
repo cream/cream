@@ -153,7 +153,7 @@ class Taskbar(api.API):
         self.windows.remove(window)
         self.emit('window-removed', self.to_js(window, add_state=False)) # would result in a BadWindow if state was added.
 
-    @cached_property
+    @property
     def icon_size(self):
         return self._js_ctx.widget.config.get('icon_size', DEFAULT_SIZE)
 
