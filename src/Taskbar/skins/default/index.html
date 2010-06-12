@@ -115,13 +115,14 @@
 
                 if (win['icon']) {
                     img = new Element('img', {
-                        'class': 'empty-img',
+                        'class': 'task-img',
                         'src': 'data:image/png;base64,' + win['icon']
                     });
                 } else {
-                    img = new Element('div',
-                        {'style': 'width: ' + win['size'] + 'px; height: ' + win['size'] + 'px'}
-                    );
+                    img = new Element('div', {
+                        'style': 'width: ' + win['size'] + 'px; height: ' + win['size'] + 'px',
+                        'class': 'empty-img'
+                    });
                 }
                 
                 
@@ -215,8 +216,12 @@
                             $$('.window-title').setStyle('display', 'none');
                         }
                     }
-                    else {
+                    else if (field == 'width') {
                         $$('.widget').morph({'width': new_value + 'px'});
+                    }
+                    else if (field == 'icon_size') {
+                        $$('.task-img').morph({'width': new_value + 'px'});
+                        $$('.empty-img').morph({'width': new_value + 'px', 'height': new_value + 'px'});
                     }
                 });
                 
