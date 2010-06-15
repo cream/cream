@@ -62,10 +62,13 @@ class Tasks(api.API):
             if response == 1:
                 data = self.get_data()
                 self.dialog.hide()
-                print data['deadline']
-                return self.task_manager.add_task(data['title'], 
-                    data['description'], data['tags'], data['priority'], 
-                    data['deadline'])
+                return self.task_manager.add_task(
+                        data['title'], 
+                        data['description'], 
+                        data['tags'], 
+                        data['priority'], 
+                        data['deadline']
+                    )
             
             self.dialog.hide()
 
@@ -82,8 +85,14 @@ class Tasks(api.API):
             if response == 1:
                 data = self.get_data()
                 self.dialog.hide()
-                return self.task_manager.edit_task(int(id), data['title'], 
-                    data['description'], data['tags'], data['priority'], data['deadline'])
+                return self.task_manager.edit_task(
+                        int(id), 
+                        data['title'], 
+                        data['description'], 
+                        data['tags'], 
+                        data['priority'], 
+                        data['deadline']
+                    )
             
             self.dialog.hide()
 
