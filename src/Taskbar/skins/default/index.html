@@ -48,7 +48,11 @@
                     border-radius: 7px;
                     position: relative;
                 }
+            
+            .active-app {
                 
+            }
+            
             .opened-app {
                 background: rgba(255, 255, 255, .25);
                 -webkit-box-shadow: 
@@ -116,11 +120,12 @@
                 if (win['icon']) {
                     img = new Element('img', {
                         'class': 'task-img',
-                        'src': 'data:image/png;base64,' + win['icon']
+                        'src': 'data:image/png;base64,' + win['icon'],
+                        'style': 'width: ' + widget.config.get('icon_size') + 'px'
                     });
                 } else {
                     img = new Element('div', {
-                        'style': 'width: ' + win['size'] + 'px; height: ' + win['size'] + 'px',
+                        'style': 'width: ' + widget.config.get('icon_size') + 'px; height: ' + widget.config.get('icon_size') + 'px',
                         'class': 'empty-img'
                     });
                 }
@@ -220,13 +225,13 @@
                         $$('.widget').morph({'width': new_value + 'px'});
                     }
                     else if (field == 'icon_size') {
-                        $$('.task-img').each(function(el){
+                        /*$$('.task-img').each(function(el){
                             el.set(
                                 'src', 
                                 'data:image/png;base64,' + widget.api.taskbar.get_icon(el.xid)
                             );
-                            alert(el.xid + ': ' + widget.api.taskbar.get_icon(el.xid));
-                        });
+                            //alert(el.xid + ': ' + widget.api.taskbar.get_icon(el.xid));
+                        });*/
                         $$('.task-img').morph({'width': new_value + 'px'});
                         $$('.empty-img').morph({'width': new_value + 'px', 'height': new_value + 'px'});
                     }
