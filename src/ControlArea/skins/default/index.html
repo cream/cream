@@ -12,81 +12,26 @@
         <script type="text/javascript" src="/common/core/events.js" />
         
         <script type="text/javascript">
-            var i_out = -1;
-            var i_in = -36;
-            var cur_interval = null;
-            
-            function slide_it_out() {
-                if (i_out > -37) { 
-                    $('control-area').setStyle('top', i_out);
-                    i_out--;
-                }
-                else {
-                    window.clearInterval(cur_interval);
-                    i_out = -1;
-                }
-            }
-            
-            function slide_it_in() {
-                if (i_in < 0) { 
-                    $('control-area').setStyle('top', i_in);
-                    i_in++;
-                }
-                else {
-                    window.clearInterval(cur_interval);
-                    i_in = -36;
-                }
-            }
-            
-            function main() {
-                $('control-area').isHidden = true;
-                $('control-area').setStyle('top', -37);
-                $('control').set('fade', {duration: 100});
-                
-                $('thingy-icon').addEvent('click', function() {
-                    //$('control').fade('toggle');
-                    if ($('control-area').isHidden == false) {
-                        window.clearInterval(cur_interval);
-                        $('control-area').isHidden = true;
-                        i_out = -1;
-                        i_in = -36;
-                        cur_interval = window.setInterval('slide_it_out()', 8);
-                    }
-                    else {
-                        window.clearInterval(cur_interval);
-                        $('control-area').isHidden = false;
-                        i_out = -1;
-                        i_in = -36;
-                        cur_interval = window.setInterval('slide_it_in()', 8);
-                    }
-                });
-            }
         </script>
     </head>
     
     <body>
-        <div class="widget" id="mywidget" style="width: 110px;">
-            <div style="position: relative; top: -5px; right: -5px;">
-                <div class="control-area" id="control-area" style="float: left; position: relative; top: 0px;">
-                    <div class="thingy-control" id="control" style="margin-top: -4px;">
+        <div class="widget" id="mywidget" style="width: 70px;">
+        
+            <div class="control-area" id="control-area">
+            
+                <div class="thingy-control" id="control">
+                
+                    <img src="add.png" width="18" height="18" 
+                    id="add-icon" />
                     
-                        <img src="add.png" width="18" height="18" 
-                        id="add-icon" />
-                        
-                        <img src="settings.png" width="18" height="18" 
-                        id="settings-icon" />
-                        
-                    </div>
-                </div>
+                    <img src="settings.png" width="18" height="18" 
+                    id="settings-icon" />
                     
-                <div class="thingy-area" style="float: right;">
-                    <div class="thingy">
-                        <img src="melange.png" width="18" height="18" id="thingy-icon"/>
-                    </div>
                 </div>
                 
-                <div style="clear: both;">
             </div>
+            
         </div>
     </body>
 </html>
