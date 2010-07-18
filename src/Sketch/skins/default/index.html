@@ -19,7 +19,7 @@
                 ctx = canvas.getContext('2d');
 
                 $('save').addEvent('click', function() {
-                    widget.api.sketch.save_image(canvas.toDataURL());
+                    widget.api.sketch.show_save_dialog(canvas.toDataURL());
                 });
 
                 $('pencil-tool').addEvent('click', function() {
@@ -32,18 +32,22 @@
                 
                 $('color-black').addEvent('click', function() {
                     ctx.strokeStyle = 'rgb(0,0,0)';
+                    tool = 'pencil';
                 });
                 
                 $('color-red').addEvent('click', function() {
                     ctx.strokeStyle = 'rgb(255,0,0)';
+                    tool = 'pencil';
                 });
                 
                 $('color-green').addEvent('click', function() {
                     ctx.strokeStyle = 'rgb(0,255,0)';
+                    tool = 'pencil';
                 });
                 
                 $('color-blue').addEvent('click', function() {
                     ctx.strokeStyle = 'rgb(0,0,255)';
+                    tool = 'pencil';
                 });
                 
 
@@ -71,7 +75,7 @@
                                 ctx.stroke();
                             } else if (tool == 'eraser') {
                                 ctx.fillStyle = 'white';
-                                ctx.rect(x, y, 10, 10);
+                                ctx.rect(x-5, y-5, 10, 10);
                                 ctx.fill();
                             }                             
                         }
