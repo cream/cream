@@ -5,6 +5,6 @@
         <description lang="en" content="Sort of a main menu." />
 
         <author name="Immanuel Peratoner" mail="iperatoner@cream-project.org" type="developer" />
-        <author name="Immanuel Peratoner" type="designer" mail="iperatoner@cream-project.org" />
+        <author name="Immanuel Peratoner" mail="iperatoner@cream-project.org" type="designer" />
     </component>
 </manifest>
