@@ -2,7 +2,7 @@
 <manifest namespace="org.cream.melange" version="0.0.5">
     <component name="Default" id=".application-menu.DefaultSkin" version="0.1" type=".Skin">
         <license title="GPL" version="3+" />
-        <description lang="en" content="Default skin for the AppMenu.">
+        <description lang="en" content="Default skin for the AppMenu." />
 
         <author name="Immanuel Peratoner" mail="iperatoner@cream-project.org" type="developer" />
     </component>
