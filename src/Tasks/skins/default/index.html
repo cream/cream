@@ -182,17 +182,7 @@
         
             var statuses = new Array();
             var task_ids = new Array();
-            
-            /*** Returns the nth parent of an element ***/
-            /*function get_multiple_parents(el, levels) {
-                eval_string = "parent = el";
-                for (i=0; i<levels; i++) {
-                    eval_string = eval_string + '.getParent()';
-                }
-                eval(eval_string);
-                return parent;
-            }*/
-        
+                    
             /*** Generating content for the 'priority' column. ***/
             function generate_priority_column(priority) {
                 priority_icon = new Element('img', {'class': 'priority'});
@@ -310,17 +300,10 @@
                     'html': task['description']
                 });
                 
-                deadline_date = new Date(task['deadline'] * 1000);
-                day = deadline_date.getDate(); 
-                day = day < 10 ? '0' + day : day;
-                month = deadline_date.getMonth() + 1;
-                month = month < 10 ? '0' + month : month;
-                year = deadline_date.getFullYear();
-                
                 deadline = new Element('div', {
                     'class': 'deadline',
                     'id': 'deadline_' + task['id'].toString(),
-                    'html': 'Deadline: ' + day + '.' + month + '.' + year
+                    'html': 'Deadline: ' + task['deadline']
                 });
                 
                 meta_wrapper.grab(deadline);
@@ -333,13 +316,7 @@
                 task_element.grab(cleardiv);
                 task_element.grab(meta_wrapper);
                 
-                //alert('title_' + task['id'].toString());
-                
                 main_col.addEvent('click', function() {
-                        //widget.api.tasks.edit_task(this.id, function(ret) {
-                        //    show_tasks();
-                        //});
-                        //alert(this.id.replace('task_', ''));
                         task_id = this.getParent().id.replace('task_', '');
                         
                         $('description_' + task_id).slide('toggle');

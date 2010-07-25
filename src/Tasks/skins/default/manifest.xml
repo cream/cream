@@ -3,7 +3,7 @@
     <component name="Default" id=".tasks-widget.DefaultSkin" version="0.1" type=".Skin">
         <license title="GPL" version="3+" />
         <description lang="en" content="Default skin for the Tasks Widget." />
-        <author name="Kristoffer Kleine" type="developer" />
+        <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
         <author name="Immanuel Peratoner" type="developer" mail="iperatoner@cream-project.org" />
         
         <author name="Sebastian Billaudelle" type="designer" mail="stein@cream-project.org" />
