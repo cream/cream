@@ -13,7 +13,7 @@ class Tasks(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.task_manager = cream.ipc.get_object('org.cream.PIM', 
+        self.task_manager = cream.ipc.get_object('org.cream.PIM',
                                     '/org/cream/pim/Tasks')
         builder = gtk.Builder()
         builder.add_from_file('add-dialog.glade')
@@ -27,70 +27,56 @@ class Tasks(api.API):
         self.tags = builder.get_object('tags')
         self.calendar = builder.get_object('calendar')
         self.calendar_win = builder.get_object('calendar_win')
-        self.calendar_win.connect('delete_event', self.calendar_win.hide)
+        self.calendar_win.connect('delete_event', lambda *args: self.calendar_win.hide())
         builder.get_object('calendar_btn').connect('clicked', self.show_calendar)
 
     @api.expose
+    @api.in_main_thread
     def add_task(self):
         '''Add a task to the database. The data is provided by the dialog.'''
-
-        @api.in_main_thread
-        def add_task():
-            self.reset_dialog()
-            if self.dialog.run() == 1:
-                data = self.get_data()
-                self.task_manager.add_task(data['title'], 
-                    data['description'], data['tags'], data['priority'], 
+        self.reset_dialog()
+        if self.dialog.run() == 1:
+            data = self.get_data()
+            self.task_manager.add_task(data['title'],
+                    data['description'], data['tags'], data['priority'],
                     data['deadline'])
-            self.dialog.hide()
-
-        add_task()
+        self.dialog.hide()
 
     @api.expose
+    @api.in_main_thread
     def edit_task(self, id):
         '''Edit a task with the given id.'''
-
-        @api.in_main_thread
-        def edit_task(id):
-            task = self.task_manager.get_task(int(id))
-            self.set_dialog_entries(task)
-            if self.dialog.run() == 1:
-                data = self.get_data()
-                self.task_manager.edit_task(int(id), data['title'], 
+        task = self.task_manager.get_task(int(id))
+        self.set_dialog_entries(task)
+        if self.dialog.run() == 1:
+            data = self.get_data()
+            self.task_manager.edit_task(int(id), data['title'],
                     data['description'], data['tags'], data['priority'], data['deadline'])
-            self.dialog.hide()
-
-        edit_task(id)
+        self.dialog.hide()
 
     @api.expose
+    @api.in_main_thread
     def set_task_status(self, id, status):
         '''Set the tasks status.'''
+        self.task_manager.set_task_status(int(id), int(status))
 
-        @api.in_main_thread
-        def set_task_status(id, status):
-            self.task_manager.set_task_status(id, status)
-
-        set_task_status(int(id), int(status))
-        
     @api.expose
     def list_tasks(self):
         '''Get all tasks which are not marked as done.'''
-
         @api.in_main_thread
         def list_tasks():
             tasks = self.task_manager.list_tasks()
             tasks = filter(lambda task: task['status'] != 2, tasks)
-            return map(self.convert_date_to_timedelta, sorted(tasks, key=lambda task: task['deadline']))
-        
+            return map(self.convert_date_to_timedelta, sorted(tasks,
+                                            key=lambda task: task['deadline']))
         return list_tasks()
-
 
     def convert_date_to_timedelta(self, task):
         today = datetime.date.fromtimestamp(time.time())
         deadline = datetime.date.fromtimestamp(task['deadline'])
         timedelta = abs((today - deadline).days)
 
-        if today > deadline and timedelta < 8:
+        if today > deadline:
             if timedelta == 1:
                 task['deadline'] = 'yesterday'
             else:
