@@ -13,7 +13,7 @@
         <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
         <script type="text/javascript" src="/common/core/cream.js" />
         <script type="text/javascript" src="/common/core/events.js" />
-        
+
         <style type="text/css">
             #add_button {
                 text-align: center;
@@ -21,185 +21,188 @@
                 padding-bottom: 1px;
                 opacity: .75;
             }
-            
+
             #add_button:hover {
                 opacity: 1;
             }
-            
+
             #add_button:active {
                 -webkit-box-shadow: inset 0px 0px 7px rgba(0, 0, 0, .05);
                 position: relative;
                 top: 1px;
                 #left: 1px;
             }
-            
+
             .task {
                 border-top: 1px solid rgba(255, 255, 255, .35);
                 border-bottom: 1px solid rgba(0, 0, 0, .1);
-               
+
                 padding: 5px;
             }
-            
+
             .task:first-child {
                 border-top: 0px;
             }
-            
+
             .task:last-child {
                 border-bottom: 0px;
             }
-            
+
             .task:hover {
                 background: rgba(255, 255, 255, .15);
             }
-            
+
                 .priority_col {
                     float: left;
                     width: 16px;
                 }
-                
+
                 .main_col {
-                    float: left;
+                    width: 90%;
                 }
-                
+
                 .action_col {
                     float: right;
+                    margin-top: -40px;
                 }
-            
+
                     .inner_col {
                         height: 40px;
                         display: table-cell;
                         vertical-align: middle;
                     }
-                    
+
                         .inner_top_row {
-                            
+
                         }
-                        
+
                         .inner_bottom_row {
-                            
+
                         }
-            
+
             .title {
                 cursor: pointer;
                 font-weight: bold;
-                font-size: .95em;
+                font-size: 0.95em;
             }
-            
+
             .tags {
                 font-size: .72em;
                 #color: #595858;
+                margin-left: 5px;
+
             }
-            
+
             .meta_wrapper {
                 margin: 5px;
                 margin-bottom: 0px;
             }
-            
+
             .description, .deadline {
                 font-size: .8em;
                 padding: 5px;
-                
+
                 background: rgba(0, 0, 0, .1);
             }
-            
+
             .deadline {
                 border-top-left-radius: 3px;
                 border-top-right-radius: 3px;
                 background: rgba(255, 255, 255, .2);
             }
-            
+
             .description {
                 border-bottom-left-radius: 3px;
                 border-bottom-right-radius: 3px;
             }
-            
+
             img.delete {
                 position: relative;
                 left: 2px;
             }
-            
+
             img.action {
                 cursor: pointer;
                 opacity: .7;
             }
-            
+
                 img.action:hover {
                     opacity: 1;
                 }
-            
+
                 img.action:active {
                     position: relative;
                     top: 1px;
                 }
-            
+
             .ultramonsterclear {
                 clear: both;
             }
-            
+
             .hide {
                 display: none;
             }
-            
+
             .task-dialog {
                 text-align: center;
-                
+
                 width: 200px;
                 #background: rgba(0, 0, 0, .3);
                 #border: 1px solid rgba(0, 0, 0, .1);
-                
+
                 margin: auto;
                 border-radius: 5px;
-                
+
                 margin-top: 122px;
                 padding: 10px;
             }
-            
+
             .dialog-text {
                 color: #ffffff;
                 text-shadow: 0px -1px 0px #000;
             }
-            
+
             .dialog-buttons {
                 text-align: center;
                 padding: 20px;
             }
-            
+
             .dialog-buttons .button {
                 float: none;
                 display: inline;
             }
-            
+
             #remove-dialog {
                 display: none;
             }
-            
+
             #remove-dialog-task-title {
                 font-weight: bold;
             }
         </style>
-        
+
         <script type="text/javascript">
-        
+
             var statuses = new Array();
             var task_ids = new Array();
-                    
+
             /*** Generating content for the 'priority' column. ***/
             function generate_priority_column(priority) {
                 priority_icon = new Element('img', {'class': 'priority'});
-                
+
                 switch(priority) {
                     case 0: priority_icon.set('src', 'icons/low.png'); break
                     case 1: priority_icon.set('src', 'icons/medium.png'); break;
                     case 2: priority_icon.set('src', 'icons/high.png'); break;
                 }
-                
+
                 inner_col = new Element('div', {'class': 'inner_col'});
                 inner_col.grab(priority_icon);
-                
+
                 return inner_col;
             }
-            
-        
+
+
             /*** Generating content for the 'main' column. ***/
             function generate_main_column(title, tags, id) {
                 title_row = new Element('div', {
@@ -207,20 +210,20 @@
                     'id': 'title_' + id.toString(),
                     'html': title
                 });
-                
+
                 tags_row = new Element('div', {
                     'class': 'tags inner_bottom_row',
                     'id': 'tags_' + id.toString(),
                     'html': tags
                 });
-                
+
                 inner_col = new Element('div', {'class': 'inner_col'});
                 inner_col.grab(title_row);
                 inner_col.grab(tags_row);
-                
+
                 return inner_col;
             }
-        
+
             /*** Generating content for the 'action' column. ***/
             function generate_action_column(id) {
                 edit_row = new Element('div', {'class': 'inner_top_row'});
@@ -234,7 +237,7 @@
                         show_tasks();
                     });
                 });
-                
+
                 remove_row = new Element('div', {'class': 'inner_bottom_row'});
                 remove_action = new Element('img', {
                     'id': id.toString(),
@@ -252,76 +255,76 @@
                         }
                     );
                 });
-                
+
                 edit_row.grab(edit_action);
                 remove_row.grab(remove_action);
-                
+
                 inner_col = new Element('div', {'class': 'inner_col'});
                 inner_col.grab(edit_row);
                 inner_col.grab(remove_row);
-                
+
                 return inner_col;
             }
 
-        
+
             /*** Add a task. ***/
             function add_task(task) {
                 task_element = new Element('div', {
                     'class': 'task',
                     'id': 'task_' + task['id'].toString()
                 });
-                
+
                 // create the basic three columns
                 priority_col = new Element('div', {'class': 'priority_col'});
                 main_col = new Element('div', {'class': 'main_col'});
                 action_col = new Element('div', {'class': 'action_col'});
-                
+
                 // generate the content for these three columns
                 priority_col_inner = generate_priority_column(task['priority']);
                 main_col_inner = generate_main_column(task['title'], task['category'], task['id']);
                 action_col_inner = generate_action_column(task['id']);
-                
+
                 // inject the content into the columns
                 priority_col.grab(priority_col_inner);
                 main_col.grab(main_col_inner);
                 action_col.grab(action_col_inner);
-                
+
                 // we also need a cleardiv
                 cleardiv = new Element('div', {'class': 'ultramonsterclear'});
-                
+
                 meta_wrapper = new Element('div', {
                     'class': 'meta_wrapper',
                     'id': 'meta_' + task['id'].toString()
                 });
-                
+
                 description = new Element('div', {
                     'class': 'description',
                     'id': 'description_' + task['id'].toString(),
                     'html': task['description']
                 });
-                
+
                 deadline = new Element('div', {
                     'class': 'deadline',
                     'id': 'deadline_' + task['id'].toString(),
                     'html': 'Deadline: ' + task['deadline']
                 });
-                
+
                 meta_wrapper.grab(deadline);
                 meta_wrapper.grab(description);
-                
+
                 // monsterinject
                 task_element.grab(priority_col);
                 task_element.grab(main_col);
                 task_element.grab(action_col);
                 task_element.grab(cleardiv);
                 task_element.grab(meta_wrapper);
-                
+
                 main_col.addEvent('click', function() {
                         task_id = this.getParent().id.replace('task_', '');
-                        
+
                         $('description_' + task_id).slide('toggle');
                         $('deadline_' + task_id).slide('toggle');
-                        
+
                         if (statuses[task_id] == true) {
                             statuses[task_id] = false;
                         }
@@ -330,12 +333,12 @@
                         }
                 });
 
-                
+
                 $('tasks').grab(task_element);
-        
+
                 $$('.deadline').each(function(el) {
                     task_id = el.id.replace('deadline_', '');
-                
+
                     if (statuses[task_id] != true &&
                         task_ids[task_id] != true) {
                         el.slide('hide');
@@ -343,57 +346,56 @@
                 });
                 $$('.description').each(function(el) {
                     task_id = el.id.replace('description_', '');
-                    
+
                     if (statuses[task_id] != true &&
                         task_ids[task_id] != true) {
                         el.slide('hide');
-                        
+
                         statuses[task_id] = false;
                         task_ids[task_ids] = true;
                     }
                 });
             }
 
-        
+
             /*** Show all tasks. ***/
-            function show_tasks() { 
+            function show_tasks() {
                 widget.api.tasks.list_tasks(function(tasks) {
                     $('tasks').set('html', '');
-                    
                     for (i=0; i<tasks.length; i++) {
                         add_task(tasks[i]);
                     }
                 });
             }
-            
+
             function fadeout_dialog_chained() {
                 var chain = new Chain();
-                
+
                 chain.chain(function() {
                     $('dialog-overlay').fade('out');
                 });
-                
+
                 chain.chain(function() {
                     $('remove-dialog').setStyle('display', 'none');
                 });
-                
+
                 chain.callChain();
             }
 
             function show_remove_dialog(task_id, task_title, callback) {
                 $('remove-dialog-task-title').set('text', task_title);
                 $('remove-dialog').setStyle('display', 'block');
-                
+
                 // assign the task id to the yes button
                 $('remove-dialog-yes-button').task_id = task_id;
-                
+
                 $('remove-dialog-yes-button').addEvent('click', function() {
                     fadeout_dialog_chained();
                     callback(this.task_id);
                 });
-                
+
                 $('remove-dialog-cancel-button').addEvent('click', fadeout_dialog_chained);
-                
+
                 $('dialog-overlay').fade('in');
             }
 
@@ -413,9 +415,9 @@
     <body>
         <div class="widget" style="width: 250px;">
             <div class="background">
-            
+
                 <div class="overlay" id="dialog-overlay" style="display: block;">
-                
+
                     <div class="task-dialog" id="remove-dialog">
                         <div class="dialog-text" id="remove-dialog-text">
                             Do you really want to delete the task
@@ -426,15 +428,15 @@
                             <div class="button red" id="remove-dialog-cancel-button">Cancel</div>
                         </div>
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="scroll" style="height: 255px;">
                     <div id="tasks">
                     </div>
                     <div class="deadline description hide"></div>
                 </div>
-                
+
                 <div id="add_button" class="section">
                     <img id="add_icon" src="icons/add.png" />
                 </div>
