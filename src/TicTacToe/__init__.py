@@ -21,13 +21,11 @@ class TicTacToe(api.API):
         self.game_board = GameBoard()
         self.player = Player('player', 'X')
         self.computer = KI('computer', 'O')
-        self.game_over = False
 
     @api.expose
     def player_turn(self, line, column):
         if not self.game_over:
             self.game_board.make_move((int(line), int(column)), self.player)
-            self.set_game_over()
 
     @api.expose
     def computer_turn(self, difficulty):
@@ -40,22 +38,21 @@ class TicTacToe(api.API):
                                                         self.player,
                                                         int(difficulty)
             )
-            self.set_game_over()
             return str(line) + '|' + str(column)
 
     @api.expose
     def reset(self):
         self.game_board = GameBoard()
-        self.game_over = False
 
     @api.expose
     def move_allowed(self, line, column):
         return self.game_board.is_free(int(line), int(column)) and not self.game_over
 
-    def set_game_over(self):
+    @property
+    def game_over(self):
         if self.tictactoe.has_won(self.player, self.game_board):
-            self.game_over = True
+            return True
         elif self.tictactoe.has_won(self.computer, self.game_board):
-            self.game_over = True
+            return True
         elif self.game_board.is_full():
-            self.game_over = True
+            return True
