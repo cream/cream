@@ -2,6 +2,7 @@
 <manifest namespace='org.cream.melange' version="0.1">
     <component name="Tasks" id=".TasksWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
+        <icon path="tasks.png" />
         <description lang="en" content="Control your tasks." />
         <dependency required="true" type=".Module" id=".PIM" />
         
