@@ -2,7 +2,9 @@
 <manifest namespace='org.cream.melange' version="0.4">
     <component name="TicTacToe" id=".TicTacToeWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
+        <icon path="tictactoe.png" />
         <description lang="en" content="Play TicTacToe against the computer." />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
+        <author name="Kristoffer Kleine" type="designer" mail="kris.kleine@yahoo.de" />
     </component>
 </manifest>
