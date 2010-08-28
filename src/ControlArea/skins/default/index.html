@@ -12,26 +12,23 @@
         <script type="text/javascript" src="/common/core/events.js" />
         
         <script type="text/javascript">
+            function main() {
+                $('add-icon').addEvent('click', function() {
+                    melange.show_add_widget_dialog();
+                });
+                $('settings-icon').addEvent('click', function() {
+                    melange.show_settings_dialog();
+                });
+            }
         </script>
     </head>
     
     <body>
-        <div class="widget" id="mywidget" style="width: 70px;">
-        
-            <div class="control-area" id="control-area">
-            
-                <div class="thingy-control" id="control">
-                
-                    <img src="add.png" width="18" height="18" 
-                    id="add-icon" />
-                    
-                    <img src="settings.png" width="18" height="18" 
-                    id="settings-icon" />
-                    
-                </div>
-                
+        <div class="widget" id="mywidget" style="width: 60px;">
+            <div class="background">
+                <img src="add.png" id="add-icon" />
+                <img src="settings.png" id="settings-icon" />
             </div>
-            
         </div>
     </body>
 </html>

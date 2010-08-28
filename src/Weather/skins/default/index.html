@@ -30,7 +30,11 @@
                 </div>
                 <div style="clear: both;"></div>
 
+                <div style="position: absolute; top: 50px; left: 50px;" id="throbber">
+                </div>
+
                 <script type="text/javascript">
+                    throbber_state = 0;
                     function main() {
                         var icons = {
                             'clear': 'clear.png',
@@ -51,7 +55,7 @@
                         };
                         
                         function update_weather() {
-                            data = widget.api.weather.get(widget.config.get('location'), function(data) {
+                            widget.api.weather.get(widget.config.get('location'), function(data) {
                                 $('temperature').set('text', data['temperature'] + '°C');
                                 $('wind').set('text', data['wind_speed'] + 'km/h');
                                 $('humidity').set('text', data['humidity'] + '%');
@@ -75,7 +79,7 @@
 
                         update_weather.delay(50);
                         update_weather.periodical(60000);
-                    };
+                    }
                 </script>
             </div>
         </div>
