@@ -13,6 +13,7 @@
 
         <script language="javascript">
             var tool = 'pencil';
+            var active = false;
             
             function main() {
                 canvas = document.getElementById('canvas')
@@ -49,56 +50,38 @@
                     ctx.strokeStyle = 'rgb(0,0,255)';
                     tool = 'pencil';
                 });
-                
 
-                function paint(type, x, y) {
-                    switch (type) {
-                        case 'mousedown':
-                            mousedown(x, y);
-                            break;
-                        case 'mousemove':
-                            mousemove(x, y);
-                            break;
-                        case 'mouseup':
-                            mouseup(x, y);  
+                function paint(x, y) {
+                    if (active) {
+                        if (tool == 'pencil') {
+                            ctx.lineTo(x, y);
+                            ctx.stroke();
+                        } else if (tool == 'eraser') {
+                            ctx.fillStyle = 'white';
+                            ctx.rect(x, y, 10, 10);
+                            ctx.fill();
+                        }                           
                     }
-                    function mousedown(x, y) {
+                }
+                
+                canvas.addEvents({
+                    'mousedown': function(event) {
                         ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        this.active = true;
-                        
-                    };
-                    function mousemove(x, y) {
-                        if (this.active) {
-                            if (tool == 'pencil') {
-                                ctx.lineTo(x, y);
-                                ctx.stroke();
-                            } else if (tool == 'eraser') {
-                                ctx.fillStyle = 'white';
-                                ctx.rect(x-5, y-5, 10, 10);
-                                ctx.fill();
-                            }                             
-                        }
-                    };
-                    function mouseup(x, y) {
-                        if (this.active) {
-                            mousemove(x, y);
-                            this.active = false;
-                        }
-                    };
-                    
-                };
-
-                function event_handler(event) {
-                    x = event.layerX - 15; 
-                    y = event.layerY - 15;
-
-                    paint(event.type, x, y);
-                };
-
-                canvas.addEventListener('mousedown', event_handler, false);
-                canvas.addEventListener('mousemove', event_handler, false);
-                canvas.addEventListener('mouseup', event_handler, false);
+                        ctx.moveTo(event.client.x - 15, event.client.y - 15);
+                        active = true;
+                    },
+                    'mouseup': function(event) {                        
+                        paint(event.client.x - 15, event.client.y - 15);
+                        active = false;
+                    },
+                    'mousemove': function(event) {
+                        paint(event.client.x - 15, event.client.y - 15);
+                    }                  
+                });
+                
+                $('widget').addEvent('mouseleave', function() {
+                    active = false;
+                });
 
                 //set background-color to white
                 ctx.fillStyle = 'rgb(255, 255, 255)'
@@ -182,7 +165,7 @@
     </head>
     
     <body>
-        <div class="widget" style="width: 316px; height: 288px;">
+        <div class="widget" id="widget" style="width: 316px; height: 288px;">
             <div style="width: 306px; height: 283px; background: url(paper.png);">
                 <canvas id="canvas" width="280" height="260"></canvas>
                 <img src="save.png" id="save" />
