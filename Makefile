@@ -15,7 +15,7 @@ update-pyjavascriptcore: pyjavascriptcore
 	cd pyjavascriptcore && bzr pull && python setup.py install
 
 bjoern:
-	git clone git://github.com/jonashaag/bjoern.git
+	git clone git://github.com/kkris/bjoern.git
 
 update-bjoern: bjoern
 	cd bjoern/ && git pull && python setup.py install
