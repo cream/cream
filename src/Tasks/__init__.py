@@ -2,6 +2,7 @@
 
 import gtk
 import time
+import os.path
 import datetime
 
 import cream.ipc
@@ -16,7 +17,8 @@ class Tasks(api.API):
         self.task_manager = cream.ipc.get_object('org.cream.PIM',
                                     '/org/cream/pim/Tasks')
         builder = gtk.Builder()
-        builder.add_from_file('add-dialog.glade')
+        builder.add_from_file(os.path.join(self.context.working_directory, 
+                                            'add-dialog.glade'))
 
         self.dialog = builder.get_object('dialog')
         self.dialog.connect('delete_event', self.dialog.hide)

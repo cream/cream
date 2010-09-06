@@ -7,26 +7,61 @@
     
         <script type="text/javascript" src="/common/core/mootools.js"></script>
         <script type="text/javascript" src="/common/core/cream.js"></script>
-
+        
         <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen">
+        
+        <style type="text/css">
+            #data-column {
+                margin-left: 80px;
+            }
+            
+            .title {
+                font-size: .65em; 
+                line-height: 1em;
+            }
+            
+            #temperature {
+                font-size: 1.8em;
+                font-weight: bold;
+                line-height: 1em;
+            }
+            
+            #wind {
+                font-size: .8em; 
+                font-weight: bold; 
+                line-height: 1em;
+            }
+            
+            #humidity {
+               font-size: .8em; 
+               font-weight: bold; 
+               line-height: 1em; 
+            }
+            #pressure {
+                font-size: .8em; 
+                font-weight: bold; 
+                line-height: 1em;
+            }
+        </style>
     </head>
  
     <body>
         <div class="widget" style="min-width: 180px;">
             <div class="background">
                 <div style="width: 70px; float: left; text-align: center;">
-                    <img id="icon" src="images/clear.png" onmousedown="return false;" /><br />
-                    <span id="temperature" style="font-size: 1.8em; font-weight: bold; line-height: 1em;">N/A</span>
+                    <img id="icon" src="images/clear.png" onmousedown="return false;" />
+                    <br />
+                    <span id="temperature">N/A</span>
                 </div>
-                <div style="margin-left: 80px;">
-                    <span style="font-size: .65em; line-height: 1em;">Wind:</span><br />
-                    <span id="wind" style="font-size: .8em; font-weight: bold; line-height: 1em;">N/A</span><br />
+                <div id="data-column">
+                    <span class="title">Wind:</span><br />
+                    <span id="wind">N/A</span><br />
     
-                    <span style="font-size: .65em; line-height: 1em;">Humidity:</span><br />
-                    <span id="humidity" style="font-size: .8em; font-weight: bold; line-height: 1em;">N/A</span><br />
+                    <span class="title">Humidity:</span><br />
+                    <span id="humidity">N/A</span><br />
     
-                    <span style="font-size: .65em; line-height: 1em;">Pressure:</span><br />
-                    <span id="pressure" style="font-size: .8em; font-weight: bold; line-height: 1em;">N/A</span>
+                    <span class="title">Pressure:</span><br />
+                    <span id="pressure">N/A</span>
                 </div>
                 <div style="clear: both;"></div>
 
@@ -53,14 +88,14 @@
                             'tstorms': 'thunderstorms.png',
                             'unknown': 'unknown.png',
                         };
-                        
+
                         function update_weather() {
                             widget.api.weather.get(widget.config.get('location'), function(data) {
                                 $('temperature').set('text', data['temperature'] + '°C');
                                 $('wind').set('text', data['wind_speed'] + 'km/h');
                                 $('humidity').set('text', data['humidity'] + '%');
                                 $('pressure').set('text', data['pressure'] + 'hPa');
-                                $('icon').set('src', 'images/' + icons[data['icon']]);                        
+                                $('icon').set('src', 'images/' + icons[data['icon']]);
                             });
                         }
 
