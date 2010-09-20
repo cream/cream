@@ -1,0 +1,3 @@
+<configuration>
+    <interface label="Interface" type="char">eth0</interface>
+</configuration>

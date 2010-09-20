@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace="org.cream.melange" version="0.0.5">
+    <component name="Default" id=".networkmonitor.DefaultSkin" version="0.1" type=".Skin">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Default skin for the NetworkMonitor Widget." />
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" type="developer" />
+    </component>
+</manifest>

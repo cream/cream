@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace="org.cream.melange" version="0.0.5">
+    <component name="NetworkMonitor" id=".NetworkMonitorWidget" version="0.1" type=".Widget">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Displaying Network stats" />
+        <category id=".CategoryTools" name="Tools" />
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" type="developer" />
+    </component>
+</manifest>
