@@ -4,6 +4,7 @@
         <license title="GPL" version="3+" />
         <description lang="en" content="Widget for displaying identi.ca content." />
         <icon path="identica.png" />
+        <category id=".CategoryInternet" />
         <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
         <author name="Kristoffer Kleine" type="developer" />
     </component>

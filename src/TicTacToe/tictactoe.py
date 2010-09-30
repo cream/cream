@@ -45,18 +45,6 @@ class GameBoard(object):
     def undo_move(self, move):
         self.field[ move[0] ][ move[1] ].content = None
 
-    def __str__(self):
-        s = ''
-        for line in self.field:
-            for field in line:
-                s += '|'
-                if field.content == None:
-                    s += ' '
-                else:
-                    s += field.content
-            s += '|\n'
-        return s
-
 class Player(object):
 
     def __init__(self, name, symbol):
@@ -76,7 +64,6 @@ class KI(Player):
            which is optimized by using alpha-beta-prunning
         '''
         move = self.maximize(game, player, field, MAXDEPTH, float('-inf'), float('inf'))
-        print difficulty
         moves = [move]
         for i in xrange(difficulty):
             moves.append(choice(field.get_moves()))

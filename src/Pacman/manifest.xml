@@ -4,7 +4,7 @@
         <license title="WTFPL"/>
         <icon path="pacman.png" />
         <description lang="en" content="The famous arcade game" />
-        
+        <category id=".CategoryGames" />
         <author name="Dale Harvey" type="developer" mail="dale@arandomurl.com" />
         <author name="Dale Harvey" type="designer" mail="dale@arandomurl.com" />
     </component>

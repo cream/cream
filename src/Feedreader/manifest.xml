@@ -2,6 +2,7 @@
 <manifest namespace='org.cream.melange' version="0.1">
     <component name="Feedreader" id=".FeedreaderWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
+        <category id=".CategoryInternet" />
         <description lang="en" content="Widget for displaying various feeds." />
         <author name="Kristoffer Kleine" type="developer" />
     </component>

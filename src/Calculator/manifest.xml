@@ -4,6 +4,7 @@
         <license title="zlib License" />
         <description lang="en" content="A small and simple calculator that only handles some basic calculating operations." />
         <icon path="calculator.png" />
+        <category id=".CategoryTools" />
         <author name="Lukas Martini" type="developer" mail="lukas.martini@junge-piraten.de" />
     </component>
 </manifest>

@@ -3,6 +3,7 @@
     <component name="TicTacToe" id=".TicTacToeWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
         <icon path="tictactoe.png" />
+        <category id=".CategoryGames" />
         <description lang="en" content="Play TicTacToe against the computer." />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
         <author name="Kristoffer Kleine" type="designer" mail="kris.kleine@yahoo.de" />

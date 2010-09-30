@@ -4,6 +4,7 @@
         <license title="GPL" version="3+" />
         <description lang="en" content="A stop watch for melange." />
         <icon path="stop_watch.svg" />
+        <category id=".CategoryTools" />
         <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
     </component>
 </manifest>
