@@ -6,45 +6,44 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <!-- Melange's style definitions. -->
         <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
-        
+
         <style type="text/css">
         </style>
-        
+
         <!-- The JavaScript framework we are using. -->
         <script type="text/javascript" src="/common/core/mootools.js" />
         <script type="text/javascript" src="/common/core/mootools-more.js" />
         <!-- Two JavaScript libraries for using the chooser- and scrolled-objects. -->
         <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
-        <script type="text/javascript" src="/common/ui/scroll/mooscroll/mooscroll.js" />
         <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
         <script type="text/javascript" src="/common/ui/dialog/dialog.js" />
         <script type="text/javascript" src="/common/core/events.js" />
         <script type="text/javascript" src="/common/core/cream.js" />
         <script type="text/javascript">
-        
+
             function okcb(params) {
                 alert(params['msg']);
             }
-            
+
             function extracb(params) {
                 alert(params['msg'] + 'kfjwoiref');
             }
-            
+
             function main() {
                 var mydialog = new SimpleDialog({
                     'ok_callback': okcb,
                     'cancel_callback': okcb,
                     'ok_button_text': 'Yes'
                 });
-                
+
                 mydialog.add_button('extra', extracb);
                 mydialog.set_up_extrabuttons();
-                
+
                 var dialog2 = new SimpleDialog({
                     'ok_callback': okcb,
                     'cancel_callback': okcb
                 })
-                
+
                 var foo = 'foo';
                 // This event is being emitted, when the option of
                 // the specific chooser-object has been changed.
