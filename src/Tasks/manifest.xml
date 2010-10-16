@@ -4,7 +4,7 @@
         <license title="GPL" version="3+" />
         <icon path="tasks.png" />
         <description lang="en" content="Control your tasks." />
-        <dependency required="true" type=".Module" id=".PIM" />
+        <dependency required="true" type="org.cream.Module" id="org.cream.PIM" />
         
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
         <author name="Immanuel Peratoner" type="developer" mail="iperatoner@cream-project.org" />
