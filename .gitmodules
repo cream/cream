@@ -64,3 +64,6 @@
 [submodule "src/modules/device-manager"]
 	path = src/modules/device-manager
 	url = git://github.com/cream/device-manager
+[submodule "src/modules/simple-panel"]
+	path = src/modules/simple-panel
+	url = git://github.com/cream/simple-panel.git
