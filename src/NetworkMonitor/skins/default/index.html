@@ -20,21 +20,27 @@
             }
             #upload_per_sec {
                 font-weight: bold;
-                font-size: 1.5em;
+                font-size: 1em;
+            }
+            #download {
+                font-size: .8em;
+            }
+            #upload {
+                font-size: .8em;
             }
         </style>
         
         <script type="text/javascript">
             function main() {
-                setInterval(update, 1000);
+                setInterval(update, widget.config.get('interval') * 1000);
             }
             
             function update() {
                 widget.api.networkmonitor.get_data(function(data) {
                     $('download_per_sec').set('text', data['download_per_sec']);
                     $('upload_per_sec').set('text', data['upload_per_sec']);
-                    $('download').set('text', data['download'] + ' Mib');
-                    $('upload').set('text', data['upload'] + ' Mib');
+                    //$('download').set('text', data['download'] + ' Mib');
+                    //$('upload').set('text', data['upload'] + ' Mib');
                 });
             }
             
@@ -42,16 +48,16 @@
     </head>
  
     <body>
-        <div class="widget" style="min-width: 120px;">
+        <div class="widget" style="min-width: 160px;">
             <div class="background">
-                <div id="traffic-now">
-                    <div><span id="download_per_sec">0</span></div>
-                    <div><span id="upload_per_sec">0</span></div>
+                <div style="float: left;">
+                    <img src="network.png" width="40" />
+                </div>
+                <div style="margin-left: 52px;">
+                    <div style="color: #123E10;"><img src="download.png" style="margin-right: 3px;" /><span id="download_per_sec">0</span><span style="font-size: .6em;">kiB/s</span></div>
+                    <div style="color: #3E1110;"><img src="upload.png" style="margin-right: 3px;" /><span id="upload_per_sec">0</span><span style="font-size: .6em;">kiB/s</span></div>
                 </div>
                 <div style="clear: both;" />
-                
-                <div id="download">NaN</div>
-                <div id="upload">NaN</div>
             </div>
         </div>
     </body>
