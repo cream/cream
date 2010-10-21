@@ -13,11 +13,33 @@
         
         <script type="text/javascript">
             function main() {
+                $('add-icon').fade(.4);
+                $('add-icon').addEvent('mouseenter', function() {
+                    $('add-icon').fade(1);
+                });
+                $('add-icon').addEvent('mouseleave', function() {
+                    $('add-icon').fade(.4);
+                });
                 $('add-icon').addEvent('click', function() {
+                    $('add-icon').fade(.4);
                     melange.show_add_widget_dialog();
                 });
+
+                $('settings-icon').fade(.4);
+                $('settings-icon').addEvent('mouseenter', function() {
+                    $('settings-icon').fade(1);
+                });
+                $('settings-icon').addEvent('mouseleave', function() {
+                    $('settings-icon').fade(.4);
+                });
                 $('settings-icon').addEvent('click', function() {
+                    $('settings-icon').fade(.4);
                     melange.show_settings_dialog();
+                });
+
+                $('mywidget').addEvent('mouseleave', function() {
+                    $('add-icon').fade(.4);
+                    $('settings-icon').fade(.4);
                 });
             }
         </script>
@@ -25,10 +47,8 @@
     
     <body>
         <div class="widget" id="mywidget" style="width: 60px;">
-            <div class="background">
-                <img src="add.png" id="add-icon" />
-                <img src="settings.png" id="settings-icon" />
-            </div>
+            <img src="add.png" id="add-icon" style="cursor: pointer;" />
+            <img src="settings.png" id="settings-icon" style="cursor: pointer;" />
         </div>
     </body>
 </html>
