@@ -28,7 +28,7 @@ class TicTacToe(api.API):
             self.game_board.make_move((int(line), int(column)), self.player)
 
     @api.expose
-    def computer_turn(self, difficulty):
+    def computer_turn(self):
         #add some thrill
         sleep(0.4)
 
@@ -36,7 +36,7 @@ class TicTacToe(api.API):
             line, column = self.computer.calculate_move(self.tictactoe,
                                                         self.game_board,
                                                         self.player,
-                                                        int(difficulty)
+                                                        int(self.config.difficulty)
             )
             return str(line) + '|' + str(column)
 

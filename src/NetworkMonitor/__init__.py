@@ -9,12 +9,14 @@ from cream.contrib.melange import api
 class NetworkMonitor(api.API):
 
     def __init__(self):
-    
+
         api.API.__init__(self)
-        
-        self.network_monitor = _NetworkMonitor('eth0')
+
+        self.config.connect('field-value-changed', self.change_interface)
+
+        self.network_monitor = _NetworkMonitor(self.config.interface)
         self.network_monitor.update()
-        
+
     @api.expose
     def get_data(self):
         self.network_monitor.update()
@@ -25,3 +27,7 @@ class NetworkMonitor(api.API):
             'download_per_sec': int(self.network_monitor.download_per_sec.kib),
             'upload_per_sec': int(self.network_monitor.upload_per_sec.kib)
         }
+
+    def change_interface(self, source, key, value):
+        if key = 'interface':
+            self.network_monitor.interface = value

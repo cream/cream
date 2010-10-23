@@ -1,50 +1,50 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
- 
+
     <head>
         <title>Weather Widget</title>
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-    
+
         <script type="text/javascript" src="/common/core/mootools.js"></script>
         <script type="text/javascript" src="/common/core/cream.js"></script>
-        
+
         <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen">
-        
+
         <style type="text/css">
             #data-column {
                 margin-left: 80px;
             }
-            
+
             .title {
-                font-size: .65em; 
+                font-size: .65em;
                 line-height: 1em;
             }
-            
+
             #temperature {
                 font-size: 1.8em;
                 font-weight: bold;
                 line-height: 1em;
             }
-            
+
             #wind {
-                font-size: .8em; 
-                font-weight: bold; 
+                font-size: .8em;
+                font-weight: bold;
                 line-height: 1em;
             }
-            
+
             #humidity {
-               font-size: .8em; 
-               font-weight: bold; 
-               line-height: 1em; 
+               font-size: .8em;
+               font-weight: bold;
+               line-height: 1em;
             }
             #pressure {
-                font-size: .8em; 
-                font-weight: bold; 
+                font-size: .8em;
+                font-weight: bold;
                 line-height: 1em;
             }
         </style>
     </head>
- 
+
     <body>
         <div class="widget" style="min-width: 180px;">
             <div class="background">
@@ -56,10 +56,10 @@
                 <div id="data-column">
                     <span class="title">Wind:</span><br />
                     <span id="wind">N/A</span><br />
-    
+
                     <span class="title">Humidity:</span><br />
                     <span id="humidity">N/A</span><br />
-    
+
                     <span class="title">Pressure:</span><br />
                     <span id="pressure">N/A</span>
                 </div>
@@ -90,7 +90,7 @@
                         };
 
                         function update_weather() {
-                            widget.api.weather.get(widget.config.get('location'), function(data) {
+                            widget.api.weather.get(function(data) {
                                 $('temperature').set('text', data['temperature'] + '°C');
                                 $('wind').set('text', data['wind_speed'] + 'km/h');
                                 $('humidity').set('text', data['humidity'] + '%');
@@ -119,5 +119,5 @@
             </div>
         </div>
     </body>
- 
+
 </html>

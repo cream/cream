@@ -39,8 +39,7 @@
                     widget.api.tictactoe.player_turn(line, column, function(game_over) {
                         set_token(field, "player")
 
-                        var difficulty = widget.config.get('difficulty');
-                        widget.api.tictactoe.computer_turn(difficulty, function(field) {
+                        widget.api.tictactoe.computer_turn(function(field) {
                             if(field)
                                 set_token($(field), "computer")
                         });

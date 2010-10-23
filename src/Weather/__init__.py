@@ -16,8 +16,8 @@ KILOMETER_MILES_RATIO = 1.609
 class Weather(api.API):
 
     @api.expose
-    def get(self, location):
-        url = WEATHER_REQUEST_URL.format(location)
+    def get(self):
+        url = WEATHER_REQUEST_URL.format(self.config.location)
         with closing(urllib.urlopen(url)) as file_handle:
             weather_data = parse_xml(file_handle)
 
