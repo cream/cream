@@ -30,6 +30,10 @@
             }
 
             function main() {
+                $('foobar').addEvent('drop', function(data) {
+                    alert(data[0]);
+                    });
+
                 var mydialog = new SimpleDialog({
                     'ok_callback': okcb,
                     'cancel_callback': okcb,
@@ -76,6 +80,7 @@
             <!-- The background object displays the background. Believe it or not...
             (You can leave it out, if you want to.) -->
             <div class="background">
+                <div id="foobar" style="background-color: red;">Drop files here!</div>
                 <!-- The chooser-object should be used for presenting options to the user. -->
                 <div class="chooser" id="mode">
                     <!-- You need one option-object for every option. Yeah. One more thing to remember.
