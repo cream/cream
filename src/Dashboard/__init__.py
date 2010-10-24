@@ -45,15 +45,27 @@ class Dashboard(api.API):
                 continue
             app = {}
             app['name'] = crop_string(entry.name, 8, '..')
-            app['cmd'] = entry.exec_
+            app['cmd'] = self.parse_cmd(entry.exec_)
             app['icon'] = base64
             apps.append(app)
         return apps
 
     @api.expose
-    def launch_app(self, cmd):
+    def launch_app(self, cmd, arg):
+        arg = self.parse_arg(arg)
+        cmd = str(cmd).split()
+        cmd += [arg]
+        Subprocess(cmd).run()
+
+    def parse_cmd(self, cmd):
         cmd = cmd.replace('%F', '')
         cmd = cmd.replace('%f', '')
         cmd = cmd.replace('%U', '')
         cmd = cmd.replace('%u', '')
-        Subprocess(str(cmd).split()).run()
+        return cmd
+
+    def parse_arg(self, arg):
+        arg = str(arg)
+        if arg.startswith('file://'):
+            return arg.replace('file://', '')
+        return ''
