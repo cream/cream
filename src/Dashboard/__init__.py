@@ -52,4 +52,8 @@ class Dashboard(api.API):
 
     @api.expose
     def launch_app(self, cmd):
+        cmd = cmd.replace('%F', '')
+        cmd = cmd.replace('%f', '')
+        cmd = cmd.replace('%U', '')
+        cmd = cmd.replace('%u', '')
         Subprocess(str(cmd).split()).run()
