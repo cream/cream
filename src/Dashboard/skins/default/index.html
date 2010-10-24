@@ -107,8 +107,11 @@
             }
 
             function launch_app(cmd, arg){
-                widget.api.dashboard.launch_app(cmd, arg);
-
+                if(arg) {
+                    widget.api.dashboard.launch_app(cmd, arg);
+                } else {
+                    widget.api.dashboard.launch_app(cmd, null);
+                }
             }
         </script>
     </head>
