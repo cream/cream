@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Dashboard</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js" />
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
+        <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
+        <style type="text/css">
+            img.application{
+                padding: 5px;
+                opacity: 0.7;
+            }
+            img.application:hover{
+                opacity: 1;
+            }
+        </style>
+        <script type="text/javascript">
+            function main(){
+                widget.api.dashboard.get_all_apps(function(apps) {
+                    for(i=0; i<apps.length; i++){
+                        add_app(apps[i]);
+                    };
+                });
+            }
+
+            function add_app(app){
+                app = new Element('img', {
+                    'class': 'application',
+                    'id': app['cmd'],
+                    'src': 'data:image/png;base64,' + app['icon'],
+                    'events':{
+                        'click': function(e){
+                            launch_app(this.id);
+                        }
+                    }
+                });
+
+                $('dashboard-all').grab(app);
+            }
+
+            function launch_app(cmd){
+                widget.api.dashboard.launch_app(cmd);
+
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 320px;">
+            <div class="background">
+                <div class="scroll" style="height: 300px;">
+                    <div id="dashboard-all">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
