@@ -36,17 +36,19 @@
             function add_app(app){
                 app_wrapper = new Element('div', {
                     'class': 'application',
-                    'id': app['cmd'],
                     'opacity': '.7',
                     'events': {
                         'click': function(e){
-                            launch_app(this.id);
+                            launch_app(this.id, null);
                         },
                         'mouseenter': function(e){
                             this.fade(1);
                         },
                         'mouseleave': function(e){
                             this.fade(.7);
+                        },
+                        'drop': function(data){
+                            launch_app(app['cmd'], data[0]);
                         }
                     }
                 });
@@ -66,19 +68,19 @@
                 $('dashboard-all').grab(app_wrapper);
             }
 
-            function launch_app(cmd){
-                widget.api.dashboard.launch_app(cmd);
+            function launch_app(cmd, arg){
+                widget.api.dashboard.launch_app(cmd, arg);
 
             }
         </script>
     </head>
 
     <body>
-        <div class="widget" style="width: 410px;">
-                <div class="scroll" style="height: 240px;">
-                            <div id="dashboard-all">
-                            </div>
-                    </div>
+        <div class="widget" style="width: 390px;">
+            <div class="scroll" style="height: 300px;">
+                <div id="dashboard-all">
+                </div>
+            </div>
         </div>
     </body>
 </html>
