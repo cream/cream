@@ -62,12 +62,9 @@ class Dashboard(api.API):
 
     @api.expose
     def launch_app(self, cmd, arg):
-        cmd = cmd.strip()
+        arg = self.parse_arg(arg)
         cmd = str(cmd).split()
-
-        if arg:
-            cmd += [self.parse_arg(arg)]
-
+        cmd += [arg]
         Subprocess(cmd).run()
 
     def parse_arg(self, arg):
