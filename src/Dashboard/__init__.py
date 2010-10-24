@@ -20,20 +20,7 @@ class Dashboard(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.dump_file = join(self.context.working_directory, 'favourites.dump')
-
         self.entries = [entry for entry in DesktopEntry.get_all() if hasattr(entry, 'icon')]
-        self.favourites = []#self.load()
-
-
-    def load(self):
-        with open(self.dump_file, 'r') as f:
-            return pickle.load(f)
-
-    def save(self):
-        with open(self.dump_file, 'w') as f:
-            pickle.dump(self.favourites, f)
-
 
     @api.expose
     def get_all_apps(self):
