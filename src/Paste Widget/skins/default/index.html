@@ -141,6 +141,12 @@
                     });
                 }
 
+                $('widget').addEvent('drop', function(uri) {
+                    widget.api.paste.paste_file_from_uri(uri, function(data) {
+                        url_field.href = data;
+                        url_field.innerHTML = data;
+                    });
+                });
             };
         </script>
     </head>

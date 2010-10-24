@@ -54,6 +54,20 @@ class Paste(api.API):
         return url
 
 
+    @api.expose
+    def paste_file_from_uri(self, uri):
+
+        path = uri[0].replace('file://', '')
+        path = path.replace('%20', ' ')
+
+        fh = open(path)
+        text = fh.read()
+        fh.close()
+
+        url = self.paste(text, self.language)
+        return url
+
+
     @api.in_main_thread
     def get_clipboard(self):
         return self.clipboard.wait_for_text()

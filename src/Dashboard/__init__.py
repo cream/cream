@@ -13,6 +13,7 @@ from cream.contrib.desktopentries import DesktopEntry
 
 from cream.util.string import crop_string
 from util import icon_to_base64
+from urllib import unquote
 
 @api.register('dashboard')
 class Dashboard(api.API):
@@ -53,6 +54,7 @@ class Dashboard(api.API):
 
     def parse_arg(self, arg):
         arg = str(arg)
+        arg = unquote(arg)
         if arg.startswith('file://'):
             return arg.replace('file://', '')
         return ''
