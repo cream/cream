@@ -1,0 +1,11 @@
+<configuration>
+    <AudioVideo label="Entertainment" type="boolean">True</AudioVideo>
+    <Development label="Development" type="boolean">True</Development>
+    <Game label="Games" type="boolean">True</Game>
+    <Graphics label="Graphics" type="boolean">True</Graphics>
+    <Network label="Network" type="boolean">True</Network>
+    <Office label="Office" type="boolean">True</Office>
+    <Settings label="Settings" type="boolean">True</Settings>
+    <System label="System" type="boolean">True</System>
+    <Utility label="Utility" type="boolean">True</Utility>
+</configuration>

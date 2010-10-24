@@ -1,17 +1,11 @@
 #!/usr/bin/env python
 
-try:
-    import cPickle as pickle
-except:
-    import pickle
-
 from os.path import join
 
 from cream.contrib.melange import api
 from cream.util.subprocess import Subprocess
 from cream.contrib.desktopentries import DesktopEntry
 from cream.contrib.desktopentries import DEFAULT_CATEGORIES
-
 
 from cream.util.string import crop_string
 from cream.util.dicts import ordereddict
@@ -41,7 +35,8 @@ class Dashboard(api.API):
         self.entries = []
         entries = ordereddict()
         for category in sorted(DEFAULT_CATEGORIES):
-            entries[category] = []
+            if getattr(self.config, category, False):
+                entries[category] = []
         for entry in DesktopEntry.get_all():
             if not hasattr(entry, 'icon'):
                 continue
@@ -53,6 +48,8 @@ class Dashboard(api.API):
                 entries[app['category']].append(app)
 
         for category in entries.itervalues():
+            if not category:
+                continue
             self.entries.append(sorted(category, key=lambda app: app['name'].lower()))
 
     @api.expose
