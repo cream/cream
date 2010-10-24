@@ -20,3 +20,10 @@ def icon_to_base64(icon):
     pixbuf.save_to_callback(_callback, 'png')
     base64 = data.getvalue().encode('base64')
     return base64
+
+def parse_cmd(cmd):
+    cmd = cmd.replace('%F', '')
+    cmd = cmd.replace('%f', '')
+    cmd = cmd.replace('%U', '')
+    cmd = cmd.replace('%u', '')
+    return cmd
