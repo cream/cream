@@ -41,7 +41,9 @@ class Dashboard(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.entries = []
+        self.entries = self.get_entries()
+
+    def get_entries(self):
         entries = ordereddict()
         for category in sorted(CATEGORIES.values()):
             if getattr(self.config, category, False):
@@ -56,15 +58,20 @@ class Dashboard(api.API):
             if app['category'] in entries:
                 entries[app['category']].append(app)
 
+        e = []
         for category in entries.itervalues():
             if not category:
                 continue
-            self.entries.append(sorted(category, key=lambda app: app['name'].lower()))
+            e.append(sorted(category, key=lambda app: app['name'].lower()))
+        return e
 
     @api.expose
     def get_all_apps(self):
         return self.entries
 
+    @api.expose
+    def update_entries(self):
+        self.entries = self.get_entries()
 
     @api.expose
     def launch_app(self, cmd, arg):

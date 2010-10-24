@@ -46,6 +46,22 @@
         </style>
         <script type="text/javascript">
             function main(){
+                build();
+
+                var timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value){
+                    $clear(timeout_id);
+                    timeout_id = update.delay(1000);
+                });
+            }
+
+            function update(){
+                widget.api.dashboard.update_entries();
+                $('dashboard-all').empty();
+                build.delay(500);
+            }
+
+            function build(){
                 widget.api.dashboard.get_all_apps(function(apps) {
                     for(i=0; i<apps.length; i++){
                         category = apps[i];
@@ -117,7 +133,7 @@
 
     <body>
         <div class="widget" style="width: 390px;">
-            <div class="scroll" style="height: 300px;">
+            <div class="scroll" style="height: 400px;">
                 <div id="dashboard-all">
                 </div>
             </div>
