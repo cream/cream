@@ -53,7 +53,7 @@ class Dashboard(api.API):
                 entries[app['category']].append(app)
 
         for category in entries.itervalues():
-            self.entries.append(category)
+            self.entries.append(sorted(category, key=lambda app: app['name'].lower()))
 
     @api.expose
     def get_all_apps(self):
