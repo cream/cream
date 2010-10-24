@@ -29,5 +29,5 @@ class NetworkMonitor(api.API):
         }
 
     def change_interface(self, source, key, value):
-        if key = 'interface':
+        if key == 'interface':
             self.network_monitor.interface = value
