@@ -20,6 +20,10 @@
                 padding: 5px;
                 cursor: pointer;
             }
+            .icon {
+                width: 80px;
+                height: 45px;
+            }
             .name {
                 font-weight: bold;
             }
@@ -53,17 +57,20 @@
                     }
                 });
 
+                icon_wrapper = new Element('div', {
+                    'class': 'icon'
+                });
                 app_icon = new Element('img', {
-                    'class': 'application',
                     'src': 'data:image/png;base64,' + app['icon']
                 });
+                icon_wrapper.grab(app_icon)
 
                 app_name = new Element('div', {
                     'class': 'name',
                     'html': app['name']
                 });
 
-                app_wrapper.grab(app_icon);
+                app_wrapper.grab(icon_wrapper);
                 app_wrapper.grab(app_name);
                 $('dashboard-all').grab(app_wrapper);
             }
