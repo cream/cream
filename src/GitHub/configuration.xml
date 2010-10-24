@@ -1,0 +1,4 @@
+<configuration>
+    <feed label="Personal GitHub Feed" type="char">https://github.com/organizations/cream/sbillaudelle.private.atom?token=0f388c0b6867d13975458fc88ce0ae2f</feed>
+    <last_update static="true" hidden="true" type="char">0</last_update>
+</configuration>
