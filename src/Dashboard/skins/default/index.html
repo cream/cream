@@ -27,21 +27,20 @@
             .name {
                 font-weight: bold;
             }
-            .devider {
+            .divider {
                 clear: both;
-                text-align: center;
+                //text-align: center;
                 font-weight: bold;
                 font-size: 1.2em;
 
                 padding: 2px;
-                margin: 20px;
-                margin-left: 50px;
-                margin-right: 50px;
+                padding-left: 10px;
+                margin: 10px 0px 10px 0px;
 
-                background: rgba(255, 255, 255, .25);
-                border-radius: 10px;
+                background: rgba(255, 255, 255, .08);
+                border-radius: 3px;
             }
-            .devider:first-child {
+            .divider:first-child {
                 margin-top: 0px;
             }
         </style>
@@ -51,7 +50,7 @@
                     for(i=0; i<apps.length; i++){
                         category = apps[i];
                         if(category.length > 0)
-                            add_devider(category[0]['category']);
+                            add_divider(category[0]['category']);
                         for(j=0; j<category.length; j++){
                             add_app(category[j]);
                         };
@@ -97,13 +96,13 @@
                 $('dashboard-all').grab(app_wrapper);
             }
 
-            function add_devider(category) {
-                devider = new Element('div', {
-                    'class': 'devider',
+            function add_divider(category) {
+                divider = new Element('div', {
+                    'class': 'divider',
                     'html': category
                 });
 
-                $('dashboard-all').grab(devider);
+                $('dashboard-all').grab(divider);
             }
 
             function launch_app(cmd, arg){
