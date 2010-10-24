@@ -11,6 +11,7 @@ from cream.contrib.melange import api
 from cream.util.subprocess import Subprocess
 from cream.contrib.desktopentries import DesktopEntry
 
+from cream.util.string import crop_string
 from util import icon_to_base64
 
 @api.register('dashboard')
@@ -38,15 +39,15 @@ class Dashboard(api.API):
     def get_all_apps(self):
         apps = []
         for entry in self.entries:
-            app = {}
-            app['name'] = entry.name
-            app['cmd'] = entry.exec_
             base64 = icon_to_base64(entry.icon)
-            if base64:
-                app['icon'] = base64
-
+            if not base64:
+                # no icon
+                continue
+            app = {}
+            app['name'] = crop_string(entry.name, 8, '..')
+            app['cmd'] = entry.exec_
+            app['icon'] = base64
             apps.append(app)
-
         return apps
 
     @api.expose
