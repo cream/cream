@@ -10,10 +10,27 @@ from os.path import join
 from cream.contrib.melange import api
 from cream.util.subprocess import Subprocess
 from cream.contrib.desktopentries import DesktopEntry
+from cream.contrib.desktopentries import DEFAULT_CATEGORIES
+
 
 from cream.util.string import crop_string
-from util import icon_to_base64
+from cream.util.dicts import ordereddict
+from util import icon_to_base64, parse_cmd
 from urllib import unquote
+
+class App(object):
+
+    @classmethod
+    def from_entry(cls, entry):
+        app = {}
+        base64 = icon_to_base64(entry.icon)
+        if not base64:
+            return None
+        app['name'] = crop_string(entry.name, 8, '..')
+        app['cmd'] = parse_cmd(entry.exec_)
+        app['icon'] = base64
+        app['category'] = entry.recommended_category
+        return app
 
 @api.register('dashboard')
 class Dashboard(api.API):
@@ -21,22 +38,27 @@ class Dashboard(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.entries = [entry for entry in DesktopEntry.get_all() if hasattr(entry, 'icon')]
+        self.entries = []
+        entries = ordereddict()
+        for category in sorted(DEFAULT_CATEGORIES):
+            entries[category] = []
+        for entry in DesktopEntry.get_all():
+            if not hasattr(entry, 'icon'):
+                continue
+            app = App.from_entry(entry)
+            if app is None or app['category'] is None:
+                continue
+
+            if app['category'] in entries:
+                entries[app['category']].append(app)
+
+        for category in entries.itervalues():
+            self.entries.append(category)
 
     @api.expose
     def get_all_apps(self):
-        apps = []
-        for entry in self.entries:
-            base64 = icon_to_base64(entry.icon)
-            if not base64:
-                # no icon
-                continue
-            app = {}
-            app['name'] = crop_string(entry.name, 8, '..')
-            app['cmd'] = self.parse_cmd(entry.exec_)
-            app['icon'] = base64
-            apps.append(app)
-        return apps
+        return self.entries
+
 
     @api.expose
     def launch_app(self, cmd, arg):
@@ -44,13 +66,6 @@ class Dashboard(api.API):
         cmd = str(cmd).split()
         cmd += [arg]
         Subprocess(cmd).run()
-
-    def parse_cmd(self, cmd):
-        cmd = cmd.replace('%F', '')
-        cmd = cmd.replace('%f', '')
-        cmd = cmd.replace('%U', '')
-        cmd = cmd.replace('%u', '')
-        return cmd
 
     def parse_arg(self, arg):
         arg = str(arg)
