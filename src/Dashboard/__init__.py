@@ -5,13 +5,22 @@ from os.path import join
 from cream.contrib.melange import api
 from cream.util.subprocess import Subprocess
 from cream.contrib.desktopentries import DesktopEntry
-from cream.contrib.desktopentries import DEFAULT_CATEGORIES
 
 from cream.util.string import crop_string
 from cream.util.dicts import ordereddict
 from util import icon_to_base64, parse_cmd
 from urllib import unquote
 
+CATEGORIES = {'Development': 'Development',
+              'AudioVideo': 'Multimedia',
+              'Network': 'Network',
+              'Office': 'Office',
+              'Settings': 'Settings',
+              'System': 'System',
+              'Game': 'Games',
+              'Graphics': 'Graphics',
+              'Utility': 'Utility'
+}
 class App(object):
 
     @classmethod
@@ -23,7 +32,7 @@ class App(object):
         app['name'] = crop_string(entry.name, 8, '..')
         app['cmd'] = parse_cmd(entry.exec_)
         app['icon'] = base64
-        app['category'] = entry.recommended_category
+        app['category'] = CATEGORIES.get(entry.recommended_category, '')
         return app
 
 @api.register('dashboard')
@@ -34,16 +43,16 @@ class Dashboard(api.API):
 
         self.entries = []
         entries = ordereddict()
-        for category in sorted(DEFAULT_CATEGORIES):
+        for category in sorted(CATEGORIES.values()):
             if getattr(self.config, category, False):
                 entries[category] = []
         for entry in DesktopEntry.get_all():
             if not hasattr(entry, 'icon'):
                 continue
             app = App.from_entry(entry)
+
             if app is None or app['category'] is None:
                 continue
-
             if app['category'] in entries:
                 entries[app['category']].append(app)
 
