@@ -10,7 +10,7 @@ import re
 class Identica(api.API):
 
     def __init__(self):
-    
+
         api.API.__init__(self)
 
         self.group_template = 'http://identi.ca/api/statusnet/groups/timeline/{0}.xml'
@@ -18,7 +18,8 @@ class Identica(api.API):
         self.regex = 'http?://[^ ]*'
 
     @api.expose
-    def get_data(self, _type, name):
+    def get_data(self, _type):
+        name = self.config.name
         if _type == 'group':
             url = self.group_template.format(name)
         else:
@@ -26,10 +27,10 @@ class Identica(api.API):
 
         with closing(urlopen(url)) as xml:
             raw_data = parse(xml)
-        
-        data = []      
+
+        data = []
         posts = raw_data.findall('status')
-   
+
         for post in posts:
             text = post.find('text').text
             # convert links to <a href>
