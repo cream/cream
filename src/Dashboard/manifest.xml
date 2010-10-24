@@ -3,6 +3,7 @@
     <component name="Dashboard" id=".dashboardWidget" version="1.0" type=".Widget">
         <license title="GPL" version="3+"/>
         <description lang="en" content="Application quickstarter" />
+        <icon path="dashboard.png" />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
     </component>
 </manifest>
