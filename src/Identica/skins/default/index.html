@@ -32,10 +32,10 @@
 
                 function update() {
                     $('identica').innerHTML = ''
-                    widget.api.identica.get_data(widget.config.get('type'), widget.config.get('name'), function(data) {
+                    widget.api.identica.get_data(widget.config.get('type'), function(data) {
                         for(i=0; i<widget.config.get('number'); i++) {
                             box = document.createElement('div');
-    
+
                             span = document.createElement('span');
                             span.id = 'text'
                             span.innerHTML = data[i]['text'] + '<br/ >';
@@ -55,9 +55,9 @@
                             if (i != 0) {
                                 box.style.paddingTop = "10px";
                             }
-    
+
                             $('identica').appendChild(box);
-                        }   
+                        }
 
                     });
 
@@ -73,7 +73,7 @@
 
                 update.delay(1000);
                 update.periodical(600000);
-            };          
+            };
         </script>
     </head>
 
