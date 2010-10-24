@@ -68,3 +68,4 @@ class Dashboard(api.API):
         arg = str(arg)
         if arg.startswith('file://'):
             return arg.replace('file://', '')
+        return ''
