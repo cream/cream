@@ -10,131 +10,31 @@
         <script type="text/javascript" src="/common/core/cream.js"></script>
         <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
         <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
-        <style type="text/css">
-            div.application {
-                width: 80px;
-                height: 65px;
 
-                float: left;
-                text-align: center;
-                padding: 5px;
-                cursor: pointer;
-            }
-            .icon {
-                width: 80px;
-                height: 45px;
-            }
-            .name {
-                font-weight: bold;
-            }
-            .divider {
-                clear: both;
-                //text-align: center;
-                font-weight: bold;
-                font-size: 1.2em;
+        <script type="text/javascript" src="dashboard.js" />
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 
-                padding: 2px;
-                padding-left: 10px;
-                margin: 10px 0px 10px 0px;
-
-                background: rgba(255, 255, 255, .08);
-                border-radius: 3px;
-            }
-            .divider:first-child {
-                margin-top: 0px;
-            }
-        </style>
         <script type="text/javascript">
             function main(){
-                build();
+                fill_dashboard();
 
                 var timeout_id;
-                widget.config.addEvent('field-value-changed', function(sender, field, new_value){
+                widget.config.addEvent('field-value-changed', function(){
                     $clear(timeout_id);
-                    timeout_id = update.delay(1000);
-                });
-            }
-
-            function update(){
-                widget.api.dashboard.update_entries();
-                $('dashboard-all').empty();
-                build.delay(500);
-            }
-
-            function build(){
-                widget.api.dashboard.get_all_apps(function(apps) {
-                    for(i=0; i<apps.length; i++){
-                        category = apps[i];
-
-                        add_divider(category[0]['category']);
-                        for(j=0; j<category.length; j++){
-                            add_app(category[j]);
-                        };
-                    };
-                });
-            }
-
-            function add_app(app){
-                app_wrapper = new Element('div', {
-                    'class': 'application',
-                    'opacity': '.7',
-                    'events': {
-                        'click': function(e){
-                            launch_app(app['cmd'], null);
-                        },
-                        'mouseenter': function(e){
-                            this.fade(1);
-                        },
-                        'mouseleave': function(e){
-                            this.fade(.7);
-                        },
-                        'drop': function(data){
-                            launch_app(app['cmd'], data[0]);
-                        }
-                    }
+                    timeout_id = update_dashboard.delay(1000);
                 });
 
-                icon_wrapper = new Element('div', {
-                    'class': 'icon'
-                });
-                app_icon = new Element('img', {
-                    'src': 'data:image/png;base64,' + app['icon']
-                });
-                icon_wrapper.grab(app_icon)
-
-                app_name = new Element('div', {
-                    'class': 'name',
-                    'html': app['name']
-                });
-
-                app_wrapper.grab(icon_wrapper);
-                app_wrapper.grab(app_name);
-                $('dashboard-all').grab(app_wrapper);
-            }
-
-            function add_divider(category) {
-                divider = new Element('div', {
-                    'class': 'divider',
-                    'html': category
-                });
-
-                $('dashboard-all').grab(divider);
-            }
-
-            function launch_app(cmd, arg){
-                if(arg) {
-                    widget.api.dashboard.launch_app(cmd, arg);
-                } else {
-                    widget.api.dashboard.launch_app(cmd, null);
-                }
+                var favorite_bar = create_favorite_bar();
+                $('widget').grab(favorite_bar);
             }
         </script>
+
     </head>
 
     <body>
-        <div class="widget" style="width: 390px;">
+        <div class="widget" id="widget" style="width: 390px;">
             <div class="scroll" style="height: 400px;">
-                <div id="dashboard-all">
+                <div id="dashboard">
                 </div>
             </div>
         </div>

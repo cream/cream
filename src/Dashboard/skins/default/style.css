@@ -1,0 +1,45 @@
+.app {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 50;
+
+    width: 80px;
+    height: 65px;
+
+    float: left;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.icon {
+    width: 80px;
+    height: 45px;
+}
+.label{
+    font-weight: bold;
+}
+.divider {
+    clear: both;
+    font-weight: bold;
+    font-size: 1.2em;
+
+    padding: 2px;
+    padding-left: 10px;
+    margin: 10px 0px 10px 0px;
+
+    background: rgba(255, 255, 255, .08);
+    border-radius: 3px;
+}
+.divider:first-child {
+    margin-top: 0px;
+}
+
+.scroll{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.favorites {
+    background: rgba(255, 255, 255, .5);
+    position: relative;
+}
