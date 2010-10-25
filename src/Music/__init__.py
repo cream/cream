@@ -5,8 +5,8 @@ from PIL import Image
 from cream.contrib.melange import api
 
 from players import Rhythmbox
-from libcoverart import get_cover
-from libcoverart import config
+from coverart import get_cover
+from coverart import config
 
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
