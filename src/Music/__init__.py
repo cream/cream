@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os.path
+import os
 from PIL import Image
 from cream.contrib.melange import api
 
@@ -27,6 +27,8 @@ class Music(api.API):
         api.API.__init__(self)
         config.COVER_ART_BASE_DIR = os.path.join(self.context.working_directory,
                                                 'skins/default/coverart')
+        if not os.path.exists(config.COVER_ART_BASE_DIR):
+            os.mkdir(config.COVER_ART_BASE_DIR)
 
         self.player = Rhythmbox()
 
