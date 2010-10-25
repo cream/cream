@@ -16,6 +16,8 @@
 
         <script type="text/javascript">
             function main(){
+                favorite_elements = new Array();
+                favorites = create_favorite_bar();
                 fill_dashboard();
 
                 var timeout_id;
@@ -24,8 +26,7 @@
                     timeout_id = update_dashboard.delay(1000);
                 });
 
-                var favorite_bar = create_favorite_bar();
-                $('widget').grab(favorite_bar);
+                $('widget').grab(favorites);
             }
         </script>
 
@@ -33,7 +34,7 @@
 
     <body>
         <div class="widget" id="widget" style="width: 390px;">
-            <div class="scroll" style="height: 400px;">
+            <div class="scroll" style="height: 320px;">
                 <div id="dashboard">
                 </div>
             </div>

@@ -18,18 +18,17 @@ function fill_dashboard(){
 function create_favorite_bar(){
     var favorite_bar = new Element('div',{
         'class': 'favorites',
-        id: 'favorites',
-        html: 'hello',
-        onDrop: function(){
-            alert('dropped');
-        },
-        onOver: function(){
-            alert('over');
-        }
+        id: 'favorites'
     });
 
     return favorite_bar;
 }
+
+function add_favorite(app){
+    $('favorites').grab(app);
+    favorite_elements.push(app);
+}
+
 
 function update_dashboard(){
     widget.api.dashboard.update_entries();
@@ -40,6 +39,7 @@ function update_dashboard(){
 function create_app(app){
     var wrapper = new Element('div', {
         'class': 'app',
+        id: app['name'],
         opacity: 0.7,
         events: {
             click: function(){
@@ -65,17 +65,25 @@ function create_app(app){
     wrapper.grab(label);
 
     //make the app draggable
-    wrapper.makeDraggable({
-        onStart:function(){
-        },
-        onComplete:function(){
+    var drag = new Drag.Move(wrapper, {
+        droppables: $$('.favorites', '.scroll'),
+
+        onDrop: function(element, droppable, event){
             wrapper.just_dragged = true;
             wrapper.style.left = 0;
             wrapper.style.top = 0;
-        },
-        droppables: $$('.favorites')
+
+            if(droppable && droppable.get('id') == 'favorites'){
+                add_favorite(create_app(element.app));
+            }
+            if(droppable && droppable.get('class') == 'scroll'){
+                if(favorite_elements.contains(element))
+                    element.dispose();
+            }
+        }
     });
 
+    wrapper.app = app;
     return wrapper;
 }
 
