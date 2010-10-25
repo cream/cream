@@ -81,7 +81,7 @@ class Dashboard(api.API):
         if arg:
             cmd += [self.parse_arg(arg)]
 
-        Subprocess(cmd).run()
+        Subprocess(cmd, fork=True).run()
 
 
     def parse_arg(self, arg):
