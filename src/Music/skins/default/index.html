@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Music Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js" />
+        <script type="text/javascript" src="/common/core/mootools-more.js" />
+        <script type="text/javascript" src="/common/core/events.js" />
+        <script type="text/javascript" src="/common/core/cream.js" />
+
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+
+
+
+        <script type="text/javascript">
+            function update_data() {
+                widget.api.music.get_data(function(data) {
+                    $('title').set('html', data['title']);
+                    $('artist').set('html',data['artist']);
+                    $('album').set('html', data['album']);
+
+                    widget.api.music.get_coverart(function(path) {
+                        $('coverart').set('src', 'coverart/' + path);
+                    });
+
+                    var rating = data['rating'];
+                    for(i=1;i<6;i++) {
+                        if(i<rating+1)
+                            $(i.toString()).set('src', 'images/star_yellow.png');
+                        else
+                            $(i.toString()).set('src', 'images/star_grey.png');
+                    };
+                });
+            }
+
+            function set_icons() {
+                widget.api.music.is_playing(function(playing) {
+                    if(playing)
+                        $('play/pause').set('src', 'images/pause.png');
+                    else
+                        $('play/pause').set('src', 'images/play.png');
+                });
+            }
+
+            function set_rating(rating) {
+                widget.api.music.set_rating(rating);
+                update_data();
+            }
+
+            function main() {
+
+                widget.api.addEvent('song-changed', function() {
+                    update_data();
+                });
+
+                widget.api.addEvent('state-changed', function() {
+                    set_icons();
+                });
+
+                $('previous').addEvent('click', function() {
+                    widget.api.music.previous();
+                });
+                $('next').addEvent('click', function () {
+                    widget.api.music.next();
+                });
+                $('play/pause').addEvent('click', function() {
+                    widget.api.music.play_pause();
+                });
+
+                update_data();
+                set_icons();
+            };
+        </script>
+
+    </head>
+
+    <body>
+        <div class="widget" style="width: 220px;">
+            <div class="background">
+                <div class="coverart" ><img id="coverart" src="" /></div>
+                <div class="info-area">
+                    <div id="title"></div>
+                    <div id="artist"></div>
+                    <div id="album"></div>
+                    <div class="rating">
+                        <table class="rating">
+                            <tr>
+                                <td><img id="1" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="2" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="3" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="4" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="5" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="control-area">
+                    <table class="control-area">
+                    <tr>
+                        <td><div class="controls button" >
+                            <img id="previous" src="images/back.png" /></div></td>
+                        <td><div class="controls button" >
+                            <img id="play/pause" src="images/play.png" /></div></td>
+                        <td><div class="controls button" >
+                            <img id="next" src="images/next.png" /></div></td>
+                    </tr>
+                    </table>
+                </div>
+                <br>
+                <br>
+            </div>
+        </div>
+
+    </body>
+</html>
