@@ -35,7 +35,6 @@ function create_favorite_bar(){
 function add_favorite(app){
     $('favorites').grab(app);
     favorite_elements.push(app);
-    favorite_names.push(app.id);
 }
 
 
@@ -84,13 +83,10 @@ function create_app(app){
         droppables: $$('.favorites', '.overlay'),
 
         onDrop: function(element, droppable, event){
-            wrapper.just_dragged = true;
-            wrapper.style.left = 0;
-            wrapper.style.top = 0;
 
             if(droppable && droppable.id == 'favorites'){
                 app = create_app(element.app);
-                if (!favorite_names.contains(app.id)){
+                if (!favorite_elements.contains(element)){
                     add_favorite(app);
                     widget.api.dashboard.add_favorite(app.id);
                 }
@@ -98,11 +94,14 @@ function create_app(app){
             if(droppable && droppable.id == 'remove'){
                 if(favorite_elements.contains(element)){
                     favorite_elements.erase(element);
-                    favorite_names.erase(element.id);
                     element.dispose();
                     droppable.fade('out');
                 }
             }
+
+            wrapper.just_dragged = true;
+            wrapper.style.left = 0;
+            wrapper.style.top = 0;
         },
         onStart: function(element){
             favorite_elements.each(function(favorite_el){
