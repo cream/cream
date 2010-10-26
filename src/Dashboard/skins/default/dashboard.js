@@ -115,12 +115,12 @@ function create_app(app){
             });
         },
         onEnter: function(element, droppable){
-            if(droppable.id == 'remove'){
+            if(droppable.id == 'remove' && favorite_elements.contains(element)){
                 droppable.fade('in');
             }
         },
         onLeave: function(element, droppable){
-            if(droppable.id == 'remove'){
+            if(droppable.id == 'remove' && favorite_elements.contains(element)){
                 droppable.fade('out');
             }
         }
