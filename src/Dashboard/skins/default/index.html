@@ -23,7 +23,7 @@
 
                 var timeout_id;
                 widget.config.addEvent('field-value-changed', function(sender, field, value){
-                    if(!field == 'favorites'){
+                    if(field != 'favorites'){
                         $clear(timeout_id);
                         timeout_id = update_dashboard.delay(1000);
                     }
