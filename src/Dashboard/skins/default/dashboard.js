@@ -58,6 +58,12 @@ function create_app(app){
             },
             drop: function(data){
                 launch_app(app['cmd'], data[0]);
+            },
+            mouseenter: function(){
+                this.fade(1);
+            },
+            mouseleave: function(){
+                this.fade(.7);
             }
         }
     });
