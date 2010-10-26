@@ -96,6 +96,16 @@ function create_app(app){
                 if(favorite_elements.contains(element))
                     element.dispose();
             }
+        },
+        onStart: function(){
+            favorite_elements.each(function(element){
+                element.fade(0.3);
+            });
+        },
+        onComplete: function(){
+            favorite_elements.each(function(element){
+                element.fade(0.7);
+            });
         }
     });
 
