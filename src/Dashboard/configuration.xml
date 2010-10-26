@@ -8,4 +8,6 @@
     <Settings label="Settings" type="boolean">True</Settings>
     <System label="System" type="boolean">True</System>
     <Utility label="Utility" type="boolean">True</Utility>
+
+    <favorites hidden="true" type="char"></favorites>
 </configuration>

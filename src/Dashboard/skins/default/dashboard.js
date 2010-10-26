@@ -15,6 +15,14 @@ function fill_dashboard(){
     });
 }
 
+function load_favorites(){
+    widget.api.dashboard.get_favorites(function(favs){
+        for(i=0; i < favs.length; i++){
+            add_favorite(create_app(favs[i]));
+        };
+    });
+}
+
 function create_favorite_bar(){
     var favorite_bar = new Element('div',{
         'class': 'favorites',
@@ -74,7 +82,9 @@ function create_app(app){
             wrapper.style.top = 0;
 
             if(droppable && droppable.get('id') == 'favorites'){
-                add_favorite(create_app(element.app));
+                app = create_app(element.app);
+                add_favorite(app);
+                widget.api.dashboard.add_favorite(app.id);
             }
             if(droppable && droppable.get('class') == 'scroll'){
                 if(favorite_elements.contains(element))

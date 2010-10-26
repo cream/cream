@@ -17,15 +17,18 @@
         <script type="text/javascript">
             function main(){
                 favorite_elements = new Array();
-                favorites = create_favorite_bar();
                 fill_dashboard();
+                load_favorites();
 
                 var timeout_id;
-                widget.config.addEvent('field-value-changed', function(){
-                    $clear(timeout_id);
-                    timeout_id = update_dashboard.delay(1000);
+                widget.config.addEvent('field-value-changed', function(sender, field, value){
+                    if(!field == 'favorites'){
+                        $clear(timeout_id);
+                        timeout_id = update_dashboard.delay(1000);
+                    }
                 });
 
+                var favorites = create_favorite_bar();
                 $('widget').grab(favorites);
             }
         </script>

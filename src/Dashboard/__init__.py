@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from os.path import join
+from urllib import unquote
 
 from cream.contrib.melange import api
 from cream.util.subprocess import Subprocess
@@ -9,7 +9,6 @@ from cream.contrib.desktopentries import DesktopEntry
 from cream.util.string import crop_string
 from cream.util.dicts import ordereddict
 from util import icon_to_base64, parse_cmd
-from urllib import unquote
 
 CATEGORIES = {'Development': 'Development',
               'AudioVideo': 'Multimedia',
@@ -41,6 +40,7 @@ class Dashboard(api.API):
     def __init__(self):
         api.API.__init__(self)
 
+        self.favorites = self.load_favorites()
         self.entries = self.get_entries()
 
     def get_entries(self):
@@ -51,12 +51,17 @@ class Dashboard(api.API):
         for entry in DesktopEntry.get_all():
             if not hasattr(entry, 'icon'):
                 continue
-            app = App.from_entry(entry)
 
+            app = App.from_entry(entry)
             if app is None or app['category'] is None:
                 continue
-            if app['category'] in entries:
+
+            elif app['category'] in entries:
                 entries[app['category']].append(app)
+
+                if app['name'] in self.favorites:
+                    index = self.favorites.index(app['name'])
+                    self.favorites[index] = app
 
         e = []
         for category in entries.itervalues():
@@ -65,13 +70,34 @@ class Dashboard(api.API):
             e.append(sorted(category, key=lambda app: app['name'].lower()))
         return e
 
+    def load_favorites(self):
+        favorites = self.config.favorites
+        if favorites == 'None':
+            return []
+        return favorites.split('\n')
+
     @api.expose
     def get_all_apps(self):
         return self.entries
 
     @api.expose
+    def get_favorites(self):
+        return self.favorites
+
+    @api.expose
     def update_entries(self):
         self.entries = self.get_entries()
+
+    @api.expose
+    def add_favorite(self, name):
+        @api.in_main_thread
+        def _add_favorite():
+            favorites = self.config.favorites
+            if favorites == 'None':
+                self.config.favorites = name
+            else:
+                self.config.favorites += '\n' + name
+        _add_favorite()
 
     @api.expose
     def launch_app(self, cmd, arg):
