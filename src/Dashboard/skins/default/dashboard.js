@@ -35,6 +35,7 @@ function create_favorite_bar(){
 function add_favorite(app){
     $('favorites').grab(app);
     favorite_elements.push(app);
+    favorite_names.push(app.id);
 }
 
 
@@ -80,32 +81,48 @@ function create_app(app){
 
     //make the app draggable
     var drag = new Drag.Move(wrapper, {
-        droppables: $$('.favorites', '.scroll'),
+        droppables: $$('.favorites', '.overlay'),
 
         onDrop: function(element, droppable, event){
             wrapper.just_dragged = true;
             wrapper.style.left = 0;
             wrapper.style.top = 0;
 
-            if(droppable && droppable.get('id') == 'favorites'){
+            if(droppable && droppable.id == 'favorites'){
                 app = create_app(element.app);
-                add_favorite(app);
-                widget.api.dashboard.add_favorite(app.id);
+                if (!favorite_names.contains(app.id)){
+                    add_favorite(app);
+                    widget.api.dashboard.add_favorite(app.id);
+                }
             }
-            if(droppable && droppable.get('class') == 'scroll'){
-                if(favorite_elements.contains(element))
+            if(droppable && droppable.id == 'remove'){
+                if(favorite_elements.contains(element)){
+                    favorite_elements.erase(element);
+                    favorite_names.erase(element.id);
                     element.dispose();
+                    droppable.fade('out');
+                }
             }
         },
         onStart: function(){
             favorite_elements.each(function(element){
-                element.fade(0.3);
+                element.fade(0.4);
             });
         },
         onComplete: function(){
             favorite_elements.each(function(element){
                 element.fade(0.7);
             });
+        },
+        onEnter: function(element, droppable){
+            if(droppable.id == 'remove'){
+                droppable.fade('in');
+            }
+        },
+        onLeave: function(element, droppable){
+            if(droppable.id == 'remove'){
+                droppable.fade('out');
+            }
         }
     });
 

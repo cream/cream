@@ -2,7 +2,7 @@
     position: relative;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 900;
 
     width: 80px;
     height: 65px;
@@ -43,4 +43,24 @@
     background: rgba(255, 255, 255, .4);
     height: 70px;
     text-align: center;
+}
+
+#trash{
+    text-align: center;
+    vertical-align: center;
+    opacity: 0.5;
+}
+
+.overlay{
+    top: 4px;
+    bottom: 75px;
+    left: 4px;
+    right: 4px;
+
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+
+    background-color: rgba(220, 20, 20, .5);
 }

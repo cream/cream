@@ -17,6 +17,7 @@
         <script type="text/javascript">
             function main(){
                 favorite_elements = new Array();
+                favorite_names = new Array();
                 fill_dashboard();
                 load_favorites();
 
@@ -30,6 +31,8 @@
 
                 var favorites = create_favorite_bar();
                 $('widget').grab(favorites);
+
+                $('remove').fade('hide');
             }
         </script>
 
@@ -37,6 +40,9 @@
 
     <body>
         <div class="widget" id="widget" style="width: 390px;">
+            <div class="overlay" id="remove" style="display: block;">
+                <img id="trash" src="trash.png" />
+            </div>
             <div class="scroll" style="height: 320px;">
                 <div id="dashboard">
                 </div>
