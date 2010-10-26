@@ -104,12 +104,13 @@ function create_app(app){
                 }
             }
         },
-        onStart: function(){
-            favorite_elements.each(function(element){
-                element.fade(0.4);
+        onStart: function(element){
+            favorite_elements.each(function(favorite_el){
+                if(favorite_el != element)
+                    favorite_el.fade(0.4);
             });
         },
-        onComplete: function(){
+        onComplete: function(element){
             favorite_elements.each(function(element){
                 element.fade(0.7);
             });
