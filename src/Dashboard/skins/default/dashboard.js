@@ -73,7 +73,7 @@ function create_app(app){
     var icon = new Element('img', {src: 'data:image/png;base64,' + app['icon']});
     icon_wrapper.grab(icon);
 
-    var label = new Element('div', {'class': 'label', html: app['name']});
+    var label = new Element('div', {'class': 'label', html: app['label']});
 
     wrapper.grab(icon_wrapper);
     wrapper.grab(label);

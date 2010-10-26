@@ -27,7 +27,8 @@ def app_from_entry(entry):
         return None
 
     app = {}
-    app['name'] = crop_string(entry.name, 8, '..')
+    app['name'] = entry.name
+    app['label'] = crop_string(entry.name, 8, '..')
     app['cmd'] = parse_cmd(entry.exec_)
     app['icon'] = base64
     app['category'] = CATEGORIES.get(entry.recommended_category, '')
@@ -52,7 +53,7 @@ class Dashboard(object):
         self.apps = self._parse_apps_from_entries()
         return self.apps
 
-    def add_favorite(name):
+    def add_favorite(self, name):
         favorites = self.config.favorites
         if not favorites:
             self.config.favorites = name
