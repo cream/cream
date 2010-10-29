@@ -35,6 +35,13 @@ class Dashboard(api.API):
         _add_favorite()
 
     @api.expose
+    def remove_favorite(self, name):
+        @api.in_main_thread
+        def _remove_favorite():
+            self.dashboard.remove_favorite(name)
+        _remove_favorite()
+
+    @api.expose
     def launch_app(self, cmd, arg):
         cmd = cmd.strip()
         cmd = str(cmd).split()
