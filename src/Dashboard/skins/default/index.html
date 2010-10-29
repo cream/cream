@@ -12,13 +12,13 @@
         <script type="text/javascript" src="/common/ui/chooser/chooser.js" />
 
         <script type="text/javascript" src="dashboard.js" />
+        <script type="text/javascript" src="dashboard-dnd.js" />
         <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 
         <script type="text/javascript">
             function main(){
-                favorite_elements = new Array();
                 fill_dashboard();
-                load_favorites();
+                load_favorites()
 
                 var timeout_id;
                 widget.config.addEvent('field-value-changed', function(sender, field, value){
@@ -28,10 +28,8 @@
                     }
                 });
 
-                var favorites = create_favorite_bar();
-                $('widget').grab(favorites);
-
                 $('remove').fade('hide');
+
             }
         </script>
 
@@ -45,6 +43,8 @@
             <div class="scroll" style="height: 320px;">
                 <div id="dashboard">
                 </div>
+            </div>
+            <div class="favorites" id="favorites">
             </div>
         </div>
     </body>
