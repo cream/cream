@@ -9,5 +9,5 @@
     <System label="System" type="boolean">True</System>
     <Utility label="Utility" type="boolean">True</Utility>
 
-    <favorites hidden="true" type="char"></favorites>
+    <favorites hidden="true" static="true" type="list"></favorites>
 </configuration>

@@ -54,17 +54,11 @@ class Dashboard(object):
         return self.apps
 
     def add_favorite(self, name):
-        favorites = self.config.favorites
-        if not favorites:
-            self.config.favorites = name
-        else:
-            self.config.favorites += '\n' + name
+        self.config.favorites.append(name)
         self.config.save()
 
     def remove_favorite(self, name):
-        favorites = self.config.favorites
-        favorites = favorites.replace(name, '')
-        self.config.favorites = favorites
+        self.config.favorites.remove(name)
         self.config.save()
 
     def _parse_apps_from_entries(self):
@@ -92,11 +86,8 @@ class Dashboard(object):
 
 
     def _parse_favorites_from_config(self):
-        favorites = self.config.favorites
-        if not favorites:
-            return []
+        favorites = list(self.config.favorites)
 
-        favorites = filter(lambda name: name != '', favorites.split('\n'))
         for entry in DesktopEntry.get_all():
             if entry.name in favorites:
                 app = app_from_entry(entry)
