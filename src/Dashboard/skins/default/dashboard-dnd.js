@@ -1,6 +1,7 @@
 function makeDragable(application){
-    var drag = new Drag.Move(application, {
+    new Drag.Move(application, {
         droppables: $$('.favorites', '.overlay'),
+        container: $('widget'),
 
         onDrop: function(element, droppable, event){
             if(droppable && droppable.id == 'favorites'){
