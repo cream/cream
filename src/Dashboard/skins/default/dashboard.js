@@ -27,6 +27,7 @@ function appToHtml(app, isFavorite){
                     .setStyles(this.getCoordinates())
                     .setStyles({'opacity': 0.7, 'position': 'absolute'})
                     .setStyle('opacity', 0)
+                    .setStyle('z-index', 1000)
                     .inject(document.body);
 
                 if(isFavorite)

@@ -34,6 +34,8 @@ function makeDragable(application){
             favorites.each(function(favorite){
                 if(favorite != element)
                     favorite.fade(0.5);
+            if(element.id.test('favorite-'))
+                $('remove').fade('in');
             });
         },
         onComplete: function(element){
@@ -41,15 +43,10 @@ function makeDragable(application){
                 element.fade(0.7);
             });
             clone.dispose();
+
+            if(element.id.test('favorite-'))
+                $('remove').fade('out');
         },
-        onEnter: function(element, droppable){
-            if(droppable.id == 'remove' && element.id.test('favorite-'))
-                droppable.fade('in');
-        },
-        onLeave: function(element, droppable){
-            if(droppable.id == 'remove' && element.id.test('favorite-'))
-                droppable.fade('out');
-        }
     });
 
     return drag;
