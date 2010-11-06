@@ -1,6 +1,8 @@
 var applications = {}
 var favorites = new Array();
 
+var cloned_app = null;
+
 function appToHtml(app, isFavorite){
     var wrapper = new Element('div', {
         'class': 'application',
@@ -19,6 +21,25 @@ function appToHtml(app, isFavorite){
             },
             mouseleave: function(){
                 wrapper.fade(0.7);
+            },
+            mousedown: function(e){
+                e = new Event(e).stop();
+
+                var clone = this.clone()
+                    .setStyles(this.getCoordinates())
+                    .setStyles({'opacity': 0.7, 'position': 'absolute'})
+
+                document.body.grab(clone);
+
+                var drag = clone.makeDraggable({
+                    droppables: [$('favorites')]
+                });
+                cloned_app = clone;
+                drag.start(e);
+            },
+            mouseup: function(){
+                alert(clone);
+                clone.dispose();
             }
         }
     });
