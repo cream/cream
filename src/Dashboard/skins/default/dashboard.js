@@ -37,8 +37,6 @@ function appToHtml(app, isFavorite){
 
                 clone.addEvent('mouseup', function() {this.dispose()});
 
-                document.body.grab(clone);
-
                 //make clone draggable
                 var drag = makeDragable(clone);
 
