@@ -25,14 +25,17 @@ function appToHtml(app, isFavorite){
             mousedown: function(e){
                 e = new Event(e).stop();
 
-                var clone = this.clone()
+                clone = this.clone()
                     .setStyles(this.getCoordinates())
                     .setStyles({'opacity': 0.7, 'position': 'absolute'})
+                    .inject(document.body);
 
                 if(isFavorite)
                     clone.id = 'favorite-' + app['name'];
                 else
                     clone.id = app['name'];
+
+                clone.addEvent('mouseup', function() {this.dispose()});
 
                 document.body.grab(clone);
 
