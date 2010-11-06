@@ -1,3 +1,5 @@
+var position_start = 0;
+
 function makeDragable(application){
     var drag = new Drag.Move(application, {
         droppables: $$('.favorites', '.overlay'),
@@ -11,7 +13,8 @@ function makeDragable(application){
                     add_favorite(app);
                 } else {
                     // reorder favorites
-                    var offset = parseFloat(element.style.left.replace('px;'));
+                    position_end = event.page.x;
+                    var offset = position_end - position_start;
                     reorder_favorites(element, offset);
                 }
             }
@@ -29,7 +32,8 @@ function makeDragable(application){
             application.style.left = 0;
             application.style.top = 0;
         },
-        onStart: function(element){
+        onStart: function(element, event){
+            position_start = event.page.x;
             element.setStyle('opacity', 1);
             favorites.each(function(favorite){
                 if(favorite != element)
