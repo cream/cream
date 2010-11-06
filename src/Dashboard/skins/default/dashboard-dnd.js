@@ -1,5 +1,5 @@
 function makeDragable(application){
-    new Drag.Move(application, {
+    var drag = new Drag.Move(application, {
         droppables: $$('.favorites', '.overlay'),
         container: $('widget'),
 
@@ -17,9 +17,17 @@ function makeDragable(application){
                 }
             }
             if(droppable && droppable.id == 'remove'){
-                if(favorites.contains(element)){
-                    favorites.erase(element);
-                    element.dispose();
+                var contains = false;
+                var favorite = null;
+                favorites.each(function(el){
+                    if(el.id == element.id){
+                        contains = true;
+                        favorite = el;
+                    }
+                });
+                if(contains){
+                    favorites.erase(favorite);
+                    favorite.dispose();
                     droppable.fade('out');
                     widget.api.dashboard.remove_favorite(element.id.replace('favorite-',''));
                 }
@@ -51,5 +59,5 @@ function makeDragable(application){
         }
     });
 
-    return application;
+    return drag;
 }

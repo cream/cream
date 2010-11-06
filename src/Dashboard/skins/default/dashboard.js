@@ -29,20 +29,22 @@ function appToHtml(app, isFavorite){
                     .setStyles(this.getCoordinates())
                     .setStyles({'opacity': 0.7, 'position': 'absolute'})
 
+                if(isFavorite)
+                    clone.id = 'favorite-' + app['name'];
+                else
+                    clone.id = app['name'];
+
                 document.body.grab(clone);
 
-                var drag = clone.makeDraggable({
-                    droppables: [$('favorites')]
-                });
+                //make clone draggable
+                var drag = makeDragable(clone);
+
                 cloned_app = clone;
                 drag.start(e);
-            },
-            mouseup: function(){
-                alert(clone);
-                clone.dispose();
             }
         }
     });
+
     if(isFavorite)
         wrapper.id = 'favorite-' + app['name'];
     else
@@ -58,9 +60,6 @@ function appToHtml(app, isFavorite){
     icon_wrapper.grab(icon);
     wrapper.grab(icon_wrapper);
     wrapper.grab(label);
-
-    //make this element dragable
-    wrapper = makeDragable(wrapper);
 
     //map the id to the app for later use
     applications[wrapper.id] = app;
