@@ -29,7 +29,6 @@ function appToHtml(app, isFavorite){
                     .setStyle('opacity', 0)
                     .inject(document.body);
 
-
                 if(isFavorite)
                     clone.id = 'favorite-' + app['name'];
                 else
@@ -97,8 +96,11 @@ function load_favorites(){
 
 function add_favorite(app){
     var element = appToHtml(app, true);
-    favorites.push(element);
-    update_favorite_bar();
+    if(!contains_favorite(element.id) && favorites.length < 4){
+        favorites.push(element);
+        widget.api.dashboard.add_favorite(app['name']);
+        update_favorite_bar();
+    }
 }
 
 function contains_favorite(id){

@@ -5,11 +5,10 @@ function makeDragable(application){
 
         onDrop: function(element, droppable, event){
             if(droppable && droppable.id == 'favorites'){
-                if(!contains_favorite(element.id) && favorites.length < 4){
+                if(!contains_favorite(element.id)){
                     // add this app to favorites
                     var app = applications[element.id];
                     add_favorite(app);
-                    widget.api.dashboard.add_favorite(app['name']);
                 } else {
                     // reorder favorites
                     var offset = parseFloat(element.style.left.replace('px;'));
