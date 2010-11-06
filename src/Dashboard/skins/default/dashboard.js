@@ -28,7 +28,11 @@ function appToHtml(app, isFavorite){
         wrapper.id = app['name'];
 
     var icon_wrapper = new Element('div', {'class': 'icon'});
-    var icon = new Element('img', {src: 'data:image/png;base64,' + app['icon']});
+    if(app['icon'])
+        var icon = new Element('img', {src: 'data:image/png;base64,' + app['icon']});
+    else
+        var icon = new Element('img');
+
     var label = new Element('div', {'class': 'label', html: app['label']});
     icon_wrapper.grab(icon);
     wrapper.grab(icon_wrapper);

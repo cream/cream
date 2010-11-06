@@ -1,3 +1,6 @@
+var clone = null;
+var dummy = null;
+
 function makeDragable(application){
     new Drag.Move(application, {
         droppables: $$('.favorites', '.overlay'),
@@ -29,13 +32,36 @@ function makeDragable(application){
             application.style.left = 0;
             application.style.top = 0;
         },
+        onDrag: function(element, event){
+            if(clone != null)
+                element.setPosition({'x': event.page.x - 50, 'y': event.page.y - 50});
+
+        },
         onStart: function(element){
+            if(!favorites.contains(element)){
+                dummy = {'name':'','label':'','icon':false,'cmd':''};
+                dummy = appToHtml(dummy);
+
+                dummy.replaces(element);
+                $('widget').grab(element, 'top');
+
+                element.setStyle('position', 'absolute');
+
+                clone = element;
+            }
+
             favorites.each(function(favorite){
                 if(favorite != element)
                     favorite.fade(0.5);
             });
         },
-        onComplete: function(){
+        onComplete: function(element){
+            if(clone != null){
+                clone.replaces(dummy);
+                clone.setStyle('position', 'relative');
+                clone = null;
+                dummy = null;
+            }
             favorites.each(function(element){
                 element.fade(0.7);
             });
