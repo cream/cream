@@ -1,3 +1,7 @@
+#widget{
+    padding-bottom: 20px;
+}
+
 .application {
     position: relative;
     top: 0;
@@ -48,7 +52,7 @@
 
 .overlay{
     top: 4px;
-    bottom: 75px;
+    bottom: 90px;
     left: 4px;
     right: 4px;
 
