@@ -5,7 +5,7 @@ function makeDragable(application){
 
         onDrop: function(element, droppable, event){
             if(droppable && droppable.id == 'favorites'){
-                if(!favorites.contains(element) && favorites.length < 4){
+                if(!contains_favorite(element.id) && favorites.length < 4){
                     // add this app to favorites
                     var app = applications[element.id];
                     add_favorite(app);
@@ -17,20 +17,13 @@ function makeDragable(application){
                 }
             }
             if(droppable && droppable.id == 'remove'){
-                var contains = false;
-                var favorite = null;
-                favorites.each(function(el){
-                    if(el.id == element.id){
-                        contains = true;
-                        favorite = el;
-                    }
-                });
-                if(contains){
+                var favorite = get_favorite_by_id(element.id);
+                if(favorite != null){
                     favorites.erase(favorite);
                     favorite.dispose();
-                    droppable.fade('out');
-                    widget.api.dashboard.remove_favorite(element.id.replace('favorite-',''));
+                    widget.api.dashboard.remove_favorite(favorite.id.replace('favorite-',''));
                 }
+                droppable.fade('out');
             }
 
             application.just_dragged = true;
@@ -38,6 +31,7 @@ function makeDragable(application){
             application.style.top = 0;
         },
         onStart: function(element){
+            element.setStyle('opacity', 1);
             favorites.each(function(favorite){
                 if(favorite != element)
                     favorite.fade(0.5);
@@ -47,7 +41,7 @@ function makeDragable(application){
             favorites.each(function(element){
                 element.fade(0.7);
             });
-            cloned_app.dispose();
+            clone.dispose();
         },
         onEnter: function(element, droppable){
             if(droppable.id == 'remove' && element.id.test('favorite-'))

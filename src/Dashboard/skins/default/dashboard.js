@@ -1,8 +1,6 @@
 var applications = {}
 var favorites = new Array();
 
-var cloned_app = null;
-
 function appToHtml(app, isFavorite){
     var wrapper = new Element('div', {
         'class': 'application',
@@ -28,7 +26,9 @@ function appToHtml(app, isFavorite){
                 clone = this.clone()
                     .setStyles(this.getCoordinates())
                     .setStyles({'opacity': 0.7, 'position': 'absolute'})
+                    .setStyle('opacity', 0)
                     .inject(document.body);
+
 
                 if(isFavorite)
                     clone.id = 'favorite-' + app['name'];
@@ -42,7 +42,6 @@ function appToHtml(app, isFavorite){
                 //make clone draggable
                 var drag = makeDragable(clone);
 
-                cloned_app = clone;
                 drag.start(e);
             }
         }
@@ -104,7 +103,27 @@ function add_favorite(app){
     update_favorite_bar();
 }
 
+function contains_favorite(id){
+    var contains = false;
+    favorites.each(function(el){
+        if(el.id == id)
+            contains = true;
+    });
+    return contains;
+}
+
+function get_favorite_by_id(id){
+    var favorite = null;
+    favorites.each(function(el){
+        if(el.id == id){
+            favorite = el;
+        }
+    });
+    return favorite;
+}
+
 function reorder_favorites(element, offset){
+    element = get_favorite_by_id(element.id);
     var old_index = favorites.indexOf(element);
     var new_index = old_index + parseInt(offset / 90);
     if (new_index < 0 || new_index > 3 || old_index == new_index)
@@ -149,7 +168,6 @@ function update_favorite_bar(){
     });
     favorites = tmp;
 }
-
 
 function update_dashboard(){
     widget.api.dashboard.update_entries();
