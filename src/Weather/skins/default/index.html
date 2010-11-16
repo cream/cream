@@ -6,7 +6,10 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
         <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
         <script type="text/javascript" src="/common/core/cream.js"></script>
+        
+        <script type="text/javascript" src="/common/ui/spinner/spinner.js"></script>
 
         <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen">
 
@@ -42,33 +45,53 @@
                 font-weight: bold;
                 line-height: 1em;
             }
+
+            .overlay {
+                display: block;
+                z-index: 999;
+                background: none;
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                right: 3px;
+                bottom: 3px;
+            }
         </style>
+        <script type="javascript">
+        </script>
     </head>
 
     <body>
         <div class="widget" style="min-width: 180px;">
             <div class="background">
-                <div style="width: 70px; float: left; text-align: center;">
-                    <img id="icon" src="images/clear.png" onmousedown="return false;" />
-                    <br />
-                    <span id="temperature">N/A</span>
-                </div>
-                <div id="data-column">
-                    <span class="title">Wind:</span><br />
-                    <span id="wind">N/A</span><br />
 
-                    <span class="title">Humidity:</span><br />
-                    <span id="humidity">N/A</span><br />
-
-                    <span class="title">Pressure:</span><br />
-                    <span id="pressure">N/A</span>
-                </div>
-                <div style="clear: both;"></div>
-
-                <div style="position: absolute; top: 50px; left: 50px;" id="throbber">
+                <div id="spinner_overlay" class="overlay">
+                    <div style="left: 3px; right: 3px; position: absolute; top: 50%; text-align: center;">
+                        <div style="position: relative; top: -27px; margin-bottom: -27px;" id="spinner"></div>
+                        <span style="font-size: .9em; font-style: italic;">Loading weather data…</span>
+                    </div>
                 </div>
 
-                <script type="text/javascript">
+                <div id="content">
+                    <div style="width: 70px; float: left; text-align: center;">
+                        <img id="icon" src="images/clear.png" onmousedown="return false;" />
+                        <br />
+                        <span id="temperature">N/A</span>
+                    </div>
+                    <div id="data-column">
+                        <span class="title">Wind:</span><br />
+                        <span id="wind">N/A</span><br />
+    
+                        <span class="title">Humidity:</span><br />
+                        <span id="humidity">N/A</span><br />
+    
+                        <span class="title">Pressure:</span><br />
+                        <span id="pressure">N/A</span>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <script type="text/javascript">                
                     throbber_state = 0;
                     function main() {
                         var icons = {
@@ -91,6 +114,10 @@
 
                         function update_weather() {
                             widget.api.weather.get(function(data) {
+                                spinner.stop();
+                                $('content').fade(1);
+                                $('spinner_overlay').fade(0);
+
                                 $('temperature').set('text', data['temperature'] + '°C');
                                 $('wind').set('text', data['wind_speed'] + 'km/h');
                                 $('humidity').set('text', data['humidity'] + '%');
@@ -99,6 +126,7 @@
                             });
                         }
 
+                        $('content').set('opacity', 0);
 
                         var configuration_update_timeout_id;
                         widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
@@ -114,6 +142,9 @@
 
                         update_weather.delay(50);
                         update_weather.periodical(60000);
+
+                        var spinner = new Spinner($('spinner'));
+                        spinner.start();
                     }
                 </script>
             </div>
