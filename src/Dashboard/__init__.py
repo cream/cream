@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import thread
 from urllib import unquote
 
 from cream.contrib.melange import api
@@ -15,31 +16,37 @@ class Dashboard(api.API):
 
         self.dashboard = dashboard.Dashboard(self.config)
 
-    @api.expose
-    def get_all_apps(self):
-        return self.dashboard.get_apps()
+        thread.start_new_thread(self.setup_dashboard, ())
+
+    def setup_dashboard(self):
+        self.dashboard.setup()
+        self._emit('finished')
+
+        for category in self.dashboard.apps:
+            self._emit('add-apps', category)
+
+    @api.in_main_thread
+    def _emit(self, signal, *args):
+        self.emit(signal, *args)
 
     @api.expose
     def get_favorites(self):
-        return self.dashboard.get_favorites()
+        return self.dashboard.favorites
 
     @api.expose
     def update_entries(self):
-        self.apps = self.dashboard.update()
+        self.dashboard.update()
+
+        for category in self.dashboard.apps:
+            self._emit('add-apps', category)
 
     @api.expose
     def add_favorite(self, name):
-        @api.in_main_thread
-        def _add_favorite():
-            self.dashboard.add_favorite(name)
-        _add_favorite()
+        self.dashboard.add_favorite(name)
 
     @api.expose
     def remove_favorite(self, name):
-        @api.in_main_thread
-        def _remove_favorite():
-            self.dashboard.remove_favorite(name)
-        _remove_favorite()
+        self.dashboard.remove_favorite(name)
 
     @api.expose
     def launch_app(self, cmd, arg):

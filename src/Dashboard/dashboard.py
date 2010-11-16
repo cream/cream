@@ -40,18 +40,13 @@ class Dashboard(object):
     def __init__(self, config):
         self.config = config
 
+
+    def setup(self):
         self.apps = self._parse_apps_from_entries()
         self.favorites = self._parse_favorites_from_config()
 
-    def get_apps(self):
-        return self.apps
-
-    def get_favorites(self):
-        return self.favorites
-
     def update(self):
         self.apps = self._parse_apps_from_entries()
-        return self.apps
 
     def add_favorite(self, name):
         self.config.favorites.append(name)

@@ -68,21 +68,17 @@ function appToHtml(app, isFavorite){
     return wrapper;
 }
 
-function fill_dashboard(){
-    widget.api.dashboard.get_all_apps(function(apps){
-        for(i=0; i < apps.length; i++){
-            var category = apps[i];
-            var divider = create_divider(category[0]['category'])
-            $('dashboard').grab(divider);
+function add_apps(apps){
+    var divider = create_divider(apps[0]['category']);
+    $('dashboard').grab(divider);
+    for(i=0; i < apps.length; i++){
+        var app = apps[i];
+        var element = appToHtml(app, false);
+        $('dashboard').grab(element);
 
-            for(j=0; j < category.length; j++){
-                var element = appToHtml(category[j], false);
-                $('dashboard').grab(element);
-            };
-        };
-        var cleardiv = new Element('div',{styles:'clear:both;'});
-        $('dashboard').grab(cleardiv);
-    });
+    };
+    var cleardiv = new Element('div',{styles:'clear:both;'});
+    $('dashboard').grab(cleardiv);
 }
 
 function load_favorites(){
@@ -173,7 +169,6 @@ function update_favorite_bar(){
 function update_dashboard(){
     widget.api.dashboard.update_entries();
     $('dashboard').empty();
-    fill_dashboard.delay(500);
 }
 
 function create_divider(category){
