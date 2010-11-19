@@ -75,20 +75,12 @@ function load_apps(apps){
         var app = apps[i];
         var element = appToHtml(app, false);
         $('dashboard').grab(element);
-
     };
     var cleardiv = new Element('div',{styles:'clear:both;'});
     $('dashboard').grab(cleardiv);
 }
 
 function load_favorites(favs){
-    /*widget.api.dashboard.get_favorites(function(favs){
-        for(i=0; i < favs.length; i++){
-            var element = appToHtml(favs[i], true);
-            favorites.push(element);
-        };
-        update_favorite_bar();
-    });*/
     for(i=0; i<favs.length; i++){
         var element = appToHtml(favs[i], true);
         favorites.push(element);
