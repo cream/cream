@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import gobject
+
 from cream.contrib.desktopentries import DesktopEntry
 
 from cream.util.string import crop_string
@@ -35,11 +37,16 @@ def app_from_entry(entry):
     return app
 
 
-class Dashboard(object):
+class Dashboard(gobject.GObject):
+    __gsignals__ = {
+        'load-apps': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
+        'load-favorites': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
+    }
 
     def __init__(self, config):
-        self.config = config
+        gobject.GObject.__init__(self)
 
+        self.config = config
 
     def setup(self):
         self.apps = self._parse_apps_from_entries()
@@ -69,7 +76,9 @@ class Dashboard(object):
         apps = []
         for category in categories.itervalues():
             if category:
-                apps.append(sorted(category, key=lambda app: app['name'].lower()))
+                sorted_category =sorted(category, key=lambda app: app['name'].lower())
+                self.emit('load-apps', sorted_category)
+                apps.append(sorted_category)
         return apps
 
     def _get_categories_from_config(self):
@@ -88,4 +97,5 @@ class Dashboard(object):
                 app = app_from_entry(entry)
                 index = favorites.index(entry.name)
                 favorites[index] = app
+        self.emit('load-favorites', favorites)
         return favorites
