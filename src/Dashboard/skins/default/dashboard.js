@@ -68,7 +68,7 @@ function appToHtml(app, isFavorite){
     return wrapper;
 }
 
-function add_apps(apps){
+function load_apps(apps){
     var divider = create_divider(apps[0]['category']);
     $('dashboard').grab(divider);
     for(i=0; i < apps.length; i++){
@@ -81,14 +81,19 @@ function add_apps(apps){
     $('dashboard').grab(cleardiv);
 }
 
-function load_favorites(){
-    widget.api.dashboard.get_favorites(function(favs){
+function load_favorites(favs){
+    /*widget.api.dashboard.get_favorites(function(favs){
         for(i=0; i < favs.length; i++){
             var element = appToHtml(favs[i], true);
             favorites.push(element);
         };
         update_favorite_bar();
-    });
+    });*/
+    for(i=0; i<favs.length; i++){
+        var element = appToHtml(favs[i], true);
+        favorites.push(element);
+    };
+    update_favorite_bar();
 }
 
 function add_favorite(app){
@@ -167,8 +172,9 @@ function update_favorite_bar(){
 }
 
 function update_dashboard(){
-    widget.api.dashboard.update_entries();
     $('dashboard').empty();
+    $('spinner_overlay').fade('in');
+    widget.api.dashboard.update_entries();
 }
 
 function create_divider(category){

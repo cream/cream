@@ -15,30 +15,19 @@ class Dashboard(api.API):
         api.API.__init__(self)
 
         self.dashboard = dashboard.Dashboard(self.config)
+        self.dashboard.connect('load-apps', lambda s, apps: self._emit('load-apps', apps))
+        self.dashboard.connect('load-favorites', lambda s, apps: self._emit('load-favorites', apps))
 
-        thread.start_new_thread(self.setup_dashboard, ())
+        thread.start_new_thread(self.dashboard.setup, ())
 
-    def setup_dashboard(self):
-        self.dashboard.setup()
-        self._emit('finished')
-
-        for category in self.dashboard.apps:
-            self._emit('add-apps', category)
 
     @api.in_main_thread
     def _emit(self, signal, *args):
         self.emit(signal, *args)
 
     @api.expose
-    def get_favorites(self):
-        return self.dashboard.favorites
-
-    @api.expose
     def update_entries(self):
         self.dashboard.update()
-
-        for category in self.dashboard.apps:
-            self._emit('add-apps', category)
 
     @api.expose
     def add_favorite(self, name):
