@@ -25,27 +25,27 @@ class BasePlayerController(gobject.GObject):
         self.loop.run()
 
     def quit(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def play_pause(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def previous(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def next(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def set_rating(self, rating):
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def is_playing(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def current_track(self):
-        raise NotImplemented
+        raise NotImplementedError
 
     def on_song_changed(self, *args):
         self.emit('song-changed')
