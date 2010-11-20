@@ -7,12 +7,13 @@ from cream.contrib.melange import api
 import players
 from coverart import get_cover, config
 
+# initialize lxml
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
 
 PLAYERS = {
-    'banshee': players.Banshee,
-    'rhythmbox': players.Rhythmbox
+    'banshee': players.banshee.Banshee,
+    'rhythmbox': players.rhythmbox.Rhythmbox
 }
 
 
