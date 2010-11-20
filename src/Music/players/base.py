@@ -3,7 +3,6 @@
 import gobject
 gobject.threads_init()
 
-import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 
