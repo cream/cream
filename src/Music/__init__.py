@@ -4,16 +4,16 @@ import os
 from PIL import Image
 from cream.contrib.melange import api
 
-import players
-from coverart import get_cover, config
-
 # initialize lxml
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
 
+from coverart import get_cover, config
+import players
+
 PLAYERS = {
-    'banshee': players.banshee.Banshee,
-    'rhythmbox': players.rhythmbox.Rhythmbox
+    'banshee': players.Banshee,
+    'rhythmbox': players.Rhythmbox
 }
 
 
