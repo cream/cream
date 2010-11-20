@@ -4,11 +4,16 @@ import os
 from PIL import Image
 from cream.contrib.melange import api
 
-from players import Rhythmbox
+import players
 from coverart import get_cover, config
 
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
+
+PLAYERS = {
+    'banshee': players.Banshee,
+    'rhythmbox': players.Rhythmbox
+}
 
 
 COVERART_SIZE = 150,150
@@ -27,7 +32,7 @@ class Music(api.API):
         config.COVER_ART_BASE_DIR = os.path.join(self.context.working_directory,
                                                 'skins/default/coverart')
 
-        self.player = Rhythmbox()
+        self.player = PLAYERS[self.config.player]()
 
         self.player.connect('song-changed', self.song_changed)
         self.player.connect('state-changed', self.state_changed)
@@ -37,6 +42,16 @@ class Music(api.API):
 
     def state_changed(self, player):
         self.emit('state-changed')
+
+    @api.expose
+    def change_player(self):
+        @api.in_main_thread
+        def _change_player():
+            self.player.quit()
+            self.player = PLAYERS[self.config.player]()
+            self.player.connect('song-changed', self.song_changed)
+            self.player.connect('state-changed', self.state_changed)
+        _change_player()
 
     @api.expose
     def previous(self):
@@ -70,14 +85,14 @@ class Music(api.API):
     def get_data(self):
         @api.in_main_thread
         def _get_data():
-            return self.player.track_data
+            return self.player.current_track
         return _get_data()
 
     @api.expose
     def get_coverart(self):
         @api.in_main_thread
         def _get_coverart():
-            track = self.player.track_data
+            track = self.player.current_track
             path = get_cover(track.get('artist'), track.get('album'))
             resize(path)
             return os.path.split(path)[1]

@@ -50,6 +50,12 @@
                 update_data();
             }
 
+            function change_player() {
+                widget.api.music.change_player();
+                update_data();
+                set_icons();
+            }
+
             function main() {
 
                 widget.api.addEvent('song-changed', function() {
@@ -58,6 +64,12 @@
 
                 widget.api.addEvent('state-changed', function() {
                     set_icons();
+                });
+
+                var timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, value){
+                    $clear(timeout_id);
+                    timeout_id = change_player.delay(1000);
                 });
 
                 $('previous').addEvent('click', function() {
