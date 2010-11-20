@@ -5,18 +5,17 @@ from PIL import Image
 from cream.contrib.melange import api
 
 from players import Rhythmbox
-from coverart import get_cover
-from coverart import config
+from coverart import get_cover, config
 
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
 
 
-size = 150,150
+COVERART_SIZE = 150,150
 
 def resize(path):
     image = Image.open(path)
-    image.thumbnail(size, Image.ANTIALIAS)
+    image.thumbnail(COVERART_SIZE, Image.ANTIALIAS)
     image.save(path, image.format)
     return path
 
@@ -27,8 +26,6 @@ class Music(api.API):
         api.API.__init__(self)
         config.COVER_ART_BASE_DIR = os.path.join(self.context.working_directory,
                                                 'skins/default/coverart')
-        if not os.path.exists(config.COVER_ART_BASE_DIR):
-            os.mkdir(config.COVER_ART_BASE_DIR)
 
         self.player = Rhythmbox()
 
