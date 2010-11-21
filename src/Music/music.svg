@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="128"
+   height="128"
+   id="svg5007"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="song-mono.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/immanuel/archive/prj/cream/art/creamlooks-icontheme/icons/scalable/mimetypes/text-x-generic.png"
+   inkscape:export-xdpi="56.25"
+   inkscape:export-ydpi="56.25">
+  <defs
+     id="defs5009" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6568544"
+     inkscape:cx="72.886446"
+     inkscape:cy="76.980075"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3266"
+     showgrid="false"
+     inkscape:showpageshadow="false"
+     inkscape:window-width="1440"
+     inkscape:window-height="848"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata5012">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g4029"
+       transform="matrix(1.1152689,0,0,1.1152689,-28.604839,6.2888782)">
+      <g
+         id="g3266"
+         transform="translate(1.2324836,1.1201535)">
+        <path
+           style="fill:#454545;fill-opacity:1;stroke:#cbcbcb;stroke-width:1.00000004999999990;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 65.1875 7.03125 C 64.113234 7.03125 63.249999 7.894484 63.25 8.96875 L 63.25 97.53125 C 59.797925 96.06939 55.270002 95.502249 50.28125 96.1875 C 39.50573 97.667617 30.750001 104.35745 30.75 111.125 C 30.75 117.89255 39.50573 122.19887 50.28125 120.71875 C 59.573393 119.44239 67.345903 114.2969 69.3125 108.5625 C 69.579992 108.23019 69.75 107.80548 69.75 107.34375 L 69.75 106.40625 C 69.766876 106.19507 69.78125 105.99274 69.78125 105.78125 C 69.78125 105.56976 69.766876 105.3628 69.75 105.15625 L 69.75 31.5625 C 105.00484 50.862909 89.830721 80.921979 83.21875 87.9375 C 91.308579 80.130128 106.27713 52.636649 89.8125 37.5 C 79.66312 27.920414 77.73611 28.447862 69.75 14.71875 L 69.75 8.96875 C 69.75 7.8944837 68.886766 7.0312498 67.8125 7.03125 L 65.1875 7.03125 z "
+           transform="matrix(0.8966447,0,0,0.8966447,24.415895,-6.7590431)"
+           id="rect2442" />
+      </g>
+    </g>
+  </g>
+</svg>

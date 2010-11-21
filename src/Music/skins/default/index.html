@@ -23,7 +23,10 @@
                     $('album').set('html', data['album']);
 
                     widget.api.music.get_coverart(function(path) {
-                        $('coverart').set('src', 'coverart/' + path);
+                        if(path != undefined)
+                            $('coverart').set('src', 'coverart/' + path);
+                        else
+                            $('coverart').set('src', 'coverart/default.png');
                     });
 
                     var rating = data['rating'];
