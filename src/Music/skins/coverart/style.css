@@ -1,0 +1,29 @@
+body {
+    margin-bottom: 10px;
+}
+
+.coverart {
+    text-align: center;
+    float: left;
+}
+
+#info-area {
+    float: left;
+    margin-left: 5px;
+    margin-top: 90px;
+}
+
+#title {
+    font-weight: bold;
+    color: white;
+}
+
+#artist {
+    color: white;
+    margin-top: 5px;
+}
+
+#album {
+    color: white;
+    margin-top: 5px;
+}
