@@ -42,9 +42,9 @@
             function set_icons() {
                 widget.api.music.is_playing(function(playing) {
                     if(playing)
-                        $('play/pause').set('src', 'images/pause.png');
+                        $('play-pause').set('src', 'images/pause.png');
                     else
-                        $('play/pause').set('src', 'images/play.png');
+                        $('play-pause').set('src', 'images/play.png');
                 });
             }
 
@@ -81,7 +81,7 @@
                 $('next').addEvent('click', function () {
                     widget.api.music.next();
                 });
-                $('play/pause').addEvent('click', function() {
+                $('play-pause').addEvent('click', function() {
                     widget.api.music.play_pause();
                 });
 
@@ -116,17 +116,15 @@
                 <div class="control-area">
                     <table class="control-area">
                     <tr>
-                        <td><div class="controls button" >
+                        <td><div class="controls" >
                             <img id="previous" src="images/back.png" /></div></td>
-                        <td><div class="controls button" >
-                            <img id="play/pause" src="images/play.png" /></div></td>
-                        <td><div class="controls button" >
+                        <td><div class="controls play-pause" >
+                            <img id="play-pause" src="images/play.png" /></div></td>
+                        <td><div class="controls" >
                             <img id="next" src="images/next.png" /></div></td>
                     </tr>
                     </table>
                 </div>
-                <br>
-                <br>
             </div>
         </div>
 

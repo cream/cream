@@ -20,9 +20,9 @@
             function update_data() {
                 widget.api.music.get_data(function(data) {
                     ['title', 'artist', 'album'].each(function(key){
-                        if(data[key].length > MAXLENGTH)
+                        if(data[key] && data[key].length > MAXLENGTH)
                             $(key).set('html', data[key].slice(0,MAXLENGTH) + '..')
-                        else
+                        else if(data[key])
                             $(key).set('html', data[key])
                     });
 
