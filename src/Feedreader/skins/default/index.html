@@ -6,11 +6,11 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
 
-        <script type="text/javascript" src="/common/core/mootools.js" />
-        <script type="text/javascript" src="/common/core/mootools-more.js" />
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
 
-        <script type="text/javascript" src="/common/ui/scroll/scroll.js" />
-        <script type="text/javascript" src="/common/core/cream.js" />
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
         <style type="text/css">
 
         #feed {
@@ -43,17 +43,17 @@
                             url = document.createElement('a');
                             url.setAttribute('href', feeds[i]['link']);
                             url.innerHTML = ' more';
-                        
+
                             box.appendChild(span);
                             box.appendChild(url);
 
-                            
+
                             if (i != 0) {
                                 box.style.paddingTop = "10px";
                             }
-    
+
                             $('feeds').appendChild(box);
-                        }   
+                        }
 
                     });
 
@@ -68,7 +68,7 @@
 
                 update.delay(1000);
                 update.periodical(600000);
-            };          
+            };
         </script>
     </head>
 

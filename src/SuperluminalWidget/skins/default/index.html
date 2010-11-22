@@ -3,13 +3,13 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    
+
     <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
 
-    <script type="text/javascript" src="/common/core/mootools.js" />
-    <script type="text/javascript" src="/common/core/events.js" />
-    <script type="text/javascript" src="/common/core/cream.js" />
-        
+    <script type="text/javascript" src="/common/core/mootools.js"></script>
+    <script type="text/javascript" src="/common/core/events.js"></script>
+    <script type="text/javascript" src="/common/core/cream.js"></script>
+
     <title>Superluminal</title>
   <script type="text/javascript">
     var timercount = 0;
@@ -166,7 +166,7 @@
       ctx.lineTo (shipx + 4, shipy - 12);
       ctx.lineTo (shipx, shipy + 6);
       ctx.fill();
-      
+
       // Body
       if (shields > 0 && cyclestep % 2 == 0) {
         ctx.fillStyle = "rgb(0,192,0)";
@@ -194,7 +194,7 @@
         ctx.lineTo (shipx - 3, shipy + 15);
         ctx.fill();
       }
-      
+
       // Guns
       ctx.fillStyle = "rgb(128,128,128)";
       ctx.fillRect (shipx - 11, shipy - 10, 2, 20);
@@ -207,7 +207,7 @@
         ctx.fillRect (shipx - 11, shipy - 6, 2, 6);
         ctx.fillRect (shipx + 9, shipy - 6, 2, 6);
       }
-      
+
       if (power_level > 0) {
         // Moar guns
         ctx.fillStyle = "rgb(192,192,192)";
@@ -272,7 +272,7 @@
           ctx.fillRect (badx[i] - 20, bady[i] - 16, 40, 8);
           ctx.fillRect (badx[i] - 20, bady[i] - 8, 8, 8);
           ctx.fillRect (badx[i] + 12, bady[i] - 8, 8, 8);
-          
+
           // Health bar
           var maxhealth = 15 + (4 * current_wave);
           if (cyclestep % 4 == 0) ctx.fillStyle = "rgb(255,64,64)";
@@ -301,7 +301,7 @@
           ctx.fillStyle = "rgb(0,128,0)";
           ctx.arc (badx[i], bady[i], 6, 0, Math.PI * 2, true);
           ctx.fill();
-          
+
           ctx.fillStyle = "rgb(255,255,255)";
           ctx.font = "bold 10px Arial";
           ctx.textBaseline = "top";
@@ -313,13 +313,13 @@
           ctx.fillStyle = "rgb(0,128,255)";
           ctx.arc (badx[i], bady[i], 6, 0, Math.PI * 2, true);
           ctx.fill();
-          
+
           ctx.fillStyle = "rgb(255,255,255)";
           ctx.font = "bold 9px Arial";
           ctx.textBaseline = "top";
           ctx.fillText ("P", badx[i] - 4, bady[i] -4);
         }
-        
+
         // Advance explosion animation
         if (bad_type[i] == -1) {
           current_score += 8 + current_wave;
@@ -331,11 +331,11 @@
         else if (badx[i] < -200 || badx[i] > 680 || bady[i] < -400 || bady[i] > 900) {
           dead_baddies.push (i);
         }
-        
+
         badx[i] += bad_deltax[i];
         bady[i] += bad_deltay[i];
       }
-      
+
       for (var i = dead_baddies.length - 1; i >= 0; i--) {
         badx.splice (dead_baddies[i], 1);
         bady.splice (dead_baddies[i], 1);
@@ -359,7 +359,7 @@
           baddies (ctx);
           if (game_over != 1) drawship (ctx);
         }
-        
+
         if (is_paused == 1) {
           ctx.fillStyle = "rgb(0,128,255)";
           ctx.font = "bold 30px Arial";
@@ -403,7 +403,7 @@
       var leader_hp = 1;
       var howmany = 0;
       var spacing = 0;
-      
+
       wave_count++;
       if (wave_count == 30) {
         is_boss = 1;
@@ -430,7 +430,7 @@
         howmany = Math.floor (Math.random() * current_wave) + current_wave;
         if (howmany > 13) howmany = 13;
         else if (howmany < 3) howmany = 3;
-        
+
         if (current_wave >= 10) leader_hp = 2;
 
         for (var i = 0; i < howmany; i++) {
@@ -448,7 +448,7 @@
         var screwed = 1;
         if (current_wave >= 9) screwed = 3;
         else if (current_wave >= 5) screwed = 2;
-        
+
         for (var screw = 0; screw < screwed; screw++) {
           leaderx = Math.floor (Math.random() * 380) + 50;
           leadery = -20;
@@ -474,7 +474,7 @@
         howmany = Math.floor (Math.random() * current_wave) + current_wave;
         if (howmany > 13) howmany = 13;
         else if (howmany < 3) howmany = 3;
-        
+
         spacing = 380 / howmany;
         for (var i = 0; i < howmany; i++) {
           badx.push (i * spacing + 50);
@@ -557,7 +557,7 @@
           if (bady[i] > 100 && bady[i] < 300 && cyclestep % 4 == 0) {
             if (shipx > badx[i]) bad_deltax[i]++;
             else if (shipx < badx[i]) bad_deltax[i]--;
-          
+
             if (bad_deltax[i] > 4) bad_deltax[i] = 4;
             if (bad_deltax[i] < -4) bad_deltax[i] = -4;
           }
@@ -606,10 +606,10 @@
           else {
             if (cyclestep % 8 == 0) bad_deltax[i] += Math.floor (Math.random() * 7) - 3;
           }
-          
+
           if (bad_deltax[i] > 8) bad_deltax[i] = 8;
           else if (bad_deltax[i] < -8) bad_deltax[i] = -8;
-          
+
           if (bady[i] >= 50) {
             if (current_wave >= 3 || (current_wave == 2 && cyclestep % 2 == 0) || (current_wave == 1 && cyclestep % 4 == 0)) {
               badx.push (badx[i]);
@@ -705,7 +705,7 @@
             bad_hp.push (3);
           }
         }
-        
+
         if (badx[i] > shipx - (shipwidth * 2) && badx[i] < shipx + (shipwidth * 2) && bady[i] > shipy - (shipheight * 2) && bady[i] < shipy + (shipheight * 2) && game_over != 1) {
           if (bad_type[i] == 9000) {
             dead_baddies.push (i);
@@ -754,7 +754,7 @@
       var bottomborder = 640 - shipheight;
       var leftborder = shipwidth;
       var topborder = shipheight;
-      
+
       if (shipx > rightborder) {
         shipx = rightborder;
         vectorx = 0;
@@ -786,16 +786,16 @@
         else if (vectorx < -11) vectorx = -11;
         if (vectory > 13) vectory = 13;
         else if (vectory < -13) vectory = -13;
-      
+
         // Friction. Yeah, I know there's no friction in a vacuum. Fuck you, smartass.
         if (vectorx > 0) vectorx -= 1.5;
         else if (vectorx < 0) vectorx += 1.5;
         if (vectory > 0) vectory -= 1.5;
         else if (vectory < 0) vectory += 1.5;
-      
+
         if (vectorx > -1 && vectorx < 1) vectorx = 0;
         if (vectory > -1 && vectory < 1) vectory = 0;
-      
+
         // Imma firin' ma laser!
         if (is_firing == 1) {
           if (cyclestep % 8 == 0) {
@@ -843,7 +843,7 @@
         if (power_level > 2000 && cyclestep % 2 == 0) power_level--;
         if (power_level > 1000 && cyclestep % 4 == 0) power_level--;
         if (power_level < 0) power_level = 0;
-        
+
         if (is_boss != 1) {
           enemy_count++;
           if (enemy_count >= enemy_freq) {
@@ -857,7 +857,7 @@
           wave_count = 0;
           enemy_count = -100;
         }
-      
+
         enemy_ai();
 
         move_ship (vectorx, vectory);
@@ -866,7 +866,7 @@
         if (cyclestep == 16) cyclestep = 0;
       }
       else draw();
-      
+
       d = new Date();
       var time_diff = d.getTime() - start_time;
       if (time_diff >= msec_frame) time_diff = 0;
