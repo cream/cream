@@ -44,7 +44,10 @@ class Dashboard(api.API):
         if arg:
             cmd += [self.parse_arg(arg)]
 
-        Subprocess(cmd, fork=True).run()
+        @api.in_main_thread
+        def _launch_app():
+            Subprocess(cmd, fork=True).run()
+        _launch_app()
 
     def parse_arg(self, arg):
         arg = str(arg)
