@@ -64,7 +64,7 @@ def save_icon(icon, path):
         with open(path, 'w') as file_handle:
             s = base64.decodestring(icon64)
             file_handle.write(s)
-        return True
+    return True
 
 def parse_cmd(cmd):
     cmd = cmd.replace('%F', '')
