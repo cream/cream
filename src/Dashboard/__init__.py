@@ -14,7 +14,7 @@ class Dashboard(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.dashboard = dashboard.Dashboard(self.config)
+        self.dashboard = dashboard.Dashboard(self.config, self.get_data_path())
         self.dashboard.connect('load-apps', lambda s, apps: self._emit('load-apps', apps))
         self.dashboard.connect('load-favorites', lambda s, apps: self._emit('load-favorites', apps))
 

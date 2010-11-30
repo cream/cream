@@ -2,39 +2,10 @@
 
 import gobject
 
+from cream.util.dicts import ordereddict
 from cream.contrib.desktopentries import DesktopEntry
 
-from cream.util.string import crop_string
-from cream.util.dicts import ordereddict
-
-from util import icon_to_base64, parse_cmd
-
-
-CATEGORIES = {'Development': 'Development',
-              'AudioVideo': 'Multimedia',
-              'Network': 'Network',
-              'Office': 'Office',
-              'Settings': 'Settings',
-              'System': 'System',
-              'Game': 'Games',
-              'Graphics': 'Graphics',
-              'Utility': 'Utility'
-}
-
-def app_from_entry(entry):
-    if not hasattr(entry, 'icon'):
-        return None
-    base64 = icon_to_base64(entry.icon)
-    if not base64:
-        return None
-
-    app = {}
-    app['name'] = entry.name
-    app['label'] = crop_string(entry.name, 8, '..')
-    app['cmd'] = parse_cmd(entry.exec_)
-    app['icon'] = base64
-    app['category'] = CATEGORIES.get(entry.recommended_category, '')
-    return app
+from util import CATEGORIES, app_from_entry
 
 
 class Dashboard(gobject.GObject):
@@ -43,10 +14,11 @@ class Dashboard(gobject.GObject):
         'load-favorites': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,)),
     }
 
-    def __init__(self, config):
+    def __init__(self, config, icon_path):
         gobject.GObject.__init__(self)
 
         self.config = config
+        self.icon_path = icon_path
 
     def setup(self):
         self.apps = self._parse_apps_from_entries()
@@ -67,7 +39,7 @@ class Dashboard(gobject.GObject):
         categories = self._get_categories_from_config()
 
         for entry in DesktopEntry.get_all():
-            app = app_from_entry(entry)
+            app = app_from_entry(entry, self.icon_path)
             if app is None or app['category'] is None:
                 continue
             elif app['category'] in categories:
@@ -76,7 +48,7 @@ class Dashboard(gobject.GObject):
         apps = []
         for category in categories.itervalues():
             if category:
-                sorted_category =sorted(category, key=lambda app: app['name'].lower())
+                sorted_category = sorted(category, key=lambda app: app['name'].lower())
                 self.emit('load-apps', sorted_category)
                 apps.append(sorted_category)
         return apps
@@ -94,7 +66,7 @@ class Dashboard(gobject.GObject):
 
         for entry in DesktopEntry.get_all():
             if entry.name in favorites:
-                app = app_from_entry(entry)
+                app = app_from_entry(entry, self.icon_path)
                 index = favorites.index(entry.name)
                 favorites[index] = app
         self.emit('load-favorites', favorites)

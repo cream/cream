@@ -5,9 +5,42 @@ try:
 except:
     from StringIO import StringIO
 
+import base64
+import os.path
+
+from cream.util.string import crop_string, slugify
 from cream.contrib.desktopentries.gtkmenu import lookup_icon
 
 ICON_SIZE = 40
+
+CATEGORIES = {'Development': 'Development',
+              'AudioVideo': 'Multimedia',
+              'Network': 'Network',
+              'Office': 'Office',
+              'Settings': 'Settings',
+              'System': 'System',
+              'Game': 'Games',
+              'Graphics': 'Graphics',
+              'Utility': 'Utility'
+}
+
+
+def app_from_entry(entry, path):
+    if not hasattr(entry, 'icon'):
+        return None
+
+    path = os.path.join(path, slugify(entry.name)) + '.png'
+    if not save_icon(entry.icon, path):
+        return None
+
+    app = {}
+    app['name'] = entry.name
+    app['label'] = crop_string(entry.name, 8, '..')
+    app['cmd'] = parse_cmd(entry.exec_)
+    app['icon'] = os.path.split(path)[1]
+    app['category'] = CATEGORIES.get(entry.recommended_category, '')
+    return app
+
 
 def icon_to_base64(icon):
     pixbuf = lookup_icon(icon, ICON_SIZE)
@@ -18,8 +51,20 @@ def icon_to_base64(icon):
     def _callback(buf):
         data.write(buf)
     pixbuf.save_to_callback(_callback, 'png')
-    base64 = data.getvalue().encode('base64')
-    return base64
+    icon64 = data.getvalue().encode('base64')
+    return icon64
+
+def save_icon(icon, path):
+    icon64 = icon_to_base64(icon)
+    if not icon:
+        return False
+
+    icon64 = icon64.replace('data:image/png;base64,', '')
+    if not os.path.exists(path):
+        with open(path, 'w') as file_handle:
+            s = base64.decodestring(icon64)
+            file_handle.write(s)
+        return True
 
 def parse_cmd(cmd):
     cmd = cmd.replace('%F', '')
