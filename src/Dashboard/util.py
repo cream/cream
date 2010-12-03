@@ -5,12 +5,14 @@ try:
 except:
     from StringIO import StringIO
 
+import re
 import base64
 import os.path
 
 from cream.util.string import crop_string, slugify
 from cream.contrib.desktopentries.gtkmenu import lookup_icon
 
+KICK = re.compile('%[ifFuUck]')
 ICON_SIZE = 40
 
 CATEGORIES = {'Development': 'Development',
@@ -36,7 +38,7 @@ def app_from_entry(entry, path):
     app = {}
     app['name'] = entry.name
     app['label'] = crop_string(entry.name, 8, '..')
-    app['cmd'] = parse_cmd(entry.exec_)
+    app['cmd'] = KICK.sub('', entry.exec_)
     app['icon'] = os.path.split(path)[1]
     app['category'] = CATEGORIES.get(entry.recommended_category, '')
     return app
@@ -65,10 +67,3 @@ def save_icon(icon, path):
             s = base64.decodestring(icon64)
             file_handle.write(s)
     return True
-
-def parse_cmd(cmd):
-    cmd = cmd.replace('%F', '')
-    cmd = cmd.replace('%f', '')
-    cmd = cmd.replace('%U', '')
-    cmd = cmd.replace('%u', '')
-    return cmd
