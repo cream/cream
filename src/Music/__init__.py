@@ -94,7 +94,7 @@ class Music(api.API):
             artist, album = track.get('artist'), track.get('album')
             if artist is None or album is None:
                 return None
-            path = get_cover(track.get('artist'), track.get('album'))
+            path = get_cover(artist, album)
             resize(path)
             return os.path.split(path)[1]
         return _get_coverart()
