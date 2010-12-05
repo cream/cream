@@ -21,8 +21,9 @@ COVERART_SIZE = 150,150
 
 def resize(path):
     image = Image.open(path)
-    image.thumbnail(COVERART_SIZE, Image.ANTIALIAS)
-    image.save(path, image.format)
+    if not image.size == COVERART_SIZE:
+        image.thumbnail(COVERART_SIZE, Image.ANTIALIAS)
+        image.save(path, image.format)
     return path
 
 @api.register('music')
