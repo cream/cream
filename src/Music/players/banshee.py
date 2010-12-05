@@ -30,9 +30,9 @@ class Banshee(BasePlayerController):
 
     def state_changed(self, state, *args):
         if state in ('paused', 'playing'):
-            self.on_state_changed()
+            self.on_state_changed(state)
         elif state in ('startofstream'):
-            self.on_song_changed()
+            self.on_song_changed(self.current_track)
 
     def play_pause(self):
         self.player_engine.TogglePlaying()

@@ -11,8 +11,8 @@ import thread
 class BasePlayerController(gobject.GObject):
 
     __gsignals__ = {
-        'song-changed': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, () ),
-        'state-changed': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, () )
+        'song-changed': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,) ),
+        'state-changed': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,) )
     }
 
     def __init__(self):
@@ -47,8 +47,8 @@ class BasePlayerController(gobject.GObject):
     def current_track(self):
         raise NotImplementedError
 
-    def on_song_changed(self, *args):
-        self.emit('song-changed')
+    def on_song_changed(self, song):
+        self.emit('song-changed', song)
 
-    def on_state_changed(self, *args):
-        self.emit('state-changed')
+    def on_state_changed(self, state):
+        self.emit('state-changed', state)

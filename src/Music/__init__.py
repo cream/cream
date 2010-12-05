@@ -38,14 +38,8 @@ class Music(api.API):
 
         self.player = PLAYERS[self.config.player]()
 
-        self.player.connect('song-changed', self.song_changed)
-        self.player.connect('state-changed', self.state_changed)
-
-    def song_changed(self, player):
-        self.emit('song-changed')
-
-    def state_changed(self, player):
-        self.emit('state-changed')
+        self.player.connect('song-changed', lambda p, song: self.emit('song-changed', song))
+        self.player.connect('state-changed', lambda p, state: self.emit('state-changed', state))
 
     @api.expose
     def change_player(self):
@@ -53,8 +47,8 @@ class Music(api.API):
         def _change_player():
             self.player.quit()
             self.player = PLAYERS[self.config.player]()
-            self.player.connect('song-changed', self.song_changed)
-            self.player.connect('state-changed', self.state_changed)
+            self.player.connect('song-changed', lambda p, song: self.emit('song-changed', song))
+            self.player.connect('state-changed', lambda p, state: self.emit('state-changed', state))
         _change_player()
 
     @api.expose
