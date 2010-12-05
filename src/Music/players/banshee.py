@@ -62,11 +62,17 @@ class Banshee(BasePlayerController):
                 ('artist', 'album', 'name', 'track-number', 'length'))
 
         rating = int(self.player_engine.GetRating())
-
+        position = self.current_position
         return {'artist': artist,
                 'album': album,
                 'title': title,
                 'tracknumber': tracknumber,
                 'rating': rating,
-                'duration': duration
+                'duration': duration,
+                'position': position
         }
+
+    @property
+    def current_position(self):
+        position = self.player_engine.GetPosition()
+        return float(position / 1000)

@@ -66,10 +66,17 @@ class Rhythmbox(BasePlayerController):
             map(lambda key: track.get(key, None),
                 ('artist', 'album', 'title', 'track-number', 'rating', 'duration'))
 
+        duration = float(duration)
+
         return {'artist': artist,
                 'album': album,
                 'title': title,
                 'tracknumber': tracknumber,
                 'rating': rating,
-                'duration': duration
+                'duration': duration,
+                'position': self.current_position
         }
+
+    @property
+    def current_position(self):
+        return int(self.player.getElapsed())

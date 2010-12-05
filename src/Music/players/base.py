@@ -40,6 +40,10 @@ class BasePlayerController(gobject.GObject):
         raise NotImplementedError
 
     @property
+    def current_position(self):
+        raise NotImplementedError
+
+    @property
     def is_playing(self):
         raise NotImplementedError
 
