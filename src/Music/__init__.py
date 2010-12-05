@@ -91,6 +91,9 @@ class Music(api.API):
         @api.in_main_thread
         def _get_coverart():
             track = self.player.current_track
+            artist, album = track.get('artist'), track.get('album')
+            if artist is None or album is None:
+                return None
             path = get_cover(track.get('artist'), track.get('album'))
             resize(path)
             return os.path.split(path)[1]
