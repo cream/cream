@@ -11,31 +11,33 @@
         <script type="text/javascript" src="/common/core/events.js"></script>
         <script type="text/javascript" src="/common/core/cream.js"></script>
 
+        <script type="text/javascript" src="progress-bar.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css" media="screen"></link>
 
-
-
         <script type="text/javascript">
-            function update_data() {
-                widget.api.music.get_data(function(data) {
-                    $('title').set('html', data['title']);
-                    $('artist').set('html',data['artist']);
-                    $('album').set('html', data['album']);
+            function update_data(data){
+                $('title').set('html', data['title']);
+                $('artist').set('html',data['artist']);
+                $('album').set('html', data['album']);
 
-                    widget.api.music.get_coverart(function(path) {
-                        if(coverart != undefined)
-                            $('coverart').set('src', '/data/coverart/' + coverart);
-                        else
-                            $('coverart').set('src', '/data/coverart/default.png');
-                    });
+                var rating = data['rating'];
+                for(i=1;i<6;i++) {
+                    if(i<rating+1)
+                        $(i.toString()).set('src', 'images/star_yellow.png');
+                    else
+                        $(i.toString()).set('src', 'images/star_grey.png');
+                };
 
-                    var rating = data['rating'];
-                    for(i=1;i<6;i++) {
-                        if(i<rating+1)
-                            $(i.toString()).set('src', 'images/star_yellow.png');
-                        else
-                            $(i.toString()).set('src', 'images/star_grey.png');
-                    };
+                update_coverart();
+                progress_bar.start(data['duration'], data['position']);
+            }
+
+            function update_coverart(){
+                widget.api.music.get_coverart(function(coverart) {
+                    if(coverart != undefined)
+                        $('coverart').set('src', '/data/coverart/' + coverart);
+                    else
+                        $('coverart').set('src', '/data/coverart/default.png');
                 });
             }
 
@@ -50,23 +52,33 @@
 
             function set_rating(rating) {
                 widget.api.music.set_rating(rating);
-                update_data();
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
             }
 
             function change_player() {
                 widget.api.music.change_player();
-                update_data();
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
                 set_icons();
             }
 
             function main() {
 
-                widget.api.addEvent('song-changed', function() {
-                    update_data();
+                widget.api.addEvent('song-changed', function(song) {
+                    update_data(song);
                 });
 
-                widget.api.addEvent('state-changed', function() {
-                    set_icons();
+                widget.api.addEvent('state-changed', function(state) {
+                    if(state == 'paused'){
+                        $('play-pause').set('src', 'images/play.png');
+                        progress_bar.pause();
+                    } else if(state == 'playing'){
+                        $('play-pause').set('src', 'images/pause.png');
+                        progress_bar.resume();
+                    }
                 });
 
                 var timeout_id;
@@ -85,7 +97,12 @@
                     widget.api.music.play_pause();
                 });
 
-                update_data();
+                progress_bar = new ProgressBar('progress-bar', 1);
+
+
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
                 set_icons();
             };
         </script>
@@ -96,6 +113,9 @@
         <div class="widget" style="width: 220px;">
             <div class="background">
                 <div class="coverart" ><img id="coverart" src="" /></div>
+                <div class="progress-bar">
+                    <canvas id="progress-bar" width="200" height="8"></canvas>
+                </div>
                 <div class="info-area">
                     <div id="title"></div>
                     <div id="artist"></div>
