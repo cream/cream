@@ -31,8 +31,10 @@ class Music(api.API):
 
     def __init__(self):
         api.API.__init__(self)
-        config.COVER_ART_BASE_DIR = os.path.join(self.context.working_directory,
-                                                'skins/default/coverart')
+
+        config.COVER_ART_BASE_DIR = os.path.join(self.get_data_path(), 'coverart')
+        if not os.path.exists(config.COVER_ART_BASE_DIR):
+            os.mkdir(config.COVER_ART_BASE_DIR)
 
         self.player = PLAYERS[self.config.player]()
 
