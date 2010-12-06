@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<manifest namespace='org.cream.melange' version="1.0">
-    <component name="Default" id=".lcdclock-widget.DefaultSkin" version="1.0" type=".Skin">
-        <license title="zlib License" />
-        <description lang="en" content="A default theme for the LCD-Clock widget." />
-        <author name="Lukas Martini" type="developer" mail="lukas.martini@junge-piraten.de" />
-    </component>
-</manifest>

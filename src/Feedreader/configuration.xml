@@ -1,4 +1,0 @@
-<configuration>
-    <url label="Url" type="char">http://identi.ca/api/statusnet/groups/timeline/5065.rss</url>
-    <number label="Number" type="integer" min="1" max="20">10</number>
-</configuration>
