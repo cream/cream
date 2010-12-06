@@ -1,0 +1,15 @@
+<configuration>
+    <display_mode label="Display mode" type='multioption' static='true'>
+        <item type='tuple'>
+            <item type='str'>icon-only</item>
+            <item type='str'>Only Icon</item>
+        </item>
+        <item type='tuple'>
+            <item type='str'>icon-and-title</item>
+            <item type='str'>Icon and title</item>
+        </item>
+    </display_mode>
+    <width label="Width" type="integer" min="1" max="10000">500</width>
+    <icon_size label="Icon size" type="integer" min="1" max="256">22</icon_size>
+    <focus_color label="Focus color" type="char">#eecf11</focus_color>
+</configuration>

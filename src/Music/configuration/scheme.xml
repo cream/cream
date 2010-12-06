@@ -1,0 +1,12 @@
+<configuration>
+    <player label="Player" type='multioption' static='true'>
+        <item type='tuple'>
+            <item type='str'>banshee</item>
+            <item type='str'>Banshee</item>
+        </item>
+        <item type='tuple'>
+            <item type='str'>rhythmbox</item>
+            <item type='str'>Rhythmbox</item>
+        </item>
+    </player>
+</configuration>

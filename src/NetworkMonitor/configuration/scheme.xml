@@ -1,0 +1,4 @@
+<configuration>
+    <interface label="Interface" type="char">eth0</interface>
+    <interval label="Update Interval" type="integer">1</interval>
+</configuration>
