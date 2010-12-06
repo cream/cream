@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ 
+    <head>
+        <title>Window List</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen">
+        
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+
+        <style type="text/css">
+        
+            body {
+                #background: #ff0000;
+                overflow: hidden;
+            }
+        
+            .background {
+                padding: 4px !important;
+                border-radius: 9px !important;
+                
+                #background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .42)), to(rgba(255,255,255,.25))) !important;
+                overflow: hidden;
+            }
+        
+            #taskbar {
+                clear: left;
+            }
+            
+            .taskbar-app {
+                float: left;
+                cursor: pointer;
+                text-align: center;
+                margin-right: 3px;
+            }
+
+                .taskbar-app-inner {
+                    padding: 7px;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+                    
+                    margin-right: 0px;
+                    margin-bottom: 0px;
+                    
+                    border-radius: 7px;
+                    position: relative;
+                }
+            
+            .active-app {
+                
+            }
+            
+            .opened-app {
+                background: rgba(255, 255, 255, .25);
+                -webkit-box-shadow: 
+                    0px 0px 3px rgba(0, 0, 0, .05),
+                    inset 0px 1px 0px rgba(255, 255, 255, .65),
+                    inset 0px -1px 0px rgba(0, 0, 0, .15);
+            }
+                
+            .minimized-app {
+            }
+            
+            .state-indicator {
+                width: 2px;
+                height: 1px;
+                background: rgba(255, 255, 255, .9);
+                -webkit-box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 1);
+                margin: auto;
+                position: relative;
+                bottom: -4px;
+                z-index: 1000;
+            }
+            
+            .window-title {
+                font-size: 8pt;
+                float: right;
+                margin-left: 10px;
+                position: relative;
+                top: 2px;
+            }
+            
+            img {
+                border: none;
+            }
+            
+            .empty-img {
+            
+            }
+            
+        </style>
+
+        <script language="javascript">
+            function add_win(win) {
+                var item_wrapper = new Element('div', {
+                    'id': win['xid'].toString() + '-wrapper',
+                    'class': 'taskbar-app'
+                });
+                
+                var item = new Element('div', {
+                    'id': win['xid'].toString()
+                });
+                item.set('morph', {duration: 150});
+                item.setStyle('opacity', 0.7);
+                
+                var state_indicator = new Element('div', {
+                    'id': win['xid'].toString() + '-indicator',
+                    'class': 'state-indicator'
+                })
+
+                if(win['state']) {
+                    item.set('class', 'opened-app taskbar-app-inner');
+                } else {
+                    item.set('class', 'minimized-app taskbar-app-inner');
+                }
+
+                if (win['icon']) {
+                    img = new Element('img', {
+                        'class': 'task-img',
+                        'src': 'data:image/png;base64,' + win['icon'],
+                        'style': 'width: ' + widget.config.get('icon_size') + 'px'
+                    });
+                } else {
+                    img = new Element('div', {
+                        'style': 'width: ' + widget.config.get('icon_size') + 'px; height: ' + widget.config.get('icon_size') + 'px',
+                        'class': 'empty-img'
+                    });
+                }
+                img.xid = win['xid'];
+                
+                // WRAPPER EVENTS
+                
+                item_wrapper.addEvent('click', function() {
+                    toggle_win(this.id.replace('-wrapper', ''));
+                });
+                
+                item_wrapper.addEvent('mouseover', function() {
+                    id = this.id.replace('-wrapper', '');
+                    $(id).morph({'opacity': 1.0, 'bottom': '1px'});
+                });
+                
+                item_wrapper.addEvent('mouseout', function() {
+                    id = this.id.replace('-wrapper', '');
+                    $(id).morph({'opacity': 0.7, 'bottom': '0px'});
+                });
+                
+                item.grab(img);
+            
+                title = new Element('div', {
+                    'class': 'window-title',
+                    'text': win['title']
+                });
+                   
+                // check wether to show the title or not 
+                if (widget.config.get('display_mode') == 'icon-and-title') {
+                    title.setStyle('display', 'block');
+                }
+                else {
+                    title.setStyle('display', 'none');
+                }
+                
+                item.grab(title);
+
+                item_wrapper.grab(item);
+                item_wrapper.grab(state_indicator);
+                $('taskbar').grab(item_wrapper);
+
+                current_width = $('taskbar').getStyle('width');
+                current_width = current_width.toInt();
+                new_width = current_width + item['size'] + 'px';
+                
+                $('taskbar').setStyle('width', new_width);
+            }
+            
+            function toggle_win(xid) {
+                widget.api.taskbar.toggle(xid.toInt())
+            }
+
+            function change_win_state(win) {
+                if(win['state']) {
+                    $(win['xid'].toString()).set('class', 'opened-app taskbar-app-inner');
+                } else {
+                    $(win['xid'].toString()).set('class', 'minimized-app taskbar-app-inner');
+                }
+            }
+
+            function remove_win(win) {
+                $(win['xid'].toString() + '-wrapper').dispose();
+            }
+            
+            function clear() {
+                $('taskbar').empty();
+            }
+        
+            function main() {
+                widget.api.addEvent('window-added', add_win);
+                widget.api.addEvent('window-removed', remove_win);
+                widget.api.addEvent('window-state-changed', change_win_state);
+                // the python api should better call the function `add_item`
+                // for each new opened window
+                
+                // the python api should also call a function like `minimize_item`
+                // if a window is minimized by its window button
+                // if its minimized by clicking on the window list icon
+                // javascript should call a registered python method
+                widget.api.taskbar.get_all_windows(function(wins) {
+                    for(c=0; c<wins.length; c++) {
+                        widget.api.taskbar.manage_data(wins[c]);
+                    }
+                });
+                
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                    if (field == 'display_mode') {
+                        if (new_value == 'icon-and-title') {
+                            $$('.window-title').setStyle('display', 'block');
+                        }
+                        else if (new_value == 'icon-only'){
+                            $$('.window-title').setStyle('display', 'none');
+                        }
+                    }
+                    else if (field == 'width') {
+                        $$('.widget').morph({'width': new_value + 'px'});
+                    }
+                    else if (field == 'icon_size') {
+                        /*$$('.task-img').each(function(el){
+                            el.set(
+                                'src', 
+                                'data:image/png;base64,' + widget.api.taskbar.get_icon(el.xid)
+                            );
+                            //alert(el.xid + ': ' + widget.api.taskbar.get_icon(el.xid));
+                        });*/
+                        $$('.task-img').morph({'width': new_value + 'px'});
+                        $$('.empty-img').morph({'width': new_value + 'px', 'height': new_value + 'px'});
+                    }
+                });
+                
+                width = widget.config.get('width') + 'px';
+                $$('.widget').setStyle('width', width);
+            }
+        </script>
+    </head>
+ 
+    <body>
+        <div class="widget">
+            <div class="background">
+                <div id="taskbar">
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </body>
+ 
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Example widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <!-- Melange's style definitions. -->
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <!-- The JavaScript framework we are using. -->
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <!-- Two JavaScript libraries for using the chooser- and scrolled-objects. -->
+        <script type="text/javascript" src="/common/ui/chooser/chooser.js"></script>
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js"></script>
+        <script type="text/javascript" src="/common/ui/dialog/dialog.js"></script>
+        <script type="text/javascript" src="/common/core/events.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        <script type="text/javascript">
+
+            function okcb(params) {
+                alert(params['msg']);
+            }
+
+            function extracb(params) {
+                alert(params['msg'] + 'kfjwoiref');
+            }
+
+            function main() {
+                $('foobar').addEvent('drop', function(data) {
+                    alert(data[0]);
+                    });
+
+                var mydialog = new SimpleDialog({
+                    'ok_callback': okcb,
+                    'cancel_callback': okcb,
+                    'ok_button_text': 'Yes'
+                });
+
+                mydialog.add_button('extra', extracb);
+                mydialog.set_up_extrabuttons();
+
+                var dialog2 = new SimpleDialog({
+                    'ok_callback': okcb,
+                    'cancel_callback': okcb
+                })
+
+                var foo = 'foo';
+                // This event is being emitted, when the option of
+                // the specific chooser-object has been changed.
+                $('mode').addEvent('value_changed', function(option) {
+                    foo = option.id;
+                });
+
+                // Connect to the `onclick` signal of a button.
+                $('doit').onclick = function() {
+                    // Write the return value of your API function `doit` to the widget.
+                    widget.api.example.doit(foo, function(ret) {
+                        $('response').innerHTML = ret;
+                        //mydialog.show('Hi there', {'msg': 'Foobar'}, {'msg': 'barfoo'}, Array({'msg':'ABC'}));
+                    });
+                };
+
+                // Connect to the `onclick` signal of a button.
+                $('doit2').onclick = function() {
+                    dialog2.show('Hi there 2', {'msg': 'Foobar2'}, {'msg': 'barfoo2'}, {});
+                };
+
+            };
+
+        </script>
+    </head>
+
+    <body>
+        <!-- Create your widget object. You have to specify a width for the widget! -->
+        <div class="widget" style="width: 180px;">
+            <!-- The background object displays the background. Believe it or not...
+            (You can leave it out, if you want to.) -->
+            <div class="background">
+                <div id="foobar" style="background-color: red;">Drop files here!</div>
+                <!-- The chooser-object should be used for presenting options to the user. -->
+                <div class="chooser" id="mode">
+                    <!-- You need one option-object for every option. Yeah. One more thing to remember.
+                    You should specify an ID in order to make them identificable! -->
+                    <div class="option" id="foo">
+                        foo
+                    </div>
+                    <div class="option" id="bar">
+                        bar
+                    </div>
+                    <div class="option" id="blubb">
+                        blubb
+                    </div>
+                </div>
+                <!-- The section-object kinda separates content from his environment. -->
+                <div class="section">
+                    Response:<br />
+                    <span id="response" style="font-size: .9em;"></span>
+                </div>
+                <div style="clear: both;"></div>
+                <!-- Button objects are pretty self-explanatory. -->
+                <div class="button" id="doit" style="float: right;">
+                    Do It!
+                </div>
+                <div class="button" id="doit2" style="float: right;">
+                    Do It 2!
+                </div>
+                <!-- Don't forget to reset your float-environment! -->
+                <div style="clear: both;"></div><br />
+                <!-- Last but not least the scolled-object. -->
+                <div class="scroll" style="height: 120px;">
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

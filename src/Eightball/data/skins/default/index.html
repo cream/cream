@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Eightball</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <!-- Melange's style definitions. -->
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+        <!-- The JavaScript framework we are using. -->
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 180px;" onclick="slide_in();">
+            <div style="background-image: url(8ball.png); height: 160px; padding: 13px;">
+                <div style="border-radius: 100px; overflow: hidden;">
+                <div id="foo" style="width: 160px; height: 118px;">
+                    <div style="background: rgba(256, 256, 256, .15); padding: 15px; width: 60px; height: 60px; margin: 32px; border-radius: 60px; text-align: center; color: #eeeeee; font-size: 1.1em;">
+                        <div id="bar" style="height: 60px; width: 60px; display: table-cell; vertical-align: middle; text-align: center;"></div>
+                    </div>
+                    <script type="text/javascript">
+                    var choices = ['Try later','May the Force be with you','Try again','I don\'t know','It\'s your destiny','Alea jacta est','50/50','Maybe','The answer is in your heart','Why not?','You\'d better not','Ask your question again','I think yes','Certainly','Yes absolutly','Count on it','No doubt about that','Very likely','Yes','Looks like yes','No','Unlikely','Stop dreaming ...','Don\'t you think about it','Don\'t count on it','Impossible','I guess no','Wait']
+
+                    function slide_in() {
+                        $('foo').set('slide', {duration: 600, mode: 'horizontal', transition: 'quart'});
+                        $('foo').slide('show').slide('out');
+                        setTimeout("$('bar').innerHTML = choices[Math.floor(Math.random()*choices.length)]; $('foo').set('slide', {duration: 600, mode: 'horizontal', transition: 'bounce:out'});; $('foo').slide('hide').slide('in')", 400);
+                    }
+                    </script>
+                </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

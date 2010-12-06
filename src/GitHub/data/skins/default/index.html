@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>GitHub Widget</title>
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+
+        <style type="text/css">
+        #github {
+            cursor: pointer;
+        }
+        </style>
+        <script type="text/javascript">
+        function query() {
+            widget.api.github.query(function(data) {
+                if(data) {
+                    $('github').fade(1);
+                } else {
+                    $('github').fade(.3);
+                }
+            });
+        }
+
+        function main() {
+            $('github').fade(.3);
+            $('github').addEvent('click', function() {
+                widget.api.github.reset();
+                $('github').fade(.3);
+            });
+
+            query();
+            setInterval(query, 30000);
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 126px;">
+            <div class="background">
+                <img id="github" src="github.png" />
+            </div>
+        </div>
+    </body>
+</html>

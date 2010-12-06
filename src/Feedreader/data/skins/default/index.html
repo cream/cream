@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Identica Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        <style type="text/css">
+
+        #feed {
+            font-size: .9em;
+
+        }
+        a {
+            font-size: 8px;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            margin-bottom: -3px;
+        }
+        </style>
+
+        <script type="text/javascript">
+            function main() {
+
+                function update() {
+                    $('feeds').innerHTML = ''
+                    widget.api.feedreader.get_feeds(widget.config.get('url'), function(feeds) {
+                        for(i=0; i<widget.config.get('number'); i++) {
+                            box = document.createElement('div');
+
+                            span = document.createElement('span');
+                            span.setAttribute('id', 'feed');
+                            span.innerHTML = feeds[i]['title'];
+
+                            url = document.createElement('a');
+                            url.setAttribute('href', feeds[i]['link']);
+                            url.innerHTML = ' more';
+
+                            box.appendChild(span);
+                            box.appendChild(url);
+
+
+                            if (i != 0) {
+                                box.style.paddingTop = "10px";
+                            }
+
+                            $('feeds').appendChild(box);
+                        }
+
+                    });
+
+
+
+                }
+                var configuration_update_timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                    $clear(configuration_update_timeout_id);
+                    configuration_update_timeout_id = update.delay(3000);
+                });
+
+                update.delay(1000);
+                update.periodical(600000);
+            };
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 200px;">
+            <div class="background">
+                <div class="scroll" style="height: 220px;">
+                    <div id="feeds">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

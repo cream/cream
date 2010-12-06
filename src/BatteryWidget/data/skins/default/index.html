@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Battery Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+
+    </head>
+
+    <body>
+        <div class="widget" style="min-width: 110px;">
+            <div class="background">
+                <div style="text-align: center;">
+                    <img id="icon" src="images/full.png" width="65%" onmousedown="return false;" /><br />
+
+                    <div id="remaining_capacity" style="margin-top: 10px; font-size: 1.3em; font-weight: bold; line-height: 1em;">NaN</div>
+                    <div id="status" style="margin-top: 3px; font-size: .9em; color: #262626; line-height: 1em;">NaN</div>
+                </div>
+
+                <script type="text/javascript">
+                    function main() {
+
+                        var icons = {
+                            'full': 'battery-full.png',
+                            'full-soon': 'battery-fullsoon.png',
+                            'full-half': 'battery-fullhalf.png',
+                            'empty-soon': 'battery-emptysoon.png',
+                            'empty-critical': 'battery-emptycritical.png'
+                        };
+
+                        function update_battery_state() {
+                            widget.api.battery.get_state(function(data) {
+                                $('remaining_capacity').set('text', data['remaining_capacity'] + '%');
+                                $('status').set('text', data['status']);
+                                $('icon').set('src', 'images/' + icons[data['level']]);
+
+                            });
+                        }
+
+                        update_battery_state.delay(50);
+                        update_battery_state.periodical(8000);
+
+                    };
+                </script>
+            </div>
+        </div>
+    </body>
+
+</html>

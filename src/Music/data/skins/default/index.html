@@ -1,0 +1,152 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Music Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"></meta>
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen"></link>
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/events.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+
+        <script type="text/javascript" src="progress-bar.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen"></link>
+
+        <script type="text/javascript">
+            function update_data(data){
+                $('title').set('html', data['title']);
+                $('artist').set('html',data['artist']);
+                $('album').set('html', data['album']);
+
+                var rating = data['rating'];
+                for(i=1;i<6;i++) {
+                    if(i<rating+1)
+                        $(i.toString()).set('src', 'images/star_yellow.png');
+                    else
+                        $(i.toString()).set('src', 'images/star_grey.png');
+                };
+
+                update_coverart();
+                progress_bar.start(data['duration'], data['position']);
+            }
+
+            function update_coverart(){
+                widget.api.music.get_coverart(function(coverart) {
+                    if(coverart != undefined)
+                        $('coverart').set('src', '/data/coverart/' + coverart);
+                    else
+                        $('coverart').set('src', '/data/coverart/default.png');
+                });
+            }
+
+            function set_icons() {
+                widget.api.music.is_playing(function(playing) {
+                    if(playing)
+                        $('play-pause').set('src', 'images/pause.png');
+                    else
+                        $('play-pause').set('src', 'images/play.png');
+                });
+            }
+
+            function set_rating(rating) {
+                widget.api.music.set_rating(rating);
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
+            }
+
+            function change_player() {
+                widget.api.music.change_player();
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
+                set_icons();
+            }
+
+            function main() {
+
+                widget.api.addEvent('song-changed', function(song) {
+                    update_data(song);
+                });
+
+                widget.api.addEvent('state-changed', function(state) {
+                    if(state == 'paused'){
+                        $('play-pause').set('src', 'images/play.png');
+                        progress_bar.pause();
+                    } else if(state == 'playing'){
+                        $('play-pause').set('src', 'images/pause.png');
+                        progress_bar.resume();
+                    }
+                });
+
+                var timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, value){
+                    $clear(timeout_id);
+                    timeout_id = change_player.delay(1000);
+                });
+
+                $('previous').addEvent('click', function() {
+                    widget.api.music.previous();
+                });
+                $('next').addEvent('click', function () {
+                    widget.api.music.next();
+                });
+                $('play-pause').addEvent('click', function() {
+                    widget.api.music.play_pause();
+                });
+
+                progress_bar = new ProgressBar('progress-bar', 1);
+
+
+                widget.api.music.get_data(function(data) {
+                    update_data(data);
+                });
+                set_icons();
+            };
+        </script>
+
+    </head>
+
+    <body>
+        <div class="widget" style="width: 220px;">
+            <div class="background">
+                <div class="coverart" ><img id="coverart" src="" /></div>
+                <div class="progress-bar">
+                    <canvas id="progress-bar" width="200" height="8"></canvas>
+                </div>
+                <div class="info-area">
+                    <div id="title"></div>
+                    <div id="artist"></div>
+                    <div id="album"></div>
+                    <div class="rating">
+                        <table class="rating">
+                            <tr>
+                                <td><img id="1" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="2" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="3" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="4" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="5" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="control-area">
+                    <table class="control-area">
+                    <tr>
+                        <td><div class="controls" >
+                            <img id="previous" src="images/back.png" /></div></td>
+                        <td><div class="controls play-pause" >
+                            <img id="play-pause" src="images/play.png" /></div></td>
+                        <td><div class="controls" >
+                            <img id="next" src="images/next.png" /></div></td>
+                    </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>TicTacToe</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/events.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        <script type="text/javascript">
+            var buttons = ['0|0','0|1','0|2','1|0','1|1','1|2','2|0','2|1','2|2'];
+            var circle = "images/circle.png";
+            var cross = "images/cross.png";
+            var none = "images/none.png";
+            var player_token = widget.config.get('token');
+
+            function set_token(field, player) {
+                if(player == 'player') {
+                    if(player_token == 'circle')
+                        field.src = circle;
+                    else
+                        field.src = cross;
+                }
+                else {
+                    if(player_token == 'circle')
+                        field.src = cross;
+                    else
+                        field.src = circle
+                }
+
+            };
+
+            function game_turn(field, line, column) {
+                widget.api.tictactoe.move_allowed(line, column, function(allowed) {
+                    if(allowed != true)
+                        return;
+                    widget.api.tictactoe.player_turn(line, column, function(game_over) {
+                        set_token(field, "player")
+
+                        widget.api.tictactoe.computer_turn(function(field) {
+                            if(field)
+                                set_token($(field), "computer")
+                        });
+                    });
+                });
+
+            };
+
+            function main() {
+                $('0|0').addEvent('click', function() {
+                    game_turn(this, 0, 0);
+                });
+                $('0|1').addEvent('click', function() {
+                    game_turn(this, 0, 1);
+                });
+                $('0|2').addEvent('click', function() {
+                    game_turn(this, 0, 2);
+                });
+                $('1|0').addEvent('click', function() {
+                    game_turn(this, 1, 0);
+                });
+                $('1|1').addEvent('click', function() {
+                    game_turn(this, 1, 1);
+                });
+                $('1|2').addEvent('click', function() {
+                    game_turn(this, 1, 2);
+                });
+                $('2|0').addEvent('click', function() {
+                    game_turn(this, 2, 0);
+                });
+                $('2|1').addEvent('click', function() {
+                    game_turn(this, 2, 1);
+                });
+                $('2|2').addEvent('click', function() {
+                    game_turn(this, 2, 2);
+                });
+
+                $('reset').addEvent('click', function() {
+                    for (i = 0; i < 9; i++) {
+                        $(buttons[i]).src = none;
+                    }
+                    widget.api.tictactoe.reset();
+                    var player_token = widget.config.get('token');
+                });
+
+
+            };
+
+        </script>
+        <style type="text/css">
+            .gameboard {
+                padding: 0px;
+            }
+            .field {
+                padding: 8px;
+                padding-top: 12px;
+            }
+            #reset {
+                float: right;
+                margin-top: -5px;
+                opacity: 0.4;
+            }
+            #reset:hover {
+                opacity: 0.7;
+            }
+            #reset:active {
+                opacity: 1;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <div class="widget" style="width: 160px;">
+            <div style="width: 160px; height: 200px; background: url(images/paper.png);">
+                <div class="gameboard">
+                    <table border="0">
+                        <tr>
+                            <td><img class="field" id="0|0" src="images/none.png"/></td>
+                            <td><img class="field" id="0|1" src="images/none.png"/></td>
+                            <td><img class="field" id="0|2" src="images/none.png"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="field" id="1|0" src="images/none.png"/></td>
+                            <td><img class="field" id="1|1" src="images/none.png"/></td>
+                            <td><img class="field" id="1|2" src="images/none.png"/></td>
+                        </tr>
+                        <tr>
+                            <td><img class="field" id="2|0" src="images/none.png"/></td>
+                            <td><img class="field" id="2|1" src="images/none.png"/></td>
+                            <td><img class="field" id="2|2" src="images/none.png"/></td>
+                        </tr>
+                    </table>
+                    <div id="reset"><img src="images/reset.png" /></div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

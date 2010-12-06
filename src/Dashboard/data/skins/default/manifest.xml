@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="Default" id=".dashboard.DefaultSkin" version="1.0" type=".Skin">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="A default skin for the Dashboard widget." />
+        <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
+    </component>
+</manifest>

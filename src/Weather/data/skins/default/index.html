@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Weather Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        
+        <script type="text/javascript" src="/common/ui/spinner/spinner.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen">
+
+        <style type="text/css">
+            #data-column {
+                margin-left: 80px;
+            }
+
+            .title {
+                font-size: .65em;
+                line-height: 1em;
+            }
+
+            #temperature {
+                font-size: 1.8em;
+                font-weight: bold;
+                line-height: 1em;
+            }
+
+            #wind {
+                font-size: .8em;
+                font-weight: bold;
+                line-height: 1em;
+            }
+
+            #humidity {
+               font-size: .8em;
+               font-weight: bold;
+               line-height: 1em;
+            }
+            #pressure {
+                font-size: .8em;
+                font-weight: bold;
+                line-height: 1em;
+            }
+
+            .overlay {
+                display: block;
+                z-index: 999;
+                background: none;
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                right: 3px;
+                bottom: 3px;
+            }
+        </style>
+        <script type="javascript">
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="min-width: 180px;">
+            <div class="background">
+
+                <div id="spinner_overlay" class="overlay">
+                    <div style="left: 3px; right: 3px; position: absolute; top: 50%; text-align: center;">
+                        <div style="position: relative; top: -27px; margin-bottom: -27px;" id="spinner"></div>
+                        <span style="font-size: .9em; font-style: italic;">Loading weather data…</span>
+                    </div>
+                </div>
+
+                <div id="content">
+                    <div style="width: 70px; float: left; text-align: center;">
+                        <img id="icon" src="images/clear.png" onmousedown="return false;" />
+                        <br />
+                        <span id="temperature">N/A</span>
+                    </div>
+                    <div id="data-column">
+                        <span class="title">Wind:</span><br />
+                        <span id="wind">N/A</span><br />
+    
+                        <span class="title">Humidity:</span><br />
+                        <span id="humidity">N/A</span><br />
+    
+                        <span class="title">Pressure:</span><br />
+                        <span id="pressure">N/A</span>
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <script type="text/javascript">                
+                    throbber_state = 0;
+                    function main() {
+                        var icons = {
+                            'clear': 'clear.png',
+                            'cloudy': 'cloudy.png',
+                            'flurries': 'flurries.png',
+                            'fog': 'fog.png',
+                            'hazy': 'hazy.png',
+                            'mostlycloudy': 'mostlycloudy.png',
+                            'mostlysunny': 'mostlysunny.png',
+                            'partlycloudy': 'partlycloudy.png',
+                            'partlysunny': 'partlysunny.png',
+                            'rain': 'rain.png',
+                            'sleet': 'sleet.png',
+                            'snow': 'snow.png',
+                            'sunny': 'sunny.png',
+                            'tstorms': 'thunderstorms.png',
+                            'unknown': 'unknown.png',
+                        };
+
+                        function update_weather() {
+                            widget.api.weather.get(function(data) {
+                                spinner.stop();
+                                $('content').fade(1);
+                                $('spinner_overlay').fade(0);
+
+                                $('temperature').set('text', data['temperature'] + '°C');
+                                $('wind').set('text', data['wind_speed'] + 'km/h');
+                                $('humidity').set('text', data['humidity'] + '%');
+                                $('pressure').set('text', data['pressure'] + 'hPa');
+                                $('icon').set('src', 'images/' + icons[data['icon']]);
+                            });
+                        }
+
+                        $('content').set('opacity', 0);
+
+                        var configuration_update_timeout_id;
+                        widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                            /* This function is called every time the user types something in the
+                               configuration dialog input box. To avoid lots of requests to the weather
+                               service, ensure that at least 3 seconds have passed before the next
+                               request is send by using a timeout.
+                            */
+                            $clear(configuration_update_timeout_id);
+                            configuration_update_timeout_id = update_weather.delay(3000);
+                        });
+
+
+                        update_weather.delay(50);
+                        update_weather.periodical(60000);
+
+                        var spinner = new Spinner($('spinner'));
+                        spinner.start();
+                    }
+                </script>
+            </div>
+        </div>
+    </body>
+
+</html>
