@@ -14,12 +14,6 @@ pyjavascriptcore:
 update-pyjavascriptcore: pyjavascriptcore
 	cd pyjavascriptcore && bzr pull && python setup.py install
 
-bjoern:
-	git clone git://github.com/jonashaag/bjoern.git
-
-update-bjoern: bjoern
-	cd bjoern/ && git pull && python setup.py install
-
 setup:
 	virtualenv $(VIRTUALENV)
 	git submodule update --init
@@ -28,8 +22,8 @@ setup:
 
 _setup2:
 	easy_install ooxcb
+	easy_install bjoern
 	make pyjavascriptcore update-pyjavascriptcore
-	make bjoern update-bjoern
 	make develop
 
 update:
