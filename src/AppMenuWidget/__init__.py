@@ -6,7 +6,7 @@ import shutil
 
 import gobject
 
-from cream.contrib.melange import api
+from melange import api
 from cream.contrib.desktopentries import DesktopEntry, gtkmenu
 
 @api.register('appmenu')

@@ -1,4 +1,4 @@
-from cream.contrib.melange import api
+from melange import api
 
 import acpi
 

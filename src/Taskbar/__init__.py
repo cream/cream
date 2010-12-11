@@ -18,7 +18,7 @@ ooxcb.contrib.icccm.mixin()
 
 from cream.util import cached_property
 from cream.util.pywmctrl import Screen
-from cream.contrib.melange import api
+from melange import api
 
 MIN_DIM = 16
 DEFAULT_SIZE = 32

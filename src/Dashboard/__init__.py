@@ -3,7 +3,7 @@
 import thread
 from urllib import unquote
 
-from cream.contrib.melange import api
+from melange import api
 from cream.util.subprocess import Subprocess
 
 import dashboard

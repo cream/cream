@@ -5,7 +5,7 @@ import urllib
 from contextlib import closing
 from lxml.etree import parse as parse_xml
 
-from cream.contrib.melange import api
+from melange import api
 
 
 WEATHER_REQUEST_URL = 'http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml?query={0}'

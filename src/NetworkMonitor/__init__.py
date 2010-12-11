@@ -3,7 +3,7 @@
 
 from network import NetworkMonitor as _NetworkMonitor
 
-from cream.contrib.melange import api
+from melange import api
 
 @api.register('networkmonitor')
 class NetworkMonitor(api.API):

@@ -6,7 +6,7 @@ import os.path
 import datetime
 
 import cream.ipc
-from cream.contrib.melange import api
+from melange import api
 
 @api.register('tasks')
 class Tasks(api.API):

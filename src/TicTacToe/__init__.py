@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from cream.contrib.melange import api
+from melange import api
 
 from time import sleep
 

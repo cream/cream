@@ -11,7 +11,7 @@ except ImportError:
 import gtk
 import gobject
 
-from cream.contrib.melange import api
+from melange import api
 from cream.contrib.appindicators.host import StatusNotifierHost, Status
 
 def construct_js_item(item, icon_filename):

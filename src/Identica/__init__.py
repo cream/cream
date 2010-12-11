@@ -1,4 +1,4 @@
-from cream.contrib.melange import api
+from melange import api
 
 from lxml.etree import parse
 from urllib import urlopen

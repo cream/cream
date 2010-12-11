@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 
-from cream.contrib.melange import api
+from melange import api
 
 import gobject
 import pasty

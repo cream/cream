@@ -2,7 +2,7 @@
 
 import os
 from PIL import Image
-from cream.contrib.melange import api
+from melange import api
 
 # initialize lxml
 import lxml.etree
