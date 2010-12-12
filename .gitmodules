@@ -1,12 +1,6 @@
 [submodule "src/libs/cream"]
 	path = src/libs/cream
 	url = git://github.com/cream/libs.git
-[submodule "src/libs/appindicators-contrib"]
-	path = src/libs/appindicators-contrib
-	url = git://github.com/cream/appindicators-contrib.git
-[submodule "src/libs/notifications-contrib"]
-	path = src/libs/notifications-contrib
-	url = git://github.com/cream/notifications-contrib.git
 [submodule "src/libs/gpyconf"]
 	path = src/libs/gpyconf
 	url = git://github.com/jonashaag/gpyconf.git
@@ -49,12 +43,6 @@
 [submodule "src/modules/notifications-service"]
 	path = src/modules/notifications-service
 	url = git://github.com/cream/notifications-service.git
-[submodule "src/libs/desktopentries-contrib"]
-	path = src/libs/desktopentries-contrib
-	url = git://github.com/cream/desktopentries-contrib.git
-[submodule "src/libs/udisks-contrib"]
-	path = src/libs/udisks-contrib
-	url = git://github.com/cream/udisks-contrib
 [submodule "src/modules/volume-manager"]
 	path = src/modules/volume-manager
 	url = git://github.com/cream/volume-manager
