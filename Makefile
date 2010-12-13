@@ -19,6 +19,7 @@ setup:
 	git submodule update --init
 	ln -T -s $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/src/data/widgets
 	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make _setup2"
+	@echo "export CREAM_EXECUTION_MODE=development" >> $(VIRTUALENV)/bin/activate
 
 _setup2:
 	easy_install ooxcb
