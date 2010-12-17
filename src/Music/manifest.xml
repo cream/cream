@@ -3,6 +3,7 @@
     <component name="Music" id=".MusicWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
         <icon path="music.svg"/>
+        <category id=".CategoryMultimedia" />
         <description lang="en" content="Control your favourite Media Player." />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de"/>
     </component>
