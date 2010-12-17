@@ -26,7 +26,7 @@
                             $(key).set('html', data[key])
                     });
 
-                    widget.api.music.get_coverart(function(path) {
+                    widget.api.music.get_coverart(function(coverart) {
                         if(coverart != undefined)
                             $('coverart').set('src', '/data/coverart/' + coverart);
                         else
