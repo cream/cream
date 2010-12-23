@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <manifest namespace='org.cream.melange' version="1.0">
-    <component name="LCD Clock" id=".LCD ClockWidget" version="1.0" type=".Widget">
+    <component name="LCD Clock" id=".DigitalClockWidget" version="1.0" type=".Widget">
         <license title="zlib License"/>
         <description lang="en" content="A small LCD-Clock widget" />
         <icon path="lcd-clock.png" />

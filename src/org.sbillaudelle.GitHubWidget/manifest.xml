@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <manifest namespace='org.cream.melange' version="1.0">
-    <component name="GitHub" id="org.sbillaudelle.GitHub" version="1.0" type=".Widget">
+    <component name="GitHub" id="org.sbillaudelle.GitHubWidget" version="1.0" type=".Widget">
         <license title="GPLv3+"/>
         <description lang="en" content="A simple widget notifying you about pushes on GitHub." />
         <icon path="github.png" />

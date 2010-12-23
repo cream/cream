@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <manifest namespace="org.cream.melange" version="0.0.5">
-    <component name="Sketch" id=".Sketch" version="0.1" type=".Widget">
+    <component name="Sketch" id=".SketchWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
         <description lang="en" content="Little drawing widget" />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
