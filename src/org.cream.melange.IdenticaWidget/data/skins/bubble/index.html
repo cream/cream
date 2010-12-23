@@ -17,10 +17,12 @@
                 font-size: 1.2em;
                 font-weight: bold;
             }
+
             #author {
                 font-size: .9em;
                 color: #2D2D2D;
             }
+
             #time {
                 font-size: .9em;
                 color: #2D2D2D;
@@ -30,7 +32,7 @@
                 margin-top: 12px;
             }
 
-            .oval-thought {
+            .bubble {
                 line-height: 120px;
                 vertical-align: middle;
                 position: relative;
@@ -38,55 +40,53 @@
                 height: 120px;
                 padding: 10px 20px;
                 margin: 1em auto 80px;
-                text-align:center;
+                text-align: center;
                 color: #0A0A0A; 
             
                 border-radius: 30px;
         
                 background: -webkit-gradient(
-                linear,
-                left -75%,
-                left 90%,
-                color-stop(0, rgba(256, 256, 256, .25)),
-                color-stop(1, rgba(256, 256, 256, .4))
-            );
+                    linear,
+                    left -75%,
+                    left 90%,
+                    color-stop(0, rgba(256, 256, 256, .25)),
+                    color-stop(1, rgba(256, 256, 256, .4))
+                );
             
                 -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
                 text-shadow: 0px 0px 5px rgba(255, 255, 255, .6), 0px 0px 3px rgba(0, 0, 0, .4);
             }
             
-            .oval-thought p {font-size:1.05em;}
+            .bubble p {
+                font-size: 1.05em;
+                }
             
-            /* creates the larger circle */
-            .oval-thought:before {
-                content:"";
-                position:absolute;
-                bottom:-33px;
-                left:20px;
+            .bubble:before {
+                content: "";
+                position: absolute;
+                bottom: -33px;
+                left: 20px;
                 width: 26px;
                 height: 26px;
                 background: rgba(256, 256, 256, .45);
             
                 -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
             
-                /* css3 */
                 border-radius: 26px;
             }
             
-            /* creates the smaller circle */
-            .oval-thought:after {
-                content:"";
-                position:absolute;
-                bottom:-51px;
-                left:20px;
-                width:12px;
-                height:12px;
+            .bubble:after {
+                content: "";
+                position: absolute;
+                bottom: -51px;
+                left: 20px;
+                width: 12px;
+                height: 12px;
                 background: rgba(256, 256, 256, .5);
                 -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
                 
-                /* css3 */
                 -webkit-border-radius:15px;
-                border-radius:15px;
+                border-radius: 15px;
             }
         </style>
 
@@ -147,7 +147,7 @@
     <body>
         <div class="widget" style="width: 180px;">
             <div style="">
-                <blockquote class="oval-thought" style="margin-bottom: 55px;">
+                <blockquote class="bubble" style="margin-bottom: 55px;">
                     <div id="identica" style="vertical-align: middle; display: inline-block; line-height: 1.5em;">
                     </div>
                 </blockquote>
