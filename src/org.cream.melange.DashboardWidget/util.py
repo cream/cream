@@ -10,7 +10,7 @@ import base64
 import os.path
 
 from cream.util.string import crop_string, slugify
-from cream.contrib.desktopentries.gtkmenu import lookup_icon
+from cream.xdg.desktopentries.gtkmenu import lookup_icon
 
 KICK = re.compile('%[ifFuUck]')
 ICON_SIZE = 40
