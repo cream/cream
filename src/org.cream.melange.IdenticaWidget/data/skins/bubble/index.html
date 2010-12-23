@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Identica Widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+
+        <script type="text/javascript" src="/common/ui/scroll/scroll.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+        <style type="text/css">
+
+            #text {
+                font-size: 1.2em;
+                font-weight: bold;
+            }
+            #author {
+                font-size: .9em;
+                color: #2D2D2D;
+            }
+            #time {
+                font-size: .9em;
+                color: #2D2D2D;
+            }
+
+            #footer {
+                margin-top: 12px;
+            }
+
+            .oval-thought {
+                line-height: 120px;
+                vertical-align: middle;
+                position: relative;
+                width: 200px;
+                height: 120px;
+                padding: 10px 20px;
+                margin: 1em auto 80px;
+                text-align:center;
+                color: #0A0A0A; 
+            
+                border-radius: 30px;
+        
+                background: -webkit-gradient(
+                linear,
+                left -75%,
+                left 90%,
+                color-stop(0, rgba(256, 256, 256, .25)),
+                color-stop(1, rgba(256, 256, 256, .4))
+            );
+            
+                -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
+                text-shadow: 0px 0px 5px rgba(255, 255, 255, .6), 0px 0px 3px rgba(0, 0, 0, .4);
+            }
+            
+            .oval-thought p {font-size:1.05em;}
+            
+            /* creates the larger circle */
+            .oval-thought:before {
+                content:"";
+                position:absolute;
+                bottom:-33px;
+                left:20px;
+                width: 26px;
+                height: 26px;
+                background: rgba(256, 256, 256, .45);
+            
+                -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
+            
+                /* css3 */
+                border-radius: 26px;
+            }
+            
+            /* creates the smaller circle */
+            .oval-thought:after {
+                content:"";
+                position:absolute;
+                bottom:-51px;
+                left:20px;
+                width:12px;
+                height:12px;
+                background: rgba(256, 256, 256, .5);
+                -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .5);
+                
+                /* css3 */
+                -webkit-border-radius:15px;
+                border-radius:15px;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function main() {
+
+                function update() {
+                    $('identica').innerHTML = ''
+                    widget.api.identica.get_data(widget.config.get('type'), function(data) {
+                        for(i=0; i<1; i++) {
+                            box = document.createElement('div');
+
+                            span = document.createElement('span');
+                            span.id = 'text'
+                            span.innerHTML = data[i]['text'] + '<br/ >';
+                            box.appendChild(span);
+
+                            footer = document.createElement('div');
+                            footer.id = 'footer'
+                            box.appendChild(footer);
+
+                            span = document.createElement('span');
+                            span.id = 'author';
+                            span.innerHTML = data[i]['author'] + ' at ';
+                            footer.appendChild(span);
+
+                            span = document.createElement('span');
+                            span.id = 'time';
+                            span.innerHTML = data[i]['time'];
+                            footer.appendChild(span);
+
+
+                            if (i != 0) {
+                                box.style.paddingTop = "10px";
+                            }
+
+                            $('identica').appendChild(box);
+                        }
+
+                    });
+
+
+
+                }
+
+                var configuration_update_timeout_id;
+                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
+                    $clear(configuration_update_timeout_id);
+                    configuration_update_timeout_id = update.delay(3000);
+                });
+
+                update.delay(1000);
+                update.periodical(600000);
+            };
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 180px;">
+            <div style="">
+                <blockquote class="oval-thought" style="margin-bottom: 55px;">
+                    <div id="identica" style="vertical-align: middle; display: inline-block; line-height: 1.5em;">
+                    </div>
+                </blockquote>
+            </div>
+        </div>
+    </body>
+</html>
