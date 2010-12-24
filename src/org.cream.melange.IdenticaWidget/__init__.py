@@ -15,7 +15,7 @@ class Identica(api.API):
 
         self.group_template = 'http://identi.ca/api/statusnet/groups/timeline/{0}.xml'
         self.user_template = 'http://identi.ca/api/statuses/user_timeline/{0}.xml'
-        self.regex = 'http?://[^ ]*'
+        self.regex = 'http?://[^ \)]*'
 
     @api.expose
     def get_data(self, _type):
@@ -36,7 +36,7 @@ class Identica(api.API):
             # convert links to <a href>
             try:
                 link = re.search(self.regex, text).group().strip()
-                text = text.replace(link, '<a href="{0}">{0} </a>'.format(link))
+                text = text.replace(link, '<a href="{0}">{0}</a>'.format(link))
             except:
                 pass
 
