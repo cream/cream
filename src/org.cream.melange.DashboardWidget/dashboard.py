@@ -3,7 +3,7 @@
 import gobject
 
 from cream.util.dicts import ordereddict
-from cream.contrib.desktopentries import DesktopEntry
+from cream.xdg.desktopentries import DesktopEntry
 
 from util import CATEGORIES, app_from_entry
 
