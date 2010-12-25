@@ -1,18 +1,15 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
-import shutil
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
 
 import gtk
-import gobject
 
 from melange import api
-from cream.contrib.appindicators.host import StatusNotifierHost, Status
+from appindicators.host import StatusNotifierHost
 
 def construct_js_item(item, icon_filename):
     return {
@@ -75,7 +72,7 @@ class AppIndicators(api.API):
 
     @api.in_main_thread
     def _show_menu(self, id):
-        
+
         item = self.host.get_item_by_id(id)
         # Show the menu.
         item.show_menu()
@@ -85,4 +82,3 @@ class AppIndicators(api.API):
     def show_menu(self, id):
 
         self._show_menu(id)
-
