@@ -45,6 +45,8 @@ def app_from_entry(entry, path):
 
 
 def icon_to_base64(icon):
+    if '.png' in icon:
+        icon = icon.replace('.png', '')
     pixbuf = lookup_icon(icon, ICON_SIZE)
     if pixbuf is None:
         return ''
