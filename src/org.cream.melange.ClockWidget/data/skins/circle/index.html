@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Clock Widget</title>
+        <link rel="stylesheet" type="text/css" href="/common/ui/melange.css" media="screen" />
+
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/cream.js"></script>
+
+        <style type="text/css">
+            #date-info {
+                margin-top: -110px;
+                margin-left: 45px;
+                font-weight: bold;
+                text-shadow: none;
+                font-size: 1.2em;
+                color: rgba(20, 20, 20, 0.7);
+            }
+            #date {
+                font-size: 1.5em;
+            }
+        </style>
+
+        <script type="text/javascript">
+        COLOR_HOUR = 'rgba(90, 90, 90, 0.4)';
+        COLOR_MINUTE = 'rgba(120, 120, 120, 0.3)';
+        COLOR_SECOND = 'rgba(180, 180, 180, 0.2)';
+        MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+            'September', 'Oktober', 'November', 'December'
+        ];
+        WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+            'Friday', 'Saturday'];
+
+        function paint(ctx, width, height) {
+            var now = new Date();
+
+            ctx.lineWidth = 5;
+
+            var w_half = parseInt(width/2);
+            var h_half = parseInt(height/2);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.clearRect(0, 0, width, height);
+            ctx.translate(w_half, h_half);
+
+            // draw hour ring
+            ctx.strokeStyle = COLOR_HOUR;
+            hour = now.getHours();
+            if(hour > 12)
+                hour = hour - 12;
+            var position = parseFloat(hour / 12);
+            var radius = parseInt(w_half - ctx.lineWidth);
+            ctx.arc(0, 0, radius, 3*Math.PI/2, (3*Math.PI/2) + (2*Math.PI)*position, false);
+            ctx.stroke();
+
+            // draw minute ring
+            ctx.strokeStyle = COLOR_MINUTE;
+            ctx.save();
+            ctx.translate(0,0);
+            var position = parseFloat(now.getMinutes() / 60);
+            var radius = parseInt(w_half - ctx.lineWidth - 10);
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 3*Math.PI/2, (3*Math.PI/2) + (2*Math.PI)*position, false);
+            ctx.stroke();
+
+            // draw second ring
+            ctx.strokeStyle = COLOR_SECOND;
+            ctx.save();
+            ctx.translate(0, 0);
+            var position = now.getSeconds() / 60;
+            var radius = parseInt(w_half - ctx.lineWidth - 20);
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 3*Math.PI/2, (3*Math.PI/2) + (2*Math.PI)*position, false);
+            ctx.stroke();
+
+            $('date').set('text', now.getDate() + '.');
+            $('month').set('text', MONTHS[now.getMonth()]);
+
+            ctx.restore();
+            ctx.restore();
+            ctx.restore();
+        }
+
+        function main() {
+            var canvas = document.getElementById('clock');
+            var width = parseInt(canvas.width);
+            var height = parseInt(canvas.height);
+            var ctx = canvas.getContext('2d');
+
+            paint(ctx, width, height);
+            setInterval(function(){ paint(ctx, width, height); }, 1000);
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 126px;">
+            <canvas id="clock" width="160" height="160"></canvas>
+            <div id="date-info">
+                <div id="date"></div>
+                <div id="month"></div>
+            </div>
+        </div>
+    </body>
+</html>
