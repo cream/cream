@@ -50,7 +50,9 @@ def icon_to_base64(icon):
         icon = icon.replace('.png', '')
     pixbuf = lookup_icon(icon, ICON_SIZE)
     if pixbuf is None:
-        return ''
+        pixbuf = lookup_icon(os.path.split(icon)[1], ICON_SIZE)
+        if pixbuf is None:
+            return ''
     elif pixbuf.get_width() > ICON_SIZE or pixbuf.get_height() > ICON_SIZE:
         pixbuf = pixbuf.scale_simple(ICON_SIZE, ICON_SIZE, gtk.gdk.INTERP_HYPER)
 
