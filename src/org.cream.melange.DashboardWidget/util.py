@@ -6,6 +6,7 @@ except:
     from StringIO import StringIO
 
 import re
+import gtk
 import base64
 import os.path
 
@@ -50,6 +51,8 @@ def icon_to_base64(icon):
     pixbuf = lookup_icon(icon, ICON_SIZE)
     if pixbuf is None:
         return ''
+    elif pixbuf.get_width() > ICON_SIZE or pixbuf.get_height() > ICON_SIZE:
+        pixbuf = pixbuf.scale_simple(ICON_SIZE, ICON_SIZE, gtk.gdk.INTERP_HYPER)
 
     data = StringIO()
     def _callback(buf):
