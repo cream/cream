@@ -14,7 +14,6 @@ from cream.util.string import crop_string, slugify
 from cream.xdg.desktopentries.gtkmenu import lookup_icon
 
 KICK = re.compile('%[ifFuUck]')
-SKIP = ['melange']
 ICON_SIZE = 40
 
 DEFAULT_ICON = lookup_icon('application-default-icon', ICON_SIZE)
@@ -27,13 +26,19 @@ CATEGORIES = {'Development': 'Development',
               'System': 'System',
               'Game': 'Games',
               'Graphics': 'Graphics',
-              'Utility': 'Utility'
+              'Utility': 'Utility',
+              'Audio': 'Multimedia',
+              'Video': 'Multimedia'
 }
 
 
 def app_from_entry(entry, path):
-    if not hasattr(entry, 'icon') or entry.name.lower() in SKIP:
+    if not hasattr(entry, 'icon'):
         return None
+
+    if entry.has_option_default('NoDisplay'):
+        if entry.no_display:
+            return None
 
     path = os.path.join(path, slugify(entry.name)) + '.png'
     save_icon(entry.icon, path)
