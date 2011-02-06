@@ -35,8 +35,7 @@ def app_from_entry(entry, path):
         return None
 
     path = os.path.join(path, slugify(entry.name)) + '.png'
-    if not save_icon(entry.icon, path):
-        return None
+    save_icon(entry.icon, path)
 
     app = {}
     app['name'] = entry.name
@@ -50,10 +49,13 @@ def app_from_entry(entry, path):
 def icon_to_base64(icon):
     if '.png' in icon:
         icon = icon.replace('.png', '')
+
     pixbuf = lookup_icon(icon, ICON_SIZE)
     if pixbuf is None:
+        # sometimes icon is a path, so split and try again
         pixbuf = lookup_icon(os.path.split(icon)[1], ICON_SIZE)
         if pixbuf is None:
+            # fall back to default icon
             pixbuf = DEFAULT_ICON
     elif pixbuf.get_width() > ICON_SIZE or pixbuf.get_height() > ICON_SIZE:
         pixbuf = pixbuf.scale_simple(ICON_SIZE, ICON_SIZE, gtk.gdk.INTERP_HYPER)
@@ -67,9 +69,6 @@ def icon_to_base64(icon):
 
 def save_icon(icon, path):
     icon64 = icon_to_base64(icon)
-    if not icon:
-        return False
-
     icon64 = icon64.replace('data:image/png;base64,', '')
     if not os.path.exists(path):
         with open(path, 'w') as file_handle:
