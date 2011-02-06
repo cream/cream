@@ -16,6 +16,8 @@ from cream.xdg.desktopentries.gtkmenu import lookup_icon
 KICK = re.compile('%[ifFuUck]')
 ICON_SIZE = 40
 
+DEFAULT_ICON = lookup_icon('application-default-icon', ICON_SIZE)
+
 CATEGORIES = {'Development': 'Development',
               'AudioVideo': 'Multimedia',
               'Network': 'Network',
@@ -52,7 +54,7 @@ def icon_to_base64(icon):
     if pixbuf is None:
         pixbuf = lookup_icon(os.path.split(icon)[1], ICON_SIZE)
         if pixbuf is None:
-            return ''
+            pixbuf = DEFAULT_ICON
     elif pixbuf.get_width() > ICON_SIZE or pixbuf.get_height() > ICON_SIZE:
         pixbuf = pixbuf.scale_simple(ICON_SIZE, ICON_SIZE, gtk.gdk.INTERP_HYPER)
 
