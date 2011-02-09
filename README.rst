@@ -1,7 +1,7 @@
-cream desktop environment
+Cream Desktop Environment
 =========================
 
-How to install cream?
+How to install Cream?
 ---------------------
 
 You need:
@@ -13,14 +13,13 @@ Installation
 git clone git://github.com/cream/cream.git
 cd cream/
 make setup
-source ./dev/bin/activate
 
 Usage
 ~~~~~
 
-Before you can use cream, always make sure to activate the virtualenv:
+Before you can use Cream, always make sure to activate the virtualenv:
 
-source ./dev/bin/activate
+source dev/bin/activate
 
 Updating
 ~~~~~~~~
@@ -28,7 +27,3 @@ Updating
 If a package was added or files were added/removed, make sure to run:
 
 make develop
-
-If you want to update bjoern, run:
-
-make update-bjoern
