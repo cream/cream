@@ -18,13 +18,13 @@ To install Cream into a virtualenv just do::
 Usage
 ~~~~~
 
-Before you can use Cream, always make sure to activate the virtualenv:
+Before you can use Cream, always make sure to activate the virtualenv::
 
-source dev/bin/activate
+    source dev/bin/activate
 
 Updating
 ~~~~~~~~
 
-If a package was added or files were added/removed, make sure to run:
+If a package was added or files were added/removed, make sure to run::
 
-make develop
+    make develop
