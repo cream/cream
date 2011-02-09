@@ -9,10 +9,11 @@ You need:
 
 Installation
 ~~~~~~~~~~~~
+To install Cream into a virtualenv just do::
 
-git clone git://github.com/cream/cream.git
-cd cream/
-make setup
+    git clone git://github.com/cream/cream.git
+    cd cream/
+    make setup
 
 Usage
 ~~~~~
