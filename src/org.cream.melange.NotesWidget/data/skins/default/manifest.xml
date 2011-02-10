@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace="org.cream.melange" version="0.0.5">
+    <component name="Default" id=".NotesWidget.DefaultSkin" version="0.1" type=".Skin">
+        <license title="GPL" version="3+" />
+        <description lang="en" content="Default skin for the Notes Widget." />
+        <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
+    </component>
+</manifest>
