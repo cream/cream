@@ -11,7 +11,7 @@ class Notes(api.API):
     def __init__(self):
         api.API.__init__(self)
 
-        self.notes_file = os.path.join(self.context.get_path(), 'notes.txt')
+        self.notes_file = os.path.join(self.context.get_user_path(), 'notes.txt')
 
     @api.expose
     def save_notes(self, notes):
