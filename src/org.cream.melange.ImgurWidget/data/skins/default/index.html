@@ -35,6 +35,21 @@
             #imgur {
                 text-align: center;
             }
+            #spinner-overlay {
+                display: block;
+                z-index: 999;
+                background: none;
+                position: absolute;
+                top: 50%;
+                left: 3px;
+                right: 3px;
+                bottom: 3px;
+                text-align: center;
+            }
+            #spinner {
+                position: relative;
+                margin-top: -50px;
+            }
 
 
         </style>
@@ -48,10 +63,22 @@
             }
 
             function main() {
+                $('spinner-overlay').fade(0);
+
                 $('imgur').addEvent('drop', function(data) {
                     if($('instruction'))
                         $('instruction').dispose();
+
+                    $('spinner-overlay').fade(1);
+                    $('imgur').fade(0.5);
+                    var spinner = new Spinner($('spinner'), 80);
+                    spinner.start();
+
                     widget.api.imgur.upload(data[0], function(url){
+                        spinner.stop();
+                        $('spinner-overlay').fade(0);
+                        $('imgur').fade(1);
+
                         $('url').href = url;
                         $('url').innerHTML = "Image: '" + url.split('/')[3] + "'";
                         $('wrapper').fade(1);
@@ -76,6 +103,11 @@
 
     <body>
         <div id="widget" class="widget" style="width: 138px;">
+
+            <div id="spinner-overlay">
+                <div id="spinner"></div>
+            </div>
+
             <div id="imgur">
                 <img src="imgur.png"></img>
             </div>
