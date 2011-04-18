@@ -13,6 +13,7 @@
 
         <style type="text/css">
             #wrapper {
+                margin-top: -5px;
                 -webkit-user-select: text;
                 font-family: monospace;
                 text-align: center;
@@ -20,6 +21,11 @@
             }
             #url{
                 color: red;
+                text-shadow: none;
+            }
+            #instruction{
+                color: red;
+                text-shadow: none;
             }
             #imgur {
                 text-align: center;
@@ -29,21 +35,34 @@
         </style>
         <script type="text/javascript">
 
+            var showing_url = false;
+
+            function fade_out(){
+                $('wrapper').fade(0);
+                showing_url = false;
+            }
+
             function main() {
                 $('imgur').addEvent('drop', function(data) {
+                    if($('instruction'))
+                        $('instruction').dispose();
                     widget.api.imgur.upload(data[0], function(url){
                         $('url').href = url;
                         $('url').innerHTML = url;
-                        alert(url);
+                        $('wrapper').fade(1);
+
+                        showing_url = true;
+                        fade_out.delay(10000);
                     });
                 });
 
                 $('widget').addEvent('mouseenter', function(){
-                    log('enter');
+                    $('wrapper').fade(1);
                 });
 
                 $('widget').addEvent('mouseleave', function(){
-                    log('leave');
+                    if(!showing_url)
+                        $('wrapper').fade(0);
                 });
             }
 
@@ -56,6 +75,7 @@
                 <img src="imgur.png"></img>
             </div>
             <div id="wrapper">
+                <span id="instruction">Drop image here</span>
                 <a id="url" href=""></a>
             </div>
         </div>

@@ -3,6 +3,7 @@
     <component name="Imgur" id=".ImgurWidget" version="0.1" type=".Widget">
         <license title="GPL" version="3+" />
         <description lang="en" content="Drop your pictures to upload them to Imgur" />
+        <icon path="imgur.png" />
         <author name="Sebastian Billaudelle" type="developer" mail="stein@cream-project.org" />
         <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
     </component>
