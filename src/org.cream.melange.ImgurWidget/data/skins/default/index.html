@@ -38,17 +38,20 @@
             #spinner-overlay {
                 display: block;
                 z-index: 999;
-                background: none;
                 position: absolute;
-                top: 50%;
-                left: 3px;
-                right: 3px;
-                bottom: 3px;
+                top: 40px;
+                left: 40px;
+                right: 40px;
+                height: 48px;
                 text-align: center;
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, .7);
+                padding-top: 14px;
+                -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .8);
             }
             #spinner {
-                position: relative;
-                margin-top: -50px;
+                //position: relative;
+                //margin-top: -50px;
             }
 
 
@@ -70,14 +73,14 @@
                         $('instruction').dispose();
 
                     $('spinner-overlay').fade(1);
-                    $('imgur').fade(0.5);
-                    var spinner = new Spinner($('spinner'), 80);
+                    //$('imgur').fade(0.5);
+                    var spinner = new Spinner($('spinner'), 30);
                     spinner.start();
 
                     widget.api.imgur.upload(data[0], function(url){
                         spinner.stop();
                         $('spinner-overlay').fade(0);
-                        $('imgur').fade(1);
+                        //$('imgur').fade(1);
 
                         $('url').href = url;
                         $('url').innerHTML = "Image: '" + url.split('/')[3] + "'";
