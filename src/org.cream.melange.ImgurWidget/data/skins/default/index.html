@@ -13,19 +13,24 @@
 
         <style type="text/css">
             #wrapper {
-                margin-top: -5px;
+                margin: -5px 5px 0px 5px;
                 -webkit-user-select: text;
                 font-family: monospace;
                 text-align: center;
+                background-color: rgba(0, 0, 0, .7);
+                border-radius: 5px;
+                padding: 2px 0px;
+                font-size: .9em;
 
             }
             #url{
-                color: red;
-                text-shadow: none;
+                color: #FFFFFF;
+                text-shadow: 0px -1px 1px rgba(0, 0, 0, .5);
             }
+
             #instruction{
-                color: red;
-                text-shadow: none;
+                color: #FFFFFF;
+                text-shadow: 0px -1px 1px rgba(0, 0, 0, .5);
             }
             #imgur {
                 text-align: center;
@@ -48,7 +53,7 @@
                         $('instruction').dispose();
                     widget.api.imgur.upload(data[0], function(url){
                         $('url').href = url;
-                        $('url').innerHTML = url;
+                        $('url').innerHTML = "Image: '" + url.split('/')[3] + "'";
                         $('wrapper').fade(1);
 
                         showing_url = true;
