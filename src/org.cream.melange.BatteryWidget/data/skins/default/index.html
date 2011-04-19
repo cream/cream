@@ -6,48 +6,214 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
         <link rel="stylesheet" type="text/css" href="/theme/ui/melange.css" media="screen" />
+        
+        <style type="text/css">
+            #info-overlay {
+                display: block;
+                z-index: 999;
+                position: absolute;
+                text-align: center;
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, .7);
+                -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .8);
+                opacity: 0;
+                padding: 2px 3px;
+                font-size: .9em;
+            }
+        </style>
 
         <script type="text/javascript" src="/common/core/mootools.js"></script>
         <script type="text/javascript" src="/common/core/melange.js"></script>
+        <script type="text/javascript">
+        function main() {
 
+            $('widget').addEvent('mouseenter', function(){
+                    widget_size = $('widget').getSize();
+                    overlay_size = $('info-overlay').getSize();
+                    $('info-overlay').setStyles({
+                        left: (widget_size.x - overlay_size.x - 6) / 2 + 'px',
+                        top: (widget_size.y - overlay_size.y - 5) / 2 + 'px'
+                        });
+                    $('info-overlay').fade(1);
+                });
+
+                $('widget').addEvent('mouseleave', function(){
+                        $('info-overlay').fade(0);
+                });
+
+
+            function update_battery_state() {
+                widget.api.battery.get_state(function(data) {
+                    $('fill_level').set('width', (92.0/100.0) * data['remaining_capacity']);
+                    $('info-overlay').set('html', data['remaining_capacity'] + '%');
+                });
+            }
+
+            update_battery_state.delay(50);
+            update_battery_state.periodical(8000);
+
+        };
+        </script>
     </head>
 
     <body>
-        <div class="widget" style="min-width: 110px;">
-            <div class="background">
-                <div style="text-align: center;">
-                    <img id="icon" src="images/full.png" width="65%" onmousedown="return false;" /><br />
-
-                    <div id="remaining_capacity" style="margin-top: 10px; font-size: 1.3em; font-weight: bold; line-height: 1em;">NaN</div>
-                    <div id="status" style="margin-top: 3px; font-size: .9em; color: #262626; line-height: 1em;">NaN</div>
-                </div>
-
-                <script type="text/javascript">
-                    function main() {
-
-                        var icons = {
-                            'full': 'battery-full.png',
-                            'full-soon': 'battery-fullsoon.png',
-                            'full-half': 'battery-fullhalf.png',
-                            'empty-soon': 'battery-emptysoon.png',
-                            'empty-critical': 'battery-emptycritical.png'
-                        };
-
-                        function update_battery_state() {
-                            widget.api.battery.get_state(function(data) {
-                                $('remaining_capacity').set('text', data['remaining_capacity'] + '%');
-                                $('status').set('text', data['status']);
-                                $('icon').set('src', 'images/' + icons[data['level']]);
-
-                            });
-                        }
-
-                        update_battery_state.delay(50);
-                        update_battery_state.periodical(8000);
-
-                    };
-                </script>
+        <div id="widget" class="widget" style="min-width: 120px;">
+            <div id="info-overlay">
             </div>
+            <svg
+               xmlns:dc="http://purl.org/dc/elements/1.1/"
+               xmlns:cc="http://creativecommons.org/ns#"
+               xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+               xmlns:svg="http://www.w3.org/2000/svg"
+               xmlns="http://www.w3.org/2000/svg"
+               xmlns:xlink="http://www.w3.org/1999/xlink"
+               xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+               xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+               version="1.0"
+               width="120"
+               height="72.03331"
+               id="svg2"
+               style="display:inline"
+               inkscape:version="0.48.1 r9760"
+               sodipodi:docname="battery.svg">
+              <sodipodi:namedview
+                 pagecolor="#ffffff"
+                 bordercolor="#666666"
+                 borderopacity="1"
+                 objecttolerance="10"
+                 gridtolerance="10"
+                 guidetolerance="10"
+                 inkscape:pageopacity="0"
+                 inkscape:pageshadow="2"
+                 inkscape:window-width="1440"
+                 inkscape:window-height="845"
+                 id="namedview3159"
+                 showgrid="false"
+                 inkscape:zoom="3.0625"
+                 inkscape:cx="24.753071"
+                 inkscape:cy="13.068901"
+                 inkscape:window-x="0"
+                 inkscape:window-y="24"
+                 inkscape:window-maximized="1"
+                 inkscape:current-layer="svg2"
+                 fit-margin-top="0"
+                 fit-margin-left="0"
+                 fit-margin-right="0"
+                 fit-margin-bottom="0" />
+              <defs
+                 id="defs4">
+                <linearGradient
+                   id="linearGradient4081">
+                  <stop
+                     id="stop4083"
+                     style="stop-color:#aaaaaa;stop-opacity:1"
+                     offset="0" />
+                  <stop
+                     id="stop4085"
+                     style="stop-color:#f0f0f0;stop-opacity:1"
+                     offset="1" />
+                </linearGradient>
+                <linearGradient
+                   id="linearGradient3295-9">
+                  <stop
+                     id="stop3297-2"
+                     style="stop-color:#559829;stop-opacity:1"
+                     offset="0" />
+                  <stop
+                     id="stop3299-0"
+                     style="stop-color:#86c837;stop-opacity:1"
+                     offset="1" />
+                </linearGradient>
+                <linearGradient
+                   x1="39"
+                   y1="72"
+                   x2="39.196381"
+                   y2="24.266857"
+                   id="linearGradient3763"
+                   xlink:href="#linearGradient4081"
+                   gradientUnits="userSpaceOnUse" />
+                <linearGradient
+                   x1="39"
+                   y1="68"
+                   x2="39"
+                   y2="28"
+                   id="linearGradient3807"
+                   xlink:href="#linearGradient3295-9"
+                   gradientUnits="userSpaceOnUse" />
+                <linearGradient
+                   inkscape:collect="always"
+                   xlink:href="#linearGradient4081"
+                   id="linearGradient3164"
+                   gradientUnits="userSpaceOnUse"
+                   x1="39"
+                   y1="72"
+                   x2="39.196381"
+                   y2="24.266857" />
+                <linearGradient
+                   inkscape:collect="always"
+                   xlink:href="#linearGradient3295-9"
+                   id="linearGradient3171"
+                   gradientUnits="userSpaceOnUse"
+                   x1="39"
+                   y1="68"
+                   x2="39"
+                   y2="28" />
+              </defs>
+              <metadata
+                 id="metadata7">
+                <rdf:RDF>
+                  <cc:Work
+                     rdf:about="">
+                    <dc:format>image/svg+xml</dc:format>
+                    <dc:type
+                       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                  </cc:Work>
+                </rdf:RDF>
+              </metadata>
+              <rect
+                 style="fill:url(#linearGradient3171);fill-opacity:1;stroke:none"
+                 id="fill_level"
+                 y="8.0360861"
+                 x="9.368494"
+                 height="53.296322"
+                 width="93.268562"
+                 inkscape:label="#rect3799" />
+              <path
+                 inkscape:connector-curvature="0"
+                 style="opacity:0.07999998;fill:#000000;fill-opacity:1;stroke:none"
+                 id="path3797"
+                 d="M 12.03331,0 C 5.432252,0 0,5.432251 0,12.03331 L 0,60 c 0,6.601058 5.4322519,12.03331 12.03331,12.03331 l 87.938931,0 c 6.601059,0 12.033309,-5.432252 12.033309,-12.03331 l 0,-9.285219 1.29077,0 c 3.66758,0 6.70368,-3.036105 6.70368,-6.703678 l 0,-15.988896 c 0,-3.667573 -3.0361,-6.703678 -6.70368,-6.703678 l -1.29077,0 0,-9.285219 C 112.00555,5.432251 106.5733,0 99.972241,0 L 12.03331,0 z m 5.329632,16.072172 77.279667,0 c 0.919502,0 1.290771,0.371269 1.290771,1.29077 l 0,37.307426 c 0,0.919502 -0.371267,1.29077 -1.290771,1.29077 l -77.279667,0 c -0.919504,0 -1.29077,-0.371268 -1.29077,-1.29077 l 0,-37.307426 c 0,-0.919501 0.371269,-1.29077 1.29077,-1.29077 z" />
+              <path
+                 inkscape:connector-curvature="0"
+                 style="opacity:0.1;fill:#000000;fill-opacity:1;stroke:none"
+                 id="path3793"
+                 d="m 12.03331,1.415683 c -5.8333723,0 -10.6176264,4.784254 -10.6176264,10.617627 l 0,47.96669 c 0,5.833373 4.7842541,10.617626 10.6176264,10.617626 l 87.938931,0 c 5.833369,0 10.617629,-4.784253 10.617629,-10.617626 l 0,-10.700902 2.70645,0 c 2.8922,0 5.288,-2.395794 5.288,-5.287995 l 0,-15.988896 c 0,-2.892201 -2.3958,-5.287995 -5.288,-5.287995 l -2.70645,0 0,-10.700902 c 0,-5.833373 -4.78426,-10.617627 -10.617629,-10.617627 l -87.938931,0 z m 5.329632,13.240805 77.279667,0 c 1.583398,0 2.706454,1.123056 2.706454,2.706454 l 0,37.307426 c 0,1.583399 -1.123055,2.706453 -2.706454,2.706453 l -77.279667,0 c -1.583399,0 -2.706453,-1.123054 -2.706453,-2.706453 l 0,-37.307426 c 0,-1.583398 1.123056,-2.706454 2.706453,-2.706454 z" />
+              <path
+                 inkscape:connector-curvature="0"
+                 style="opacity:0.15;fill:#000000;fill-opacity:1;stroke:none"
+                 id="path3789"
+                 d="m 12.03331,2.664816 c -5.1583378,0 -9.3684939,4.210156 -9.3684939,9.368494 l 0,47.96669 c 0,5.158338 4.2101561,9.368494 9.3684939,9.368494 l 87.938931,0 c 5.158339,0 9.368499,-4.210156 9.368499,-9.368494 l 0,-11.950035 3.95558,0 c 2.20291,0 4.03886,-1.835949 4.03886,-4.038862 l 0,-15.988896 c 0,-2.202913 -1.83595,-4.038862 -4.03886,-4.038862 l -3.95558,0 0,-11.950035 c 0,-5.158338 -4.21016,-9.368494 -9.368499,-9.368494 l -87.938931,0 z m 5.329632,10.74254 77.279667,0 c 2.226012,0 3.955587,1.729575 3.955587,3.955586 l 0,37.307426 c 0,2.226011 -1.729575,3.955586 -3.955587,3.955586 l -77.279667,0 c -2.226011,0 -3.955586,-1.729575 -3.955586,-3.955586 l 0,-37.307426 c 0,-2.226011 1.729575,-3.955586 3.955586,-3.955586 z" />
+              <path
+                 style="opacity:0.3;fill:#000000;fill-opacity:1;stroke:none"
+                 id="path3783"
+                 inkscape:connector-curvature="0"
+                 d="m 12.03331,4.038862 c -4.4333651,0 -7.9944481,3.561083 -7.9944481,7.994448 l 0,47.96669 c 0,4.433365 3.561083,7.994448 7.9944481,7.994448 l 87.938931,0 c 4.433369,0 7.994449,-3.561083 7.994449,-7.994448 l 0,-13.324081 5.32963,0 c 1.47631,0 2.66482,-1.188508 2.66482,-2.664816 l 0,-15.988896 c 0,-1.476309 -1.18851,-2.664817 -2.66482,-2.664817 l -5.32963,0 0,-13.32408 c 0,-4.433365 -3.56108,-7.994448 -7.994449,-7.994448 l -87.938931,0 z m 5.329632,7.994448 77.279667,0 c 2.952617,0 5.329632,2.377016 5.329632,5.329632 l 0,37.307426 C 99.972241,57.622984 97.595226,60 94.642609,60 L 17.362942,60 C 14.410326,60 12.03331,57.622984 12.03331,54.670368 l 0,-37.307426 c 0,-2.952616 2.377016,-5.329632 5.329632,-5.329632 z" />
+              <path
+                 style="fill:url(#linearGradient3164);fill-opacity:1;stroke:none"
+                 id="rect2975"
+                 inkscape:connector-curvature="0"
+                 d="m 12.03331,2.706454 c -4.4333651,0 -7.9944481,3.561083 -7.9944481,7.994448 l 0,47.96669 c 0,4.433365 3.561083,7.994448 7.9944481,7.994448 l 87.938931,0 c 4.433369,0 7.994449,-3.561083 7.994449,-7.994448 l 0,-13.324081 5.32963,0 c 1.47631,0 2.66482,-1.188508 2.66482,-2.664816 l 0,-15.988897 c 0,-1.476308 -1.18851,-2.664816 -2.66482,-2.664816 l -5.32963,0 0,-13.32408 c 0,-4.433365 -3.56108,-7.994448 -7.994449,-7.994448 l -87.938931,0 z m 5.329632,7.994448 77.279667,0 c 2.952617,0 5.329632,2.377016 5.329632,5.329632 l 0,37.307426 c 0,2.952616 -2.377015,5.329632 -5.329632,5.329632 l -77.279667,0 c -2.952616,0 -5.329632,-2.377016 -5.329632,-5.329632 l 0,-37.307426 c 0,-2.952616 2.377016,-5.329632 5.329632,-5.329632 z" />
+              <path
+                 style="opacity:0.75;fill:#ffffff;fill-opacity:1;stroke:none"
+                 id="path3765"
+                 inkscape:connector-curvature="0"
+                 d="m 12.03331,2.706454 c -4.4333651,0 -7.9944481,3.561083 -7.9944481,7.994448 l 0,1.332408 c 0,-4.433365 3.561083,-7.994448 7.9944481,-7.994448 l 87.938931,0 c 4.433369,0 7.994449,3.561083 7.994449,7.994448 l 0,-1.332408 c 0,-4.433365 -3.56108,-7.994448 -7.994449,-7.994448 l -87.938931,0 z m 95.93338,21.318528 0,1.332408 5.32963,0 c 1.47631,0 2.66482,1.188509 2.66482,2.664817 l 0,-1.332408 c 0,-1.476309 -1.18851,-2.664817 -2.66482,-2.664817 l -5.32963,0 z m -95.93338,29.312978 0,1.332408 C 12.03331,57.622984 14.410326,60 17.362942,60 l 77.279667,0 c 2.952617,0 5.329632,-2.377016 5.329632,-5.329632 l 0,-1.332408 c 0,2.952616 -2.377015,5.329632 -5.329632,5.329632 l -77.279667,0 c -2.952616,0 -5.329632,-2.377016 -5.329632,-5.329632 z" />
+              <path
+                 style="opacity:0.15;fill:#000000;fill-opacity:1;stroke:none"
+                 id="path3774"
+                 inkscape:connector-curvature="0"
+                 d="m 17.362942,9.3684939 c -2.952616,0 -5.329632,2.3770161 -5.329632,5.3296321 l 0,1.332408 c 0,-2.952616 2.377016,-5.329632 5.329632,-5.329632 l 77.279667,0 c 2.952617,0 5.329632,2.377016 5.329632,5.329632 l 0,-1.332408 c 0,-2.952616 -2.377015,-5.3296321 -5.329632,-5.3296321 l -77.279667,0 z M 115.96114,41.346287 c 0,1.476308 -1.18851,2.664816 -2.66482,2.664816 l -5.32963,0 0,1.332408 5.32963,0 c 1.47631,0 2.66482,-1.188508 2.66482,-2.664816 l 0,-1.332408 z M 4.0388619,57.335184 l 0,1.332408 c 0,4.433365 3.561083,7.994448 7.9944481,7.994448 l 87.938931,0 c 4.433369,0 7.994449,-3.561083 7.994449,-7.994448 l 0,-1.332408 c 0,4.433365 -3.56108,7.994448 -7.994449,7.994448 l -87.938931,0 c -4.4333651,0 -7.9944481,-3.561083 -7.9944481,-7.994448 z" />
+            </svg>
         </div>
     </body>
 
