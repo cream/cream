@@ -44,11 +44,11 @@
 
             function update_battery_state() {
                 widget.api.battery.get_state(function(data) {
-                    $('fill_level').set('width', (92.0/100.0) * data['remaining_capacity']);
+                    $('fill_level').set('width', ((92.0/100.0) * data['remaining_capacity']).toFixed(0));
                     $('info-overlay').set('html', data['remaining_capacity'] + '%');
                     $('fill_level_top').setStyle('stop-color', 'hsl(' + data['remaining_capacity'] + ', 80%, 40%)');
                     $('fill_level_bottom').setStyle('stop-color', 'hsl(' + data['remaining_capacity'] + ', 80%, 30%)');
-                    $('fill_level').setStyle('stroke', 'hsl(' + data['remaining_capacity'] + ', 80%, 25%)');
+                    $('fill_level').setStyle('stroke', 'hsl(' + data['remaining_capacity'] + ', 80%, 28%)');
                 });
             }
 
@@ -196,7 +196,7 @@
                  style="fill:url(#linearGradient3777);fill-opacity:1;stroke:#539428;stroke-opacity:1"
                  id="fill_level"
                  y="8.036087"
-                 x="10"
+                 x="9.5"
                  height="53.296322"
                  width="61.632652"
                  inkscape:label="#rect3799" />
