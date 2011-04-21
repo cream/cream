@@ -10,74 +10,63 @@
 
         <link rel="stylesheet" type="text/css" href="/theme/ui/melange.css" media="screen">
         <style type="text/css">
-        .item {
+        .entry {
             float: left;
-            margin: 2px;
             border-radius: 5px;
+            margin: 2px;
         }
-
-        #item-container img {
-            width: 32px;
-            height: 32px;
-        }
-
-        .item-hover {
-            margin-top: -5px;
-            margin-bottom: 9px;
+        
+        .widget, .background, #entry-container {
+            padding: 0px;
+            margin: 0px;
         }
         </style>
 
         <script language="javascript">
-        function add_item(item) {
-            i = document.createElement('div');
-            i.className = 'item';
-            i.id = item['id']
-            $('item-container').appendChild(i);
-
-            icon = document.createElement('img');
-            icon.src = 'data:image/png;base64,' + item['icon'];
-            i.appendChild(icon)
-
-            i.set('morph', {duration: 500, transition: 'bounce:out'});
-            i.addEvent('mouseenter', function() {
-                this.morph('.item-hover');
-                });
-            i.addEvent('mouseleave', function() {
-                this.morph('.item');
-                });
-            i.addEvent('click', function() {
-                widget.api.appindicators.show_menu(this.id);
-                });
-            }
-
-        function remove_item(id) {
-            $('item-container').removeChild($(id));
-            }
-
-        function change_item(item) {
-            $(item['id']).innerHTML = '';
-            icon = document.createElement('img');
-            icon.src = 'data:image/png;base64,' + item['icon'];
-            $(item['id']).appendChild(icon)
-            }
+        function add_entry(data) {
+            var entry = new Element('div');
+            entry.set('id', data['id']);
+            entry.set('class', 'entry');
+            entry.inject($('entry-container'));
+            
+            var icon = new Element('img');
+            icon.set('id', data['id'] + '-img');
+            icon.set('src', data['icon']);
+            icon.inject(entry);
+            
+            entry.addEvent('click', function() {
+                widget.api.indicators.show_menu(this.get('id'));
+            });
+        }
 
         function main() {
-            widget.api.addEvent('item-added', add_item)
-            widget.api.addEvent('item-changed', change_item)
-            widget.api.addEvent('item-removed', remove_item)
-            widget.api.appindicators.get_items(function(items) {
-                for(c=0; c<items.length; c++) {
-                    add_item(items[c]);
-                    }
-                })
-            }
+            widget.api.indicators.get_entries(function(entries) {
+                for(i=0; i < entries.length; i++){
+                    var entry = entries[i];
+                    add_entry(entry);
+                }
+            });
+            widget.api.addEvent('entry-added', function(entry) {
+                add_entry(entry);
+            })
+
+            widget.api.addEvent('entry-removed', function(data) {
+                entry = $(data['id']);
+                entry.dispose();
+            })
+
+            widget.api.addEvent('entry-updated', function(data) {
+                icon = $(data['id'] + '-img');
+                icon.set('src', data['icon']);
+            })
+        }
         </script>
     </head>
  
     <body>
-        <div class="widget" style="min-width: 180px;">
+        <div class="widget" style="min-width: 120px;">
             <div class="background">
-                <div id="item-container">
+                <div id="entry-container">
                 </div>
                 <div style="clear: both;"></div>
             </div>

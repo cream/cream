@@ -1,15 +1,14 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from StringIO import StringIO
-
+import os
+import time
+import hashlib
 import gtk
 
 from melange import api
-from appindicators.host import StatusNotifierHost
+
+from indicator import IndicatorObject, IndicatorLoadingFailed
 
 def construct_js_item(item, icon_filename):
     return {
@@ -17,68 +16,102 @@ def construct_js_item(item, icon_filename):
         'id': item.id,
     }
 
-@api.register('appindicators')
+INDICATORS = [
+    'application',
+    'networkmenu',
+    'soundmenu',
+    'messaging',
+    'me',
+    'datetime',
+    'session'
+]
+
+@api.register('indicators')
 class AppIndicators(api.API):
 
     def __init__(self):
         api.API.__init__(self)
 
-        # Intialize the DBus stuff here...
-        self.host = StatusNotifierHost()
-        self.host.connect('item-added', self.sig_item_added)
-        self.host.connect('item-removed', self.sig_item_removed)
+        self.indicators = []
+        self.entries = {}
 
-        self.add_initially()
+        self.active_menu = None
 
-    def store_icon(self, item, filename):
-        pb = gtk.gdk.pixbuf_new_from_file(filename)
-        data = StringIO()
-        def _callback(buf):
-            data.write(buf)
-        pb.save_to_callback(_callback, 'png')
-        base64 = data.getvalue().encode('base64')
-        return base64
+        self.screen_width = gtk.gdk.screen_width()
 
-    def store_current_icon(self, item):
-        return self.store_icon(item, item.get_current_icon_filename())
+        for indicator_name in INDICATORS:
+            path = '/usr/lib/indicators/4/lib{name}.so'.format(name=indicator_name)
 
-    def change_item(self, item):
-        self.emit('item-changed', construct_js_item(item, self.store_current_icon(item)))
+            try:
+                indicator = IndicatorObject(path)
 
-    def sig_item_added(self, host, item):
-        self.emit('item-added', construct_js_item(item, self.store_current_icon(item)))
-        item.connect('status-new', self.sig_status_new)
+                indicator.connect('entry-added', self.entry_added_cb)
+                indicator.connect('entry-removed', self.entry_removed_cb)
 
-    def sig_status_new(self, item, status):
-        self.change_item(item)
+                self.indicators.append(indicator)
+            except IndicatorLoadingFailed:
+                pass
 
-    def sig_item_removed(self, host, item):
-        self.emit('item-removed', item.id)
-
-    def add_initially(self):
-        for item in self.host.items:
-            self.sig_item_added(self.host, item)
-
+        for indicator in self.indicators:
+            for entry in indicator.get_entries():
+                entry.connect('update', self.entry_update_cb)
+                self.entries[hashlib.md5(str(entry)).hexdigest()] = entry
+                html_entry = self.convert_entry(entry)
+                self.emit('entry-added', html_entry)
+                
+                
     @api.expose
-    def get_items(self):
+    def get_entries(self):
+    
+        entries = []
+        
+        for indicator in self.indicators:
+            for entry in indicator.get_entries():
+                entries.append(self.convert_entry(entry))
 
-        items = []
+        return entries
+        
+        
+    def entry_update_cb(self, entry):
 
-        for item in self.host.items:
-            items.append(construct_js_item(item, self.store_current_icon(item)))
+        html_entry = self.convert_entry(entry)
+        self.emit('entry-updated', html_entry)
+        
 
-        return items
+    def convert_entry(self, entry):
+    
+        data_path = self.get_data_path()
+        entry_id = hashlib.md5(str(entry)).hexdigest()
+        icon_name = entry_id + '-' + hashlib.md5(str(time.time())).hexdigest() + '.png'
+        icon_path = os.path.join(data_path, icon_name)
+
+        entry.pixbuf.save(icon_path, 'png')
+        
+        return {
+            'id': entry_id,
+            'icon': '/data/' + icon_name
+        }
+
+
+    def entry_added_cb(self, indicator, entry):
+        html_entry = self.convert_entry(entry)
+        self.entries[hashlib.md5(str(entry)).hexdigest()] = entry
+        self.emit('entry-added', html_entry)
+
+
+    def entry_removed_cb(self, indicator, entry):
+        del self.entries[hashlib.md5(str(entry)).hexdigest()]
+        html_entry = self.convert_entry(entry)
+        self.emit('entry-removed', html_entry)
 
 
     @api.in_main_thread
-    def _show_menu(self, id):
-
-        item = self.host.get_item_by_id(id)
-        # Show the menu.
-        item.show_menu()
+    def _show_menu(self, _id):
+    
+        menu = self.entries[_id].menu
+        menu.popup(None, None, None, 1, 0)
 
 
     @api.expose
-    def show_menu(self, id):
-
-        self._show_menu(id)
+    def show_menu(self, _id):
+        self._show_menu(_id)
