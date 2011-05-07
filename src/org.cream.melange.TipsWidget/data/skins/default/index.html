@@ -15,7 +15,7 @@
             font-size: 1.25em;
             margin: .8px 0px .6em 0px;
         }
-        
+
         .background {
             overflow: hidden;
         }
@@ -23,28 +23,28 @@
         #icon {
             float: right;
             width: 26px;
-            
+
             margin: -10px -10px 0px 0px;
             padding: 3px;
 
             //background-color: rgba(255, 255, 255, .2);
-            
+
             //border-bottom-left-radius: 10px;
             //border-top-right-radius: 10px;
-            
+
             //-webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
         }
         </style>
-        
+
         <script type="text/javascript">
         function main() {
             tips = {
-                'add': "Adding a widget is really simple. Just right click on some free space of your desktop and select 'Add Widget'. A dialog will show up allowing you to choose a widget from different categories.",
+                'add': "Adding a widget is really simple. Just right click on some free space of your desktop and select 'Add widgets'. A dialog will show up allowing you to choose a widget from different categories.",
                 'remove': "If you want to remove a widget, just open the context menu of that specific widget by right-clicking on it. Select 'Remove' - and you are ready to go! All your settings and profile data will be stored for later use!",
-                'move': "There are two ways of moving a widget in Melange: You can use your middle mouse button to grab around a widget or press <span style=\"border: 1px solid rgba(0, 0, 0, .3); border-radius: 3px;\">Ctrl</span> and use your left mouse button.",
-                'settings': "To change Melange's global settings, please use the context menu when clicking on some free space on your desktop. Besides that, every widget may specify own configuration options you might access using that widgets context menu." 
+                'move': "There are two ways of moving a widget in Melange: You can use your middle mouse button to grab around a widget or press <span style=\"border: 1px solid rgba(0, 0, 0, .3); border-radius: 3px;\">Super</span> and use your left mouse button.",
+                'settings': "To change Melange's global settings, please use the context menu when clicking on some free space on your desktop. Besides that, every widget may specify own configuration options you might access using that widgets context menu."
             }
-            
+
             $('selector').addEvent('value_changed', function(option) {
                     $('tip').set('html', tips[option.id]);
                 });
