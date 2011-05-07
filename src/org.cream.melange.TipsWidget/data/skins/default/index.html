@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+        <title>Calculator widget</title>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/theme/ui/melange.css" media="screen" />
+
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/mootools-more.js"></script>
+        <script type="text/javascript" src="/common/core/melange.js"></script>
+        <script type="text/javascript" src="/theme/ui/chooser/chooser.js"></script>
+        <style type="text/css">
+        h3 {
+            font-size: 1.25em;
+            margin: .8px 0px .6em 0px;
+        }
+        
+        .background {
+            overflow: hidden;
+        }
+
+        #icon {
+            float: right;
+            width: 26px;
+            
+            margin: -10px -10px 0px 0px;
+            padding: 3px;
+
+            //background-color: rgba(255, 255, 255, .2);
+            
+            //border-bottom-left-radius: 10px;
+            //border-top-right-radius: 10px;
+            
+            //-webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, .2);
+        }
+        </style>
+        
+        <script type="text/javascript">
+        function main() {
+            tips = {
+                'add': "Adding a widget is really simple. Just right click on some free space of your desktop and select 'Add Widget'. A dialog will show up allowing you to choose a widget from different categories.",
+                'remove': "If you want to remove a widget, just open the context menu of that specific widget by right-clicking on it. Select 'Remove' - and you are ready to go! All your settings and profile data will be stored for later use!",
+                'move': "There are two ways of moving a widget in Melange: You can use your middle mouse button to grab around a widget or press <span style=\"border: 1px solid rgba(0, 0, 0, .3); border-radius: 3px;\">Ctrl</span> and use your left mouse button.",
+                'settings': "To change Melange's global settings, please use the context menu when clicking on some free space on your desktop. Besides that, every widget may specify own configuration options you might access using that widgets context menu." 
+            }
+            
+            $('selector').addEvent('value_changed', function(option) {
+                    $('tip').set('html', tips[option.id]);
+                });
+        }
+        </script>
+    </head>
+
+    <body>
+        <div class="widget" style="width: 380px;">
+            <div class="background" style="text-align: justify">
+                <div id="icon">
+                    <img src="melange.png" />
+                </div>
+                <h3>Melange Tips</h3>
+                <span id="tip"></span>
+                <div class="chooser" style="clear: both; margin-top: 8px; font-size: .95em;" id="selector">
+                    <div class="option" id="add">
+                        Add Widgets
+                    </div>
+                    <div class="option" id="remove">
+                        Remove Widgets
+                    </div>
+                    <div class="option" id="move">
+                        Move Widgets
+                    </div>
+                    <div class="option" id="settings">
+                        Settings
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

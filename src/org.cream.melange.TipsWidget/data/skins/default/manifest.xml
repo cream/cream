@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="Default" id=".TipsWidget.DefaultSkin" version="1.0" type=".Skin">
+        <license title="zlib License" />
+        <description lang="en" content="A default theme for the LCD-Clock widget." />
+        <author name="Sebastian Billaudelle" type="developer" mail="sbillaudelle@googlemail.com" />
+    </component>
+</manifest>

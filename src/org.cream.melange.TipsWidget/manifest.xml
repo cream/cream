@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.melange' version="1.0">
+    <component name="Melange Tips" id=".TipsWidget" version="1.0" type=".Widget">
+        <license title="zlib License"/>
+        <description lang="en" content="A widget displaying some tips on using Melange…" />
+        <icon path="melange.png" />
+        <author name="Sebastian Billaudelle" type="developer" mail="sbillaudelle@googlemail.com" />
+    </component>
+</manifest>
