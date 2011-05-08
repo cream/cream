@@ -1,10 +1,10 @@
-[submodule "src/libs/cream"]
+[submodule "src/libs/python-cream"]
 	path = src/libs/cream
-	url = git://github.com/cream/libs.git
-[submodule "src/libs/gpyconf"]
+	url = git://github.com/cream/python-cream.git
+[submodule "src/libs/python-gpyconf"]
 	path = src/libs/gpyconf
 	url = git://github.com/jonashaag/gpyconf.git
-[submodule "src/libs/xmlserialize"]
+[submodule "src/libs/python-xmlserialize"]
 	path = src/libs/xmlserialize
 	url = git://github.com/jonashaag/xmlserialize.py.git
 [submodule "src/modules/melange"]
