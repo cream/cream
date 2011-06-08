@@ -53,7 +53,7 @@
             }
 
             update_battery_state.delay(50);
-            update_battery_state.periodical(8000);
+            update_battery_state.periodical(1000);
 
         };
         </script>
@@ -129,14 +129,6 @@
                 </linearGradient>
                 <linearGradient
                    id="linearGradient3295-9">
-                  <stop
-                     id="fill_level_bottom"
-                     style="stop-color:hsl(100, 80%, 30%);stop-opacity:1"
-                     offset="0" />
-                  <stop
-                     id="fill_level_top"
-                     style="stop-color:hsl(100, 80%, 40%);stop-opacity:1"
-                     offset="1" />
                 </linearGradient>
                 <linearGradient
                    x1="39"
@@ -165,13 +157,21 @@
                    y2="24.266857" />
                 <linearGradient
                    inkscape:collect="always"
-                   xlink:href="#linearGradient3295-9"
                    id="linearGradient3777"
                    gradientUnits="userSpaceOnUse"
                    x1="39"
                    y1="68"
                    x2="39"
-                   y2="28" />
+                   y2="28">
+                    <stop
+                     id="fill_level_bottom"
+                     style="stop-color:hsl(100, 80%, 30%);stop-opacity:1"
+                     offset="0" />
+                  <stop
+                     id="fill_level_top"
+                     style="stop-color:hsl(100, 80%, 40%);stop-opacity:1"
+                     offset="1" />
+                   </linearGradient>
               </defs>
               <metadata
                  id="metadata7">
