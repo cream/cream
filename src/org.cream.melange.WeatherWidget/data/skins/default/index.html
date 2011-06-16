@@ -16,11 +16,23 @@
         <style type="text/css">
             #data-column {
                 margin-left: 80px;
+                margin-right: 30px;
             }
 
             .title {
                 font-size: .65em;
                 line-height: 1em;
+            }
+            
+            #location {
+                height: 29px;
+                margin-left: -23px;
+                margin-right: -23px;
+                padding-top: 6px;
+                padding-left: 15px;
+                background-image: url(images/banner.png);
+                color: #eaeaea;
+                text-shadow: none;
             }
 
             #temperature {
@@ -62,7 +74,7 @@
     </head>
 
     <body>
-        <div class="widget" style="min-width: 180px;">
+        <div class="widget" style="width: 220px; padding: 20px;">
             <div class="background">
 
                 <div id="spinner_overlay" class="overlay">
@@ -71,30 +83,66 @@
                         <span style="font-size: .9em; font-style: italic;">Loading weather data…</span>
                     </div>
                 </div>
+                
+                <div id="location">
+                    Weather
+                </div>
 
                 <div id="content">
-                    <div style="width: 70px; float: left; text-align: center;">
-                        <img id="icon" src="images/clear.png" onmousedown="return false;" />
-                        <br />
-                        <span id="temperature">N/A</span>
+                    <div style="float: left; width: 70px;">
+                        <img id="icon" src="images/unknown.png" />
                     </div>
-                    <div id="data-column">
-                        <span class="title">Wind:</span><br />
+                    <div style="float: right; width: 120px; padding: 10px 5px;">
+                        <span id="temperature">19° C</span><br />
+                        
+                        <span class="title">Wind:</span>
                         <span id="wind">N/A</span><br />
     
-                        <span class="title">Humidity:</span><br />
-                        <span id="humidity">N/A</span><br />
-    
-                        <span class="title">Pressure:</span><br />
-                        <span id="pressure">N/A</span>
+                        <span class="title">Humidity:</span>
+                        <span id="humidity">N/A</span>
                     </div>
                     <div style="clear: both;"></div>
+                    
+                    <div style="margin: 5px -10px -10px -10px; border-top: 1px solid rgba(0, 0, 0, .1);">
+                    <div style="width: 33%; float: left; text-align: center;">
+                        <img id="forecast1" width="20" src="images/unknown.png" />
+                    </div>
+                    <div style="width: 33%; float: right; text-align: center;">
+                        <img id="forecast2" width="20" src="images/unknown.png" />
+                    </div>
+                    <div style="width: 33%; margin: 0 33%; text-align: center; border-left: 1px solid rgba(0, 0, 0, .1); border-right: 1px solid rgba(0, 0, 0, .1);">
+                        <img id="forecast3" width="20" src="images/unknown.png" />
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
                 </div>
 
                 <script type="text/javascript">                
                     throbber_state = 0;
                     function main() {
                         var icons = {
+                            'clear': 'clear.png',
+                            'cloudy': 'cloudy.png',
+                            'flurries': 'flurries.png',
+                            'fog': 'fog.png',
+                            'hazy': 'hazy.png',
+                            'mostlycloudy': 'mostlycloudy.png',
+                            'mostlysunny': 'mostlysunny.png',
+                            'partlycloudy': 'partlycloudy.png',
+                            'partlysunny': 'partlysunny.png',
+                            'rain': 'rain.png',
+                            'sleet': 'sleet.png',
+                            'snow': 'snow.png',
+                            'sunny': 'sunny.png',
+                            'tstorms': 'thunderstorms.png',
+                            'unknown': 'unknown.png',
+                        };
+                        var forecast_icons = {
+                            'chanceflurries': 'chanceflurries.png',
+                            'chancerain': 'chanceofrain.png',
+                            'chancesleet': 'chanceofsleet.png',
+                            'chancesnow': 'chanceofsnow.png',
+                            'chancetstorms': 'cloudy.png',
                             'clear': 'clear.png',
                             'cloudy': 'cloudy.png',
                             'flurries': 'flurries.png',
@@ -118,11 +166,14 @@
                                 $('content').fade(1);
                                 $('spinner_overlay').fade(0);
 
-                                $('temperature').set('text', data['temperature'] + '°C');
-                                $('wind').set('text', data['wind_speed'] + 'km/h');
-                                $('humidity').set('text', data['humidity'] + '%');
-                                $('pressure').set('text', data['pressure'] + 'hPa');
-                                $('icon').set('src', 'images/' + icons[data['icon']]);
+                                $('temperature').set('text', data['current']['temperature'] + '°C');
+                                $('wind').set('text', data['current']['wind_speed'] + 'km/h');
+                                $('humidity').set('text', data['current']['humidity'] + '%');
+                                $('icon').set('src', 'images/' + icons[data['current']['icon']]);
+
+                                $('forecast1').set('src', 'images/' + forecast_icons[data['forecast'][0]]);
+                                $('forecast2').set('src', 'images/' + forecast_icons[data['forecast'][1]]);
+                                $('forecast3').set('src', 'images/' + forecast_icons[data['forecast'][2]]);
                             });
                         }
 
@@ -135,10 +186,12 @@
                                service, ensure that at least 3 seconds have passed before the next
                                request is send by using a timeout.
                             */
+                            $('location').set('html', widget.config.get('location'));
                             $clear(configuration_update_timeout_id);
                             configuration_update_timeout_id = update_weather.delay(3000);
                         });
 
+                        $('location').set('html', widget.config.get('location'));
                         update_weather.delay(50);
                         update_weather.periodical(60000);
 
