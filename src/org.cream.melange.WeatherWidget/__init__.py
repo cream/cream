@@ -32,8 +32,6 @@ class Weather(api.API):
         for day in forecast_data.find('simpleforecast').getchildren()[1:4]:
             forecast.append(day.find('icon').text)
         
-        print forecast
-
         return {
             'current': {
                 'weather': current_data.find('weather').text,
