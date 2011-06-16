@@ -26,6 +26,7 @@
             
             #location {
                 height: 29px;
+                margin-top: -5px;
                 margin-left: -23px;
                 margin-right: -23px;
                 padding-top: 6px;
@@ -63,10 +64,11 @@
                 z-index: 999;
                 background: none;
                 position: absolute;
-                top: 3px;
-                left: 3px;
-                right: 3px;
-                bottom: 3px;
+                top: 20px;
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                //background-color: rgba(255, 255, 255, .6);
             }
         </style>
         <script type="javascript">
@@ -78,7 +80,7 @@
             <div class="background">
 
                 <div id="spinner_overlay" class="overlay">
-                    <div style="left: 3px; right: 3px; position: absolute; top: 50%; text-align: center;">
+                    <div style="left: 3px; right: 3px; position: absolute; top: 60%; text-align: center;">
                         <div style="position: relative; top: -27px; margin-bottom: -27px;" id="spinner"></div>
                         <span style="font-size: .9em; font-style: italic;">Loading weather data…</span>
                     </div>
@@ -92,7 +94,7 @@
                     <div style="float: left; width: 70px;">
                         <img id="icon" src="images/unknown.png" />
                     </div>
-                    <div style="float: right; width: 120px; padding: 10px 5px;">
+                    <div style="float: right; width: 120px; padding: 8px 5px;">
                         <span id="temperature">19° C</span><br />
                         
                         <span class="title">Wind:</span>
@@ -105,13 +107,13 @@
                     
                     <div style="margin: 5px -10px -10px -10px; border-top: 1px solid rgba(0, 0, 0, .1);">
                     <div style="width: 33%; float: left; text-align: center;">
-                        <img id="forecast1" width="20" src="images/unknown.png" />
+                        <img id="forecast1" width="30" src="images/unknown.png" />
                     </div>
                     <div style="width: 33%; float: right; text-align: center;">
-                        <img id="forecast2" width="20" src="images/unknown.png" />
+                        <img id="forecast2" width="30" src="images/unknown.png" />
                     </div>
                     <div style="width: 33%; margin: 0 33%; text-align: center; border-left: 1px solid rgba(0, 0, 0, .1); border-right: 1px solid rgba(0, 0, 0, .1);">
-                        <img id="forecast3" width="20" src="images/unknown.png" />
+                        <img id="forecast3" width="30" src="images/unknown.png" />
                     </div>
                     <div style="clear: both;"></div>
                 </div>
@@ -186,9 +188,16 @@
                                service, ensure that at least 3 seconds have passed before the next
                                request is send by using a timeout.
                             */
-                            $('location').set('html', widget.config.get('location'));
+
                             $clear(configuration_update_timeout_id);
-                            configuration_update_timeout_id = update_weather.delay(3000);
+                            configuration_update_timeout_id = function() {
+                                $('content').fade(0);
+                                $('spinner_overlay').fade(1);
+                                spinner.start();
+
+                                $('location').set('html', widget.config.get('location'));
+                                update_weather()
+                            }.delay(3000);
                         });
 
                         $('location').set('html', widget.config.get('location'));
