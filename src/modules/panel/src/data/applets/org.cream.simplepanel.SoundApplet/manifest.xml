@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Sound" id=".SoundApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="A sound applet." />
+
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" type="developer" />
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" type="developer" />
+    </component>
+</manifest>

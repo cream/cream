@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Cardapio" id=".CardapioApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="Show the Cardapio menu" />
+
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" />
+    </component>
+</manifest>

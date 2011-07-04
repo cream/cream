@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Window List" id=".WindowListApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="A Window list" />
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" />
+    </component>
+</manifest>

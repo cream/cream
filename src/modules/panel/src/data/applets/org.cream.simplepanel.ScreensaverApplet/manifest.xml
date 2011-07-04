@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Screensaver" id=".ScreensaverApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="Toggle the screensaver." />
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" />
+    </component>
+</manifest>

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Menu" id=".MenuApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="A beautiful menu applet." />
+
+        <use-feature id="org.cream.config" />
+
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" />
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" />
+    </component>
+</manifest>

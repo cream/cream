@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<manifest namespace='org.cream.simplepanel' version="1.0">
+    <component name="Clock" id=".ClockApplet" version="0.1" type=".Applet">
+        <license title="GPLv3+"/>
+        <description lang="en" content="Well. A clock, stupid." />
+
+        <use-feature id="org.cream.config" />        
+
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" />
+    </component>
+</manifest>

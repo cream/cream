@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<manifest namespace="org.cream" version="0.0.5">
+    <component name="Simple Panel" id=".SimplePanel" version="0.4" type=".Module">
+        <license title="GPL" version="3+" />
+
+        <use-feature id=".config" />
+
+        <provide-component type=".simplepanel.Applet" />
+        <provide-component type=".simplepanel.Theme" />
+
+        <author name="Sebastian Billaudelle" mail="stein@cream-project.org" type="developer" />
+        <author name="Kristoffer Kleine" mail="kris.kleine@yahoo.de" type="developer" />
+    </component>
+</manifest>

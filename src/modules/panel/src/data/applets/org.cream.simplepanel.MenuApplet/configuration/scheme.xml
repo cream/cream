@@ -1,0 +1,3 @@
+<configuration>
+    <single_column_max_items label="Max items in single column view" type="integer">10</single_column_max_items>
+</configuration>

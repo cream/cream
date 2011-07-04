@@ -1,0 +1,26 @@
+<configuration>
+    <layout type="list" static="true" hidden="true">
+        <item type="dict">
+            <position type="int">0</position>
+            <objects type="list">
+                <item type="dict">
+                    <type type="str">applet</type>
+                    <id type="str">org.cream.simplepanel.IndicatorApplet</id>
+                </item>
+                <item type="dict">
+                    <type type="str">space</type>
+                    <size type="int">0</size>
+                </item>
+                <item type="dict">
+                    <type type="str">applet</type>
+                    <id type="str">org.cream.simplepanel.ScreensaverApplet</id>
+                </item>
+                <item type="dict">
+                    <type type="str">space</type>
+                    <size type="int">0</size>
+                </item>
+            </objects>
+            <orientation type="str">right</orientation>
+        </item>
+    </layout>
+</configuration>
