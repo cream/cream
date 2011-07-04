@@ -1,3 +1,0 @@
-<configuration>
-    <format type="char" label="Format of the clock">%H:%M</format>
-</configuration>
