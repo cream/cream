@@ -1,26 +1,17 @@
 Cream Desktop Environment
 =========================
 
-How to install Cream?
----------------------
+How to install Cream from git
+-----------------------------
 
-You need:
- * virtualenv
+Just follow the steps from the "Install from Git" section on http://cream-project.org/install/
 
-Installation
-~~~~~~~~~~~~
-To install Cream into a virtualenv just do::
-
-    git clone git://github.com/cream/cream.git
-    cd cream/
-    make setup
 
 Usage
 ~~~~~
 
-Before you can use Cream, always make sure to activate the virtualenv::
+To use the virtualenv please refer to http://cream-project.org/documentation/tutorials/usingdevenv
 
-    source dev/bin/activate
 
 Updating
 ~~~~~~~~
