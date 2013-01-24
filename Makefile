@@ -16,7 +16,7 @@ update-pyjavascriptcore: pyjavascriptcore
 	cd pyjavascriptcore && bzr pull && python setup.py install
 
 setup:
-	virtualenv $(VIRTUALENV) -p $(PYTHON)
+	virtualenv $(VIRTUALENV) -p $(PYTHON) --system-site-packages
 	git submodule update --init
 	rm -rf $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/src/data/widgets
 	ln -T -s $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/src/data/widgets
