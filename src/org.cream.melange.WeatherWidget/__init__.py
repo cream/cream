@@ -12,7 +12,7 @@ CURRENT_URL = 'http://api.wunderground.com/auto/wui/geo/WXCurrentObXML/index.xml
 FORECAST_URL = 'http://api.wunderground.com/auto/wui/geo/ForecastXML/index.xml?query={0}'
 KILOMETER_MILES_RATIO = 1.609
 
-@api.register('weather')
+@api.register('org.cream.melange.WeatherWidget')
 class Weather(api.API):
 
     @api.expose
@@ -26,12 +26,12 @@ class Weather(api.API):
         forecast_url = FORECAST_URL.format(self.config.location)
         with closing(urllib.urlopen(forecast_url)) as file_handle:
             forecast_data = parse_xml(file_handle)
-        
+
         forecast = []
 
         for day in forecast_data.find('simpleforecast').getchildren()[1:4]:
             forecast.append(day.find('icon').text)
-        
+
         return {
             'current': {
                 'weather': current_data.find('weather').text,
