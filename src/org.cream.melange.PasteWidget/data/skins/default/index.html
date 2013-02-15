@@ -118,7 +118,7 @@
                 }
 
                 $('language').addEvent('value_changed', function(option) {
-                    widget.api.paste.set_language(option.id);
+                    widget.api.set_language(option.id);
                     if(option.id == 'other') {
                         overlay.fade(1);
                     }
@@ -128,21 +128,21 @@
                 }
 
                 $('paste_file').onclick = function() {
-                    widget.api.paste.paste_file(function(data) {
+                    widget.api.paste_file(function(data) {
                         url_field.href = data;
                         url_field.innerHTML = data;
                     });
                 }
 
                 $('paste_clipboard').onclick = function() {
-                    widget.api.paste.paste_clipboard(function(data) {
+                    widget.api.paste_clipboard(function(data) {
                         url_field.href = data;
                         url_field.innerHTML = data;
                     });
                 }
 
                 $('widget').addEvent('drop', function(uri) {
-                    widget.api.paste.paste_file_from_uri(uri, function(data) {
+                    widget.api.paste_file_from_uri(uri, function(data) {
                         url_field.href = data;
                         url_field.innerHTML = data;
                     });

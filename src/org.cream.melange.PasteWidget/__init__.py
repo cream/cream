@@ -18,12 +18,11 @@
 
 from melange import api
 
-import gobject
 import pasty
-import gtk
+from gi.repository import Gtk as gtk
 
 
-@api.register('paste')
+@api.register('org.cream.melange.PasteWidget')
 class Paste(api.API):
 
     def __init__(self):
@@ -31,7 +30,7 @@ class Paste(api.API):
         api.API.__init__(self)
 
         self.language = 'text'
-        self.clipboard = gtk.clipboard_get()
+        self.clipboard = gtk.Clipboard()
 
 
     @api.expose
@@ -60,9 +59,8 @@ class Paste(api.API):
         path = uri[0].replace('file://', '')
         path = path.replace('%20', ' ')
 
-        fh = open(path)
-        text = fh.read()
-        fh.close()
+        with open(path) as fh:
+            text = fh.read()
 
         url = self.paste(text, self.language)
         return url
@@ -76,16 +74,18 @@ class Paste(api.API):
     @api.in_main_thread
     def get_file(self):
 
-        chooser = gtk.FileChooserDialog(buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                    gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        chooser = gtk.FileChooserDialog(buttons=(
+            gtk.STOCK_CANCEL, 
+            gtk.ResponseType.REJECT,
+            gtk.STOCK_OK, 
+            gtk.ResponseType.ACCEPT))
         response = chooser.run()
-        if response == gtk.RESPONSE_ACCEPT:
-            fh = open(chooser.get_filename())
-            text = fh.read()
-            fh.close()
+        if response == gtk.ResponseType.ACCEPT:
+            with open(chooser.get_filename()) as fh:
+                text = fh.read()
             response = chooser.destroy()
             return text
-        elif response == gtk.RESPONSE_REJECT:
+        elif response == gtk.ResponseType.REJECT:
             response = chooser.destroy()
         return None
 
