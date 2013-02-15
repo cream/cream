@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<manifest namespace='org.cream.melange' version="0.4">
-    <component name="Default" id=".tictactoe-widget.DefaultSkin" version="0.4" type=".Skin">
-        <license title="GPL" version="3+" />
-        <description lang="en" content="Default skin for the TicTacToe Widget." />
-        <author name="Kristoffer Kleine" type="developer" mail="kris.kleine@yahoo.de" />
-        <author name="Kristoffer Kleine" type="designer" mail="kris.kleine@yahoo.de" />
-    </component>
-</manifest>
