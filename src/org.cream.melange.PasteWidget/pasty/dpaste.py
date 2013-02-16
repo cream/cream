@@ -3,6 +3,8 @@
     See ../paster.py for license details.
 """
 
+from cream.util import cached_property
+
 from basic_service import *
 
 class DPaste(PasteService):
@@ -10,7 +12,7 @@ class DPaste(PasteService):
     fields = ('content', 'language', 'name', 'title', 'hold')
     host = 'http://dpaste.com'
 
-    @property
+    @cached_property
     def languages(self):
         languages_regexp = "<option value=\"(.+)\">(.+)</option>"
         content = '\n'.join([line for line in \
@@ -21,7 +23,7 @@ class DPaste(PasteService):
         except IndexError:
             raise NoLanguagesFound(name=self.__name__)
         d = dict(language_list)
-        d['--removeme--'] = d['" selected="selected']
+        d['Plain'] = d['" selected="selected']
         del d['" selected="selected']
         return d
 
@@ -29,19 +31,22 @@ class DPaste(PasteService):
     def default_language(self):
         return ''
 
+
     def do_paste(self, code, language=None, hold=False, name='', title=''):
-        url_regexp = "URL: (%s/hold/[0-9]+)" % self.host
-        if language:
-            try:
-                language = self.languages[language]
-            except KeyError:
-                raise LanguageNotFound(language=language)
+        url = 'http://dpaste.com/api/v1/'
+
         params = {
-            'language' : language or self.default_language,
+            'language' : language,
             'content' : code,
             'name' : name,
             'hold' : ('on', '')[hold],
             'title' : title,
         }
-        request = urllib.urlopen(self.host, urllib.urlencode(params))
-        return re.findall(url_regexp, request.read())[0].replace('/hold', '')
+
+        request = urllib.urlopen(url, urllib.urlencode(params))
+
+        if request.getcode() != 200:
+            return 'Error'
+        else:
+            return request.geturl()
+

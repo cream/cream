@@ -14,78 +14,6 @@
         <script type="text/javascript">
             function main() {
 
-            var languages = {'apache': 'Apache Config (.htaccess)',
-                             'bash': 'Bash',
-                             'bat': 'Batch (.bat)',
-                             'boo': 'Boo',
-                             'c': 'C',
-                             'clojure': 'Clojure',
-                             'control': 'Debian control-files',
-                             'cpp': 'C++',
-                             'creole': 'Creole Wiki',
-                             'csharp': 'C#',
-                             'css': 'CSS',
-                             'csv': 'CSV',
-                             'd': 'D',
-                             'diff': 'Unified Diff',
-                             'dylan': 'Dylan',
-                             'erlang': 'Erlang',
-                             'gas': 'GAS',
-                             'gcc-messages': 'GCC Messages',
-                             'gettext': 'Gettext catalogs',
-                             'glsl': 'GL Shader language',
-                             'go': 'Go',
-                             'haskell': 'Haskell',
-                             'html': 'HTML',
-                             'html+django': 'Django / Jinja Templates',
-                             'html+genshi': 'Genshi Templates',
-                             'html+mako': 'Mako Templates',
-                             'html+myghty': 'Myghty Templates',
-                             'html+php': 'PHP',
-                             'ini': 'INI File',
-                             'io': 'IO',
-                             'irb': 'Interactive Ruby',
-                             'irc': 'IRC Logs',
-                             'java': 'Java',
-                             'javac-messages': 'javac Messages',
-                             'js': 'JavaScript',
-                             'jsp': 'JSP',
-                             'lighttpd': 'Lighttpd',
-                             'literate-haskell': 'Literate Haskell',
-                             'llvm': 'LLVM',
-                             'lua': 'Lua',
-                             'matlab': 'Matlab',
-                             'matlabsession': 'Matlab Session',
-                             'minid': 'MiniD',
-                             'multi': 'Multi-File',
-                             'mysql': 'MySQL',
-                             'nasm': 'Nasm',
-                             'nginx': 'Nginx',
-                             'objectpascal': 'Object-Pascal',
-                             'ocaml': 'OCaml',
-                             'perl': 'Perl',
-                             'php': 'PHP (inline)',
-                             'povray': 'Povray',
-                             'pycon': 'Python Console Sessions',
-                             'pytb': 'Python Tracebacks',
-                             'python': 'Python',
-                             'rhtml': 'eRuby / rhtml',
-                             'rst': 'reStructuredText',
-                             'ruby': 'Ruby',
-                             'scala': 'Scala',
-                             'scheme': 'Scheme',
-                             'smalltalk': 'Smalltalk',
-                             'smarty': 'Smarty',
-                             'sourceslist': 'sources.list',
-                             'sql': 'SQL',
-                             'squidconf': 'SquidConf',
-                             'tex': 'TeX / LaTeX',
-                             'text': 'Text',
-                             'vim': 'Vim',
-                             'xml': 'XML',
-                             'xslt': 'XSLT',
-                             'yaml': 'YAML'}
-
                 var dialog = $('languageselect');
                 var url_field = $('url_field');
                 var overlay = document.createElement('div');
@@ -103,19 +31,23 @@
                 dialog.style.display = 'block';
                 overlay.style.display = 'block';
 
-                for(i in languages) {
-                    e = document.createElement('div');
-                    e.id = i;
-                    e.name = languages[i];
-                    e.innerHTML = languages[i];
-                    e.style.cursor = 'pointer';
-                    e.onclick = function() {
-                        widget.api.paste.set_language(this.id);
-                        $('other').innerHTML = "Other (" + this.name + ")";
-                        overlay.fade(0);
+                widget.api.get_languages(function(languages) {
+
+                    for(i in languages) {
+                        if(i == 'Plain' || i == 'Python' || i == 'Bash') continue;
+                        e = document.createElement('div');
+                        e.id = i;
+                        e.name = languages[i];
+                        e.innerHTML = languages[i];
+                        e.style.cursor = 'pointer';
+                        e.onclick = function() {
+                            widget.api.set_language(this.id);
+                            $('other').innerHTML = "Other (" + this.name + ")";
+                            overlay.fade(0);
+                        }
+                        $('language_list').appendChild(e);
                     }
-                    $('language_list').appendChild(e);
-                }
+                });
 
                 $('language').addEvent('value_changed', function(option) {
                     widget.api.set_language(option.id);
@@ -160,13 +92,13 @@
                     </div>
                 </div>
                 <div id="language" class="chooser" style="font-size: .8em;">
-                    <div class="option" id="text">
+                    <div class="option" id="Plain">
                         Text
                     </div>
-                    <div class="option" id="python">
+                    <div class="option" id="Python">
                         Python
                     </div>
-                    <div class="option" id="bash">
+                    <div class="option" id="Bash">
                         Bash
                     </div>
                     <div class="option" id="other">

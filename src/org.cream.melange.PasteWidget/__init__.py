@@ -29,7 +29,13 @@ class Paste(api.API):
 
         api.API.__init__(self)
 
+        self.language = pasty.dpaste.default_language
         self.clipboard = gtk.Clipboard.get(gdk.SELECTION_CLIPBOARD)
+
+
+    @api.expose
+    def get_languages(self):
+        return pasty.dpaste.languages
 
 
     @api.expose
@@ -90,4 +96,4 @@ class Paste(api.API):
 
 
     def paste(self, text, language):
-        return pasty.pocoo.do_paste(text, language)
+        return pasty.dpaste.do_paste(text, language)
