@@ -6,7 +6,7 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
         <link rel="stylesheet" type="text/css" href="/theme/ui/melange.css" media="screen" />
-        
+
         <style type="text/css">
             #info-overlay {
                 display: block;
@@ -33,17 +33,17 @@
                     $('info-overlay').setStyles({
                         left: (widget_size.x - overlay_size.x - 6) / 2 + 'px',
                         top: (widget_size.y - overlay_size.y - 5) / 2 + 'px'
-                        });
+                    });
                     $('info-overlay').fade(1);
                 });
 
                 $('widget').addEvent('mouseleave', function(){
-                        $('info-overlay').fade(0);
+                    $('info-overlay').fade(0);
                 });
 
 
             function update_battery_state() {
-                widget.api.battery.get_state(function(data) {
+                widget.api.get_state(function(data) {
                     $('fill_level').set('width', ((92.0/100.0) * data['remaining_capacity']).toFixed(0));
                     $('info-overlay').set('html', data['remaining_capacity'] + '%');
                     $('fill_level_top').setStyle('stop-color', 'hsl(' + data['remaining_capacity'] + ', 80%, 40%)');
