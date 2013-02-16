@@ -14,19 +14,19 @@
         <script language="javascript">
             function main(){
 
-                widget.api.notes.get_notes(function(notes){
+                widget.api.get_notes(function(notes){
                     $('notes').value = notes;
                 });
 
                 var timeout_id;
                 $('notes').addEvent('keydown', function(){
-                    $clear(timeout_id);
+                    clearTimeout(timeout_id);
                     timeout_id = save_notes.delay(1500);
                 });
             }
 
             function save_notes(){
-                widget.api.notes.save_notes($('notes').value);
+                widget.api.save_notes($('notes').value);
             }
 
         </script>

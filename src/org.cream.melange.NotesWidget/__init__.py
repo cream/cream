@@ -1,11 +1,9 @@
-#!/usr/bin/env python
-
 import os
 
 from melange import api
 
 
-@api.register('notes')
+@api.register('org.cream.melange.NotesWidget')
 class Notes(api.API):
 
     def __init__(self):
