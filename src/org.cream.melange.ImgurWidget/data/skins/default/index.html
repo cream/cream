@@ -77,7 +77,7 @@
                     var spinner = new Spinner($('spinner'), 30);
                     spinner.start();
 
-                    widget.api.imgur.upload(data[0], function(url){
+                    widget.api.upload(data[0], function(url){
                         spinner.stop();
                         $('spinner-overlay').fade(0);
                         //$('imgur').fade(1);
