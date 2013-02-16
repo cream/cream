@@ -10,7 +10,6 @@ IMGUR_UPLOAD_URL = 'http://imgur.com/api/upload.json'
 API_KEY = '97afbe8e4bd793012c847f0f39df8ffe'
 
 
-
 class Imgur(object):
 
     def __init__(self, api_key):
@@ -27,7 +26,7 @@ class Imgur(object):
             'key': self.api_key,
             'image': base64.b64encode(image),
             'path': path
-            }
+        }
 
         request = urllib2.Request(IMGUR_UPLOAD_URL, urlencode(data))
         u = urllib2.urlopen(request)
@@ -36,7 +35,7 @@ class Imgur(object):
         return data
 
 
-@api.register('imgur')
+@api.register('org.cream.melange.ImgurWidget')
 class ImgurWidget(api.API):
 
     def __init__(self):
