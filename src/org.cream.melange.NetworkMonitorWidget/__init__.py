@@ -1,11 +1,8 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from network import NetworkMonitor as _NetworkMonitor
 
 from melange import api
 
-@api.register('networkmonitor')
+@api.register('org.cream.melange.NetworkMonitorWidget')
 class NetworkMonitor(api.API):
 
     def __init__(self):
