@@ -19,7 +19,7 @@
 from melange import api
 
 import pasty
-from gi.repository import Gtk as gtk
+from gi.repository import Gtk as gtk, Gdk as gdk
 
 
 @api.register('org.cream.melange.PasteWidget')
@@ -29,8 +29,7 @@ class Paste(api.API):
 
         api.API.__init__(self)
 
-        self.language = 'text'
-        self.clipboard = gtk.Clipboard()
+        self.clipboard = gtk.Clipboard.get(gdk.SELECTION_CLIPBOARD)
 
 
     @api.expose
@@ -56,7 +55,7 @@ class Paste(api.API):
     @api.expose
     def paste_file_from_uri(self, uri):
 
-        path = uri[0].replace('file://', '')
+        path = uri.replace('file://', '')
         path = path.replace('%20', ' ')
 
         with open(path) as fh:
