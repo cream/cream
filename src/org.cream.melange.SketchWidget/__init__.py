@@ -1,13 +1,11 @@
-#!/usr/bin/env python
-
-from melange import api
-from cream.util import random_hash
-
 import os
-import gtk
 import base64
 
-@api.register('sketch')
+from gi.repository import Gtk as gtk
+
+from melange import api
+
+@api.register('org.cream.melange.SketchWidget')
 class Sketch(api.API):
 
     def __init__(self):
@@ -15,7 +13,7 @@ class Sketch(api.API):
 
         interface = gtk.Builder()
         interface.add_from_file(os.path.join(self.context.working_directory, 'save.glade'))
-       
+
         self.dialog = interface.get_object('dialog')
         self.dialog.connect('delete_event', lambda *args: self.dialog.hide())
 
@@ -32,6 +30,7 @@ class Sketch(api.API):
             file_.write(s)
 
     @api.expose
+    @api.in_main_thread
     def show_save_dialog(self, string64):
         self.dialog.set_current_folder(os.path.expanduser('~'))
         self.dialog.show_all()

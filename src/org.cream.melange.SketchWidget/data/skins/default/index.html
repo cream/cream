@@ -20,7 +20,7 @@
                 ctx = canvas.getContext('2d');
 
                 $('save').addEvent('click', function() {
-                    widget.api.sketch.show_save_dialog(canvas.toDataURL());
+                    widget.api.show_save_dialog(canvas.toDataURL());
                 });
 
                 $('pencil-tool').addEvent('click', function() {
