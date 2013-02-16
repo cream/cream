@@ -7,8 +7,8 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
         <link rel="stylesheet" type="text/css" href="/theme/ui/melange.css" media="screen" />
-        <script type="text/javascript" src="calculator.js"></script>
-        <script type="text/javascript" src="event.js"></script>
+        <script type="text/javascript" src="/common/core/mootools.js"></script>
+        <script type="text/javascript" src="/common/core/melange.js"></script>
         <script type="text/javascript">
             document.onkeyup = check_key_events;
         </script>
@@ -57,8 +57,88 @@
             float: left;
         }
         </style>
+
+        <script type="text/javascript">
+            var commands = {
+                '+': '+',
+                '-': '-',
+                '×': '*',
+                '÷': '/',
+                '·': '.'
+            };
+
+            var currentExpression = '';
+
+            function main() {
+                $$('.calc_number_btn').each(function(el) {
+                    if(el.innerHTML == 'C') return;
+
+                    el.addEvent('click', function() {
+                        var num = this.get('html');
+                        if(num == '·') num = '.';
+
+                        var display = $('lcd').get('html');
+                        if(display == '0')
+                            display = num;
+                        else if(display[display.length - 1] == "(") { // special case for exp
+                            display += num + ')';
+                            currentExpression += num + ')';
+                            $('lcd').set('html', display);
+                            return;
+                        } else
+                            display += num;
+
+                        currentExpression += num;
+                        $('lcd').set('html', display);
+                    });
+                });
+
+                $$('.calc_operator_btn').each(function(el) {
+                    el.addEvent('click', function() {
+                        currentExpression += commands[this.get('html')];
+
+                        var display = $('lcd').get('html');
+                        display += this.get('html');
+                        $('lcd').set('html', display);
+                    });
+                });
+
+                $('sqrt').addEvent('click', function() {
+                    currentExpression = 'Math.sqrt(' + currentExpression + ')';
+
+                    var display = $('lcd').get('html');
+                    if(display == '0') return;
+
+                    display = '√(' + display + ')';
+                    $('lcd').set('html', display);
+                });
+
+                $('exp').addEvent('click', function() {
+                    currentExpression = 'Math.pow(' + currentExpression + ',';
+
+                    var display = $('lcd').get('html');
+                    if(display == '0') return;
+
+                    display = '(' + display + ')^(';
+                    $('lcd').set('html', display);
+                });
+
+
+                $('calc').addEvent('click', function() {
+                    var res = eval(currentExpression);
+                    currentExpression = res;
+                    $('lcd').set('html', res);
+                });
+
+                $('clear').addEvent('click', function() {
+                    currentExpression = '';
+                    $('lcd').set('html', '0');
+                });
+
+            }
+        </script>
     </head>
-    
+
     <body>
         <div class="widget" style="width: 170px;">
             <div class="background">
@@ -66,37 +146,37 @@
                 <div id="lcd" class="section" style="margin-top: 0px;">0</div>
 
                 <div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">7</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">8</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">9</div>
-                    <div onclick="set_command('/');" class="button green calc_operator_btn">&#247;</div>
+                    <div class="button calc_number_btn">7</div>
+                    <div class="button calc_number_btn">8</div>
+                    <div class="button calc_number_btn">9</div>
+                    <div class="button green calc_operator_btn">&#247;</div>
                 </div><br /><br />
 
                 <div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">4</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">5</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">6</div>
-                    <div onclick="set_command('*');" class="button green calc_operator_btn">&#215;</div>
+                    <div class="button calc_number_btn">4</div>
+                    <div class="button calc_number_btn">5</div>
+                    <div class="button calc_number_btn">6</div>
+                    <div class="button green calc_operator_btn">&#215;</div>
                 </div><br /><br />
 
                 <div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">1</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">2</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">3</div>
-                    <div onclick="set_command('-');" class="button green calc_operator_btn">-</div>
+                    <div class="button calc_number_btn">1</div>
+                    <div class="button calc_number_btn">2</div>
+                    <div class="button calc_number_btn">3</div>
+                    <div class="button green calc_operator_btn">-</div>
                 </div><br /><br />
 
                 <div>
-                    <div onclick="reset_display();" class="button red calc_number_btn">C</div>
-                    <div onclick="add_number(this.innerHTML);" class="button calc_number_btn">0</div>
-                    <div onclick="add_number('.');" class="button calc_number_btn">·</div>
-                    <div onclick="set_command('+');" class="button green calc_operator_btn">+</div>
+                    <div id="clear" class="button red calc_number_btn">C</div>
+                    <div class="button calc_number_btn">0</div>
+                    <div class="button calc_number_btn">·</div>
+                    <div class="button green calc_operator_btn">+</div>
                 </div><div style="clear: both;"></div>
 
-                <div onclick="set_command('SQRT', true);" class="button blue calc_special_operator_btn">&radic;</div>
-                <div onclick="set_command('EXP', true);" style="padding-top: 4px; padding-bottom: 4px;" class="button blue calc_special_operator_btn">x<sup>n</sup></div>
+                <div id="sqrt" class="button blue calc_special_operator_btn">&radic;</div>
+                <div id="exp" style="padding-top: 4px; padding-bottom: 4px;" class="button blue calc_special_operator_btn">x<sup>n</sup></div>
 
-                <div onclick="calc(true);" class="button calc_special_btn">=</div>
+                <div id="calc" class="button calc_special_btn">=</div>
                 <div style="clear: both;"></div>
             </div>
         </div>
