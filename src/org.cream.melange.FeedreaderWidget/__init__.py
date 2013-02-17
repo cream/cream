@@ -2,23 +2,27 @@ from melange import api
 
 from feedparser import parse
 
-@api.register('feedreader')
+
+@api.register('org.cream.melange.FeedreaderWidget')
 class Feedreader(api.API):
 
     def __init__(self):
-    
+
         api.API.__init__(self)
 
     @api.expose
-    def get_feeds(self, url):
-        data = parse(url)['entries']
+    def get_feeds(self):
+        data = parse(self.config.url)['entries']
         feeds = []
-        if data[0].has_key('summary_detail'):
+        if 'summary_detail' in data[0]:
             for feed in data:
-                feeds.append({'title': feed['summary_detail']['value'],
-                                'link': feed['link'] })
+                feeds.append({
+                    'title': feed['summary_detail']['value'],
+                    'link': feed['link']
+                })
         else:
-            feeds = data
+            for feed in data:
+                feeds.append({'title': feed['title'], 'link': feed['link']})
 
-        return feeds
+        return feeds[:self.config.number]
 

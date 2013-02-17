@@ -32,8 +32,8 @@
 
                 function update() {
                     $('feeds').innerHTML = ''
-                    widget.api.feedreader.get_feeds(widget.config.get('url'), function(feeds) {
-                        for(i=0; i<widget.config.get('number'); i++) {
+                    widget.api.get_feeds(function(feeds) {
+                        for(i = 0; i < feeds.length; i++) {
                             box = document.createElement('div');
 
                             span = document.createElement('span');
@@ -57,13 +57,11 @@
                         }
 
                     });
-
-
-
                 }
+
                 var configuration_update_timeout_id;
-                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
-                    $clear(configuration_update_timeout_id);
+                widget.config.addEvent('field-value-changed', function(field, new_value) {
+                    clearTimeout(configuration_update_timeout_id);
                     configuration_update_timeout_id = update.delay(3000);
                 });
 
