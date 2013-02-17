@@ -32,8 +32,8 @@
 
                 function update() {
                     $('identica').innerHTML = ''
-                    widget.api.identica.get_data(widget.config.get('type'), function(data) {
-                        for(i=0; i<widget.config.get('number'); i++) {
+                    widget.api.get_data(function(data) {
+                        for(i = 0; i < data.length; i++) {
                             box = document.createElement('div');
 
                             span = document.createElement('span');
@@ -58,16 +58,12 @@
 
                             $('identica').appendChild(box);
                         }
-
                     });
-
-
-
                 }
 
                 var configuration_update_timeout_id;
-                widget.config.addEvent('field-value-changed', function(sender, field, new_value) {
-                    $clear(configuration_update_timeout_id);
+                widget.config.addEvent('field-value-changed', function(field, new_value) {
+                    clearTimeout(configuration_update_timeout_id);
                     configuration_update_timeout_id = update.delay(3000);
                 });
 

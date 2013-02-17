@@ -6,7 +6,7 @@ from contextlib import closing
 
 import re
 
-@api.register('identica')
+@api.register('org.cream.melange.IdenticaWidget')
 class Identica(api.API):
 
     def __init__(self):
@@ -18,9 +18,9 @@ class Identica(api.API):
         self.regex = 'http?://[^ \)]*'
 
     @api.expose
-    def get_data(self, _type):
+    def get_data(self):
         name = self.config.name
-        if _type == 'group':
+        if self.config.type == 'group':
             url = self.group_template.format(name)
         else:
             url = self.user_template.format(name)
@@ -49,4 +49,4 @@ class Identica(api.API):
                          'time': time
             })
 
-        return data
+        return data[:self.config.number]
