@@ -29,7 +29,7 @@
             function main() {
                 $('foobar').addEvent('drop', function(data) {
                     alert(data[0]);
-                    });
+                });
 
                 var mydialog = new SimpleDialog({
                     'ok_callback': okcb,
@@ -55,7 +55,7 @@
                 // Connect to the `onclick` signal of a button.
                 $('doit').onclick = function() {
                     // Write the return value of your API function `doit` to the widget.
-                    widget.api.example.doit(foo, function(ret) {
+                    widget.api.doit(foo, function(ret) {
                         $('response').innerHTML = ret;
                         //mydialog.show('Hi there', {'msg': 'Foobar'}, {'msg': 'barfoo'}, Array({'msg':'ABC'}));
                     });
