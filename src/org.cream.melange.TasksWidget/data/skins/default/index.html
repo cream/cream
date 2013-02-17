@@ -232,7 +232,7 @@
                     'src': 'icons/edit.png'
                 });
                 edit_action.addEvent('click', function() {
-                    widget.api.tasks.edit_task(this.id, function(ret) {
+                    widget.api.edit_task(this.id, function(ret) {
                         show_tasks();
                     });
                 });
@@ -248,7 +248,7 @@
                         this.id,
                         $('title_' + this.id).get('html'),
                         function(task_id) {
-                            widget.api.tasks.set_task_status(task_id, 2, function(ret) {
+                            widget.api.set_task_status(task_id, 2, function(ret) {
                                 show_tasks();
                             });
                         }
@@ -359,7 +359,7 @@
 
             /*** Show all tasks. ***/
             function show_tasks() {
-                widget.api.tasks.list_tasks(function(tasks) {
+                widget.api.list_tasks(function(tasks) {
                     $('tasks').set('html', '');
                     for (i=0; i<tasks.length; i++) {
                         add_task(tasks[i]);
@@ -400,7 +400,7 @@
 
             function main() {
                 $('add_button').addEvent('click', function() {
-                    widget.api.tasks.add_task(function(ret) {
+                    widget.api.add_task(function(ret) {
                         show_tasks();
                     });
                 });

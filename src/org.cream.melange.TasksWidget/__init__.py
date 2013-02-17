@@ -8,7 +8,7 @@ import datetime
 import cream.ipc
 from melange import api
 
-@api.register('tasks')
+@api.register('org.cream.melange.TasksWidget')
 class Tasks(api.API):
 
     def __init__(self):
@@ -74,7 +74,7 @@ class Tasks(api.API):
         return list_tasks()
 
     def convert_date_to_timedelta(self, task):
-        today = datetime.date.fromtimestamp(time.time())
+        today = datetime.date.today()
         deadline = datetime.date.fromtimestamp(task['deadline'])
         timedelta = abs((today - deadline).days)
 
