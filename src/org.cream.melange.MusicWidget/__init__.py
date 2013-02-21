@@ -3,18 +3,14 @@
 import os
 from PIL import Image
 from melange import api
+from dbus import DBusException
 
 # initialize lxml
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
 
 from coverart import get_cover, config
-import players
-
-PLAYERS = {
-    'banshee': players.Banshee,
-    'rhythmbox': players.Rhythmbox
-}
+from player import Player, NoMprisPlayerFound
 
 
 COVERART_SIZE = 150,150
@@ -26,7 +22,37 @@ def resize(path):
         image.save(path, image.format)
     return path
 
-@api.register('music')
+
+def connect_to_player_if_necessary(func):
+
+    def wrapper(self, *args):
+        if self.player is None:
+            try:
+                self.player = Player()
+                self.connect_signals()
+                self.emit('player-connected')
+            except NoMprisPlayerFound:
+                pass
+
+        return func(self, *args)
+
+    return wrapper
+
+
+def handle_dbus_exceptions(func):
+
+    def wrapper(self, *args):
+        if self.player is not None:
+            try:
+                return func(self, *args)
+            except DBusException:
+                self.player = None
+                self.emit('player-disconnected')
+
+    return wrapper
+
+
+@api.register('org.cream.melange.MusicWidget')
 class Music(api.API):
 
     def __init__(self):
@@ -36,72 +62,69 @@ class Music(api.API):
         if not os.path.exists(config.COVER_ART_BASE_DIR):
             os.mkdir(config.COVER_ART_BASE_DIR)
 
-        self.player = PLAYERS[self.config.player]()
+        try:
+            self.player = Player()
+        except NoMprisPlayerFound:
+            self.player = None
 
-        self.player.connect('song-changed', lambda p, song: self.emit('song-changed', song))
-        self.player.connect('state-changed', lambda p, state: self.emit('state-changed', state))
+        self.connect_signals()
+
+    def connect_signals(self):
+        if self.player is not None:
+            self.player.connect('song-changed',
+                lambda p, song: self.emit('song-changed', song)
+            )
+            self.player.connect('state-changed',
+                lambda p, state: self.emit('state-changed', state)
+            )
 
     @api.expose
-    def change_player(self):
-        @api.in_main_thread
-        def _change_player():
-            self.player.quit()
-            self.player = PLAYERS[self.config.player]()
-            self.player.connect('song-changed', lambda p, song: self.emit('song-changed', song))
-            self.player.connect('state-changed', lambda p, state: self.emit('state-changed', state))
-        _change_player()
-
-    @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def previous(self):
-        @api.in_main_thread
-        def _previous():
-            self.player.previous()
-        _previous()
+        self.player.previous()
+
 
     @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def next(self):
-        @api.in_main_thread
-        def _next():
-            self.player.next()
-        _next()
+        self.player.next()
+
 
     @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def play_pause(self):
-        @api.in_main_thread
-        def _play_pause():
-            self.player.play_pause()
-        _play_pause()
+        self.player.play_pause()
+
 
     @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def is_playing(self):
-        @api.in_main_thread
-        def _is_playing():
-            return self.player.is_playing
-        return _is_playing()
+        return self.player.is_playing
 
     @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def get_data(self):
-        @api.in_main_thread
-        def _get_data():
-            return self.player.current_track
-        return _get_data()
+        return self.player.current_track
 
     @api.expose
+    @api.in_main_thread
+    @connect_to_player_if_necessary
+    @handle_dbus_exceptions
     def get_coverart(self):
-        @api.in_main_thread
-        def _get_coverart():
-            track = self.player.current_track
-            artist, album = track.get('artist'), track.get('album')
-            if artist is None or album is None:
-                return None
-            path = get_cover(artist, album)
-            resize(path)
-            return os.path.split(path)[1]
-        return _get_coverart()
-
-    @api.expose
-    def set_rating(self, rating):
-        @api.in_main_thread
-        def _set_rating():
-            self.player.set_rating(rating)
-        _set_rating()
+        track = self.player.current_track
+        artist, album = track.get('artist'), track.get('album')
+        if artist is None or album is None:
+            return None
+        path = get_cover(artist, album)
+        resize(path)
+        return os.path.split(path)[1]
