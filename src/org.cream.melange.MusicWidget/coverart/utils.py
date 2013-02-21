@@ -4,11 +4,12 @@ import hashlib
 import config
 
 def md5(*stuff):
-    return hashlib.md5(''.join(stuff)).hexdigest()
+    s = u''.join(stuff)
+    return hashlib.md5(s.encode('utf-8')).hexdigest()
 
 def generate_url(base, **kwargs):
-    return base.rstrip('?') + '?' \
-           + '&'.join('{0}={1}'.format(*item)
+    return base.rstrip(u'?') + u'?' \
+           + u'&'.join(u'{0}={1}'.format(*item)
                       for item in kwargs.iteritems())
 
 def download_file(url, destination):
@@ -27,6 +28,6 @@ def read_chunked(fileobj, chunk_size=8*1024):
 def filename_for_album(artist, album):
     return os.path.join(
         config.COVER_ART_BASE_DIR,
-        'album-%s.jpg' % md5(artist, album)
+        u'album-%s.jpg' % md5(artist, album)
     )
 
