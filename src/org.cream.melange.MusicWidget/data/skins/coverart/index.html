@@ -11,22 +11,24 @@
         <script type="text/javascript" src="/common/core/events.js"></script>
         <script type="text/javascript" src="/common/core/melange.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="style.css" media="screen"></link>
-
-
+        <link rel="stylesheet" type="text/css" href="style.css"></link>
 
         <script type="text/javascript">
             var MAXLENGTH = 30;
             function update_data() {
-                widget.api.music.get_data(function(data) {
-                    ['title', 'artist', 'album'].each(function(key){
-                        if(data[key] && data[key].length > MAXLENGTH)
-                            $(key).set('html', data[key].slice(0,MAXLENGTH) + '..')
-                        else if(data[key])
-                            $(key).set('html', data[key])
-                    });
+                widget.api.get_data(function(data) {
+                    if(data == null) {
+                        $('title').set('html', 'No player found');
+                    } else {
+                        ['title', 'artist', 'album'].each(function(key){
+                            if(data[key] && data[key].length > MAXLENGTH)
+                                $(key).set('html', data[key].slice(0,MAXLENGTH) + '..')
+                            else if(data[key])
+                                $(key).set('html', data[key])
+                        });
+                    }
 
-                    widget.api.music.get_coverart(function(coverart) {
+                    widget.api.get_coverart(function(coverart) {
                         if(coverart != undefined)
                             $('coverart').set('src', '/data/coverart/' + coverart);
                         else
@@ -35,22 +37,10 @@
                 });
             }
 
-            function change_player() {
-                widget.api.music.change_player();
-                update_data();
-            }
-
             function main() {
-
-                widget.api.addEvent('song-changed', function() {
-                    update_data();
-                });
-
-                var timeout_id;
-                widget.config.addEvent('field-value-changed', function(sender, field, value){
-                    $clear(timeout_id);
-                    timeout_id = change_player.delay(1000);
-                });
+                widget.api.addEvent('player-connected', update_data);
+                widget.api.addEvent('player-disconnected', update_data)
+                widget.api.addEvent('song-changed', update_data);
 
                 update_data();
             };

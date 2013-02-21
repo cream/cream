@@ -12,28 +12,36 @@
         <script type="text/javascript" src="/common/core/melange.js"></script>
 
         <script type="text/javascript" src="progress-bar.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css" media="screen"></link>
+        <link rel="stylesheet" type="text/css" href="style.css"></link>
 
         <script type="text/javascript">
             function update_data(data){
-                $('title').set('html', data['title']);
-                $('artist').set('html',data['artist']);
-                $('album').set('html', data['album']);
+                if(data == null) {
+                    $('title').set('html', 'Player not found');
+                    $('artist').set('html', '');
+                    $('album').set('html', '');
+                    progress_bar.stop();
+                } else {
+                    $('title').set('html', data['title']);
+                    $('artist').set('html',data['artist']);
+                    $('album').set('html', data['album']);
 
-                var rating = data['rating'];
-                for(i=1;i<6;i++) {
-                    if(i<rating+1)
-                        $(i.toString()).set('src', 'images/star_yellow.png');
-                    else
-                        $(i.toString()).set('src', 'images/star_grey.png');
-                };
+                    var rating = data['rating'];
+                    for(i = 1; i < 6; i++) {
+                        if(i < rating+1)
+                            $(i.toString()).set('src', 'images/star_yellow.png');
+                        else
+                            $(i.toString()).set('src', 'images/star_grey.png');
+                    };
+                    progress_bar.start(data['duration'], data['position']);
+                }
 
                 update_coverart();
-                progress_bar.start(data['duration'], data['position']);
+                set_icons();
             }
 
             function update_coverart(){
-                widget.api.music.get_coverart(function(coverart) {
+                widget.api.get_coverart(function(coverart) {
                     if(coverart != undefined)
                         $('coverart').set('src', '/data/coverart/' + coverart);
                     else
@@ -42,7 +50,7 @@
             }
 
             function set_icons() {
-                widget.api.music.is_playing(function(playing) {
+                widget.api.is_playing(function(playing) {
                     if(playing)
                         $('play-pause').set('src', 'images/pause.png');
                     else
@@ -50,26 +58,23 @@
                 });
             }
 
-            function set_rating(rating) {
-                widget.api.music.set_rating(rating);
-                widget.api.music.get_data(function(data) {
-                    update_data(data);
-                });
-            }
-
             function change_player() {
-                widget.api.music.change_player();
-                widget.api.music.get_data(function(data) {
-                    update_data(data);
-                });
+                widget.api.change_player();
+                widget.api.get_data(update_data);
                 set_icons();
             }
 
             function main() {
 
-                widget.api.addEvent('song-changed', function(song) {
-                    update_data(song);
+                widget.api.addEvent('player-connected', function() {
+                    widget.api.get_data(update_data);
                 });
+
+                widget.api.addEvent('player-disconnected', function() {
+                    widget.api.get_data(update_data);
+                });
+
+                widget.api.addEvent('song-changed', update_data);
 
                 widget.api.addEvent('state-changed', function(state) {
                     if(state == 'paused'){
@@ -81,28 +86,19 @@
                     }
                 });
 
-                var timeout_id;
-                widget.config.addEvent('field-value-changed', function(sender, field, value){
-                    $clear(timeout_id);
-                    timeout_id = change_player.delay(1000);
-                });
-
                 $('previous').addEvent('click', function() {
-                    widget.api.music.previous();
+                    widget.api.previous();
                 });
-                $('next').addEvent('click', function () {
-                    widget.api.music.next();
+                $('next').addEvent('click', function() {
+                    widget.api.next();
                 });
-                $('play-pause').addEvent('click', function() {
-                    widget.api.music.play_pause();
+                $('play-pause').addEvent('click', function() { 
+                    widget.api.play_pause(); 
                 });
 
                 progress_bar = new ProgressBar('progress-bar', 1);
 
-
-                widget.api.music.get_data(function(data) {
-                    update_data(data);
-                });
+                widget.api.get_data(update_data);
                 set_icons();
             };
         </script>
@@ -123,11 +119,11 @@
                     <div class="rating">
                         <table class="rating">
                             <tr>
-                                <td><img id="1" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
-                                <td><img id="2" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
-                                <td><img id="3" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
-                                <td><img id="4" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
-                                <td><img id="5" class="rating" src="images/star_grey.png" onclick="set_rating(this.id)"/></td>
+                                <td><img id="1" class="rating" src="images/star_grey.png"/></td>
+                                <td><img id="2" class="rating" src="images/star_grey.png"/></td>
+                                <td><img id="3" class="rating" src="images/star_grey.png"/></td>
+                                <td><img id="4" class="rating" src="images/star_grey.png"/></td>
+                                <td><img id="5" class="rating" src="images/star_grey.png"/></td>
                             </tr>
                         </table>
                     </div>

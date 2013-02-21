@@ -21,6 +21,10 @@ var ProgressBar = new Class({
     pause: function(){
         this.interval_id = $clear(this.interval_id);
     },
+    stop: function() {
+        this.pause();
+        this.reset();
+    },
     resume: function(){
         this.interval_id = this.draw.periodical(this.update_interval * 1000, this);
     },
