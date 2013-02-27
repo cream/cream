@@ -11,6 +11,7 @@ body {
     float: left;
     margin-left: 5px;
     margin-top: 90px;
+    white-space: nowrap;
 }
 
 #title {
