@@ -9,17 +9,17 @@ from dbus import DBusException
 import lxml.etree
 lxml.etree.set_default_parser(lxml.etree.XMLParser(no_network=False))
 
-from coverart import get_cover, config
+from coverart import get_cover, config, NotFound
 from player import Player, NoMprisPlayerFound
 
-
-COVERART_SIZE = 150,150
+COVERART_SIZE = 150, 150
 
 def resize(path):
     image = Image.open(path)
     if not image.size == COVERART_SIZE:
         image.thumbnail(COVERART_SIZE, Image.ANTIALIAS)
         image.save(path, image.format)
+
     return path
 
 
@@ -125,6 +125,10 @@ class Music(api.API):
         artist, album = track.get('artist'), track.get('album')
         if artist is None or album is None:
             return None
-        path = get_cover(artist, album)
-        resize(path)
-        return os.path.split(path)[1]
+
+        try:
+            path = get_cover(artist, album)
+            resize(path)
+            return os.path.split(path)[1]
+        except NotFound:
+            return None
