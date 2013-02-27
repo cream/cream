@@ -5,13 +5,12 @@ import cream.ipc
 
 
 def clean_metadata(metadata):
-
     return {
         'artist': unicode(metadata['xesam:artist'][0]),
         'album': unicode(metadata['xesam:album']),
         'title': unicode(metadata['xesam:title']),
         'tracknumber': int(metadata['xesam:trackNumber']),
-        'rating': int(metadata['xesam:userRating'] * 5),
+        'rating': int(metadata.get('xesam:userRating', 0) * 5),
         'duration': int(metadata['mpris:length']) / 1000000
     }
 
