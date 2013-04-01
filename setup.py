@@ -22,7 +22,7 @@ data_files = collect_data_files()
 
 setup(
     name = 'melange-widgets',
-    version = '0.4.8',
+    version = '0.5',
     author = 'The Cream Project (http://cream-project.org)',
     url = 'http://github.com/cream/melange-widgets',
     data_files = data_files,
