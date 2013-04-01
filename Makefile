@@ -27,6 +27,6 @@ update:
 develop:
 	rm -rf $(SITE_PACKAGES)/cream
 	python tools/build_tree.py
-	python data/melange-widgets/setup.py install
+	$(shell echo $$SHELL) -c "cd data/melange-widgets; python setup.py install"
 
 .phony: all setup update develop
