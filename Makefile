@@ -27,6 +27,6 @@ update:
 develop:
 	rm -rf $(SITE_PACKAGES)/cream
 	python tools/build_tree.py
-	python tools/build_tree.py
+	python data/melange-widgets/setup.py install
 
 .phony: all setup update develop
