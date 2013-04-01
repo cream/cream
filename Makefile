@@ -12,8 +12,6 @@ all:
 setup:
 	virtualenv $(VIRTUALENV) -p $(PYTHON) --system-site-packages
 	git submodule update --init
-	rm -rf $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/src/data/widgets
-	ln -T -s $(PWD)/data/melange-widgets/src $(PWD)/src/modules/melange/src/data/widgets
 	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make _setup2"
 	@echo "export CREAM_EXECUTION_MODE=development" >> $(VIRTUALENV)/bin/activate
 	@echo "export CREAM_VERBOSITY=5" >> $(VIRTUALENV)/bin/activate
