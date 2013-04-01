@@ -9,12 +9,6 @@ all:
 	@echo "make update - pull and update git submodules"
 	@echo "make develop - (re)build a development environment (do \`. ./dev/bin/activate\` first)"
 
-pyjavascriptcore:
-	bzr clone lp:~fredreichbier/+junk/pyjavascriptcore
-
-update-pyjavascriptcore: pyjavascriptcore
-	cd pyjavascriptcore && bzr pull && python setup.py install
-
 setup:
 	virtualenv $(VIRTUALENV) -p $(PYTHON) --system-site-packages
 	git submodule update --init
@@ -26,8 +20,6 @@ setup:
 
 _setup2:
 	easy_install ooxcb
-	easy_install bjoern
-	make pyjavascriptcore update-pyjavascriptcore
 	make develop
 
 update:
@@ -39,4 +31,4 @@ develop:
 	python tools/build_tree.py
 	python tools/build_tree.py
 
-.phony: all setup update develop update-bjoern
+.phony: all setup update develop
