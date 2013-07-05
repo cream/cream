@@ -12,13 +12,8 @@ all:
 setup:
 	virtualenv $(VIRTUALENV) -p $(PYTHON) --system-site-packages
 	git submodule update --init
-	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make _setup2"
-	@echo "export CREAM_EXECUTION_MODE=development" >> $(VIRTUALENV)/bin/activate
+	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make develop"
 	@echo "export CREAM_VERBOSITY=5" >> $(VIRTUALENV)/bin/activate
-
-_setup2:
-	easy_install ooxcb
-	make develop
 
 update:
 	git pull
@@ -26,7 +21,7 @@ update:
 
 develop:
 	rm -rf $(SITE_PACKAGES)/cream
-	python tools/build_tree.py
-	$(shell echo $$SHELL) -c "cd data/melange-widgets; python setup.py install"
+	python repos/tools/build_tree.py
+	$(shell echo $$SHELL) -c "cd repos/melange-widgets; python setup.py install"
 
 .phony: all setup update develop
