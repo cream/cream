@@ -3,7 +3,7 @@
 	url = git://github.com/cream/python-cream.git
 [submodule "src/libs/python-gpyconf"]
 	path = src/libs/gpyconf
-	url = git://github.com/jonashaag/gpyconf.git
+	url = git://github.com/kkris/gpyconf.git
 [submodule "src/modules/melange"]
 	path = src/modules/melange
 	url = git://github.com/cream/melange.git
