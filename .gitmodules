@@ -1,15 +1,15 @@
-[submodule "src/libs/python-cream"]
-	path = src/libs/cream
-	url = git://github.com/cream/python-cream.git
-[submodule "src/libs/python-gpyconf"]
-	path = src/libs/gpyconf
-	url = git://github.com/kkris/gpyconf.git
-[submodule "src/modules/melange"]
-	path = src/modules/melange
-	url = git://github.com/cream/melange.git
-[submodule "data/melange-widgets"]
-	path = data/melange-widgets
-	url = git://github.com/cream/melange-widgets.git
-[submodule "tools"]
-	path = tools
-	url = git://github.com/cream/tools
+[submodule "repos/python-cream"]
+	path = repos/python-cream
+	url = git@github.com:cream/python-cream
+[submodule "repos/gpyconf"]
+	path = repos/gpyconf
+	url = git@github.com:kkris/gpyconf
+[submodule "repos/melange"]
+	path = repos/melange
+	url = git@github.com:cream/melange
+[submodule "repos/melange-widgets"]
+	path = repos/melange-widgets
+	url = git@github.com:cream/melange-widgets
+[submodule "repos/tools"]
+	path = repos/tools
+	url = git@github.com:cream/tools
