@@ -1,6 +1,6 @@
 PWD=$(shell pwd)
+TREE=$(PWD)/src
 VIRTUALENV=dev
-SITE_PACKAGES=$(shell python -c "import distutils.sysconfig; print distutils.sysconfig.get_python_lib()")
 PYTHON=$(shell python -c "import sys; p = 'python2' if sys.version_info.major == 3 else 'python'; sys.stdout.write(p)")
 
 all:
@@ -14,14 +14,14 @@ setup:
 	git submodule update --init
 	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make develop"
 	@echo "export CREAM_VERBOSITY=5" >> $(VIRTUALENV)/bin/activate
+	@echo "export PYTHONPATH=$(TREE):\$$PYTHONPATH XDG_DATA_DIRS=$(TREE)/data:\$$XDG_DATA_DIRS" >> $(VIRTUALENV)/bin/activate
 
 update:
 	git pull
 	git submodule update --init
 
 develop:
-	rm -rf $(SITE_PACKAGES)/cream
-	python repos/tools/build_tree.py
-	$(shell echo $$SHELL) -c "cd repos/melange-widgets; python setup.py install"
+	rm -rf $(TREE)
+	$(PYTHON) repos/tools/build_tree.py $(PWD)/repos $(TREE)
 
 .phony: all setup update develop
