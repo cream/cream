@@ -14,7 +14,8 @@ setup:
 	git submodule update --init
 	$(shell echo $$SHELL) -c "source $(VIRTUALENV)/bin/activate; make develop"
 	@echo "export CREAM_VERBOSITY=5" >> $(VIRTUALENV)/bin/activate
-	@echo "export PYTHONPATH=$(TREE):\$$PYTHONPATH XDG_DATA_DIRS=$(TREE)/data:\$$XDG_DATA_DIRS" >> $(VIRTUALENV)/bin/activate
+	@echo "export PYTHONPATH=$(TREE):\$$PYTHONPATH" >> $(VIRTUALENV)/bin/activate
+	@echo "export XDG_DATA_DIRS=$(TREE)/data:/usr/share:\$$XDG_DATA_DIRS" >> $(VIRTUALENV)/bin/activate
 
 update:
 	git pull
